@@ -15,11 +15,11 @@ import AdapterLink from './misc/Enlace';
 import authService from './../services/AuthServices'
 import { Redirect } from 'react-router-dom'
 
-// import validations from './misc/Validations'
+import validations from './misc/Validations'
 
 export default function SignIn() {
   const classes = useStyles();
-  // const [errors, setErros] = React.useState({})
+  const [errors, setErros] = React.useState({})
 
   const [isAuthenticated, setAuth] = React.useState(false)
 
@@ -27,10 +27,9 @@ export default function SignIn() {
 
   const handleUser = name => event => setUser({...user, [name]: event.target.value})
 
-  // const handleError = error => event => setErros({        
-    // ...errors,
-  //   [error]: validations[error] && validations[error](event.target.value)
-  // })
+  const handleError = error => event => setErros({ ...errors,
+    [error]: validations[error] && validations[error](event.target.value)
+  })
 
   const handleSubmit = (event) => {
     event.preventDefault();
