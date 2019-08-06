@@ -1,12 +1,8 @@
 import http from './BaseServices';
 
-const register = user => {
-  console.log(user)
-  //debugger
-  return http.post('/register', user)
-}
+const register = user =>  http.post('/signup', user)
 
-const authenticate = credentials => http.post(`/authenticate`, credentials)
+const authenticate = credentials => http.post(`/signin`, credentials)//.then(r => r.data)
 
 const logout = () => http.post(`/logout`)
 

@@ -14,12 +14,13 @@ import useStyles from './../styles/forms'
 import AdapterLink from './misc/Enlace';
 import authService from './../services/AuthServices'
 import { Redirect } from 'react-router-dom'
+import { withAuthConsumer } from '../contexts/AuthStore';
 
-import validations from './misc/Validations'
+// import validations from './misc/Validations'
 
-export default function SignIn() {
+function Signin(props) {
   const classes = useStyles();
-  const [errors, setErros] = React.useState({})
+  // const [errors, setErros] = React.useState({})
 
   const [isAuthenticated, setAuth] = React.useState(false)
 
@@ -27,21 +28,20 @@ export default function SignIn() {
 
   const handleUser = name => event => setUser({...user, [name]: event.target.value})
 
-  const handleError = error => event => setErros({ ...errors,
-    [error]: validations[error] && validations[error](event.target.value)
-  })
+  // const handleError = error => event => setErros({ ...errors,
+  //   [error]: validations[error] && validations[error](event.target.value)
+  // })
 
   const handleSubmit = (event) => {
     event.preventDefault();
     authService.authenticate(user)
       .then(
-        (user) => {
-          setAuth(true)
-          // props.onUserChange(user); //* actualizamos el context
+        (user) => {          
+          props.onUserChange(user, setAuth); //* actualizamos el context          
         },
         (error) => {
-          // const { message, errors } = error.response.data;
-          debugger
+          const { message, errors } = error;          
+          console.error(message, errors)
           // setState({
           //   wrongCredentials: true,
           //   errors: {
@@ -53,7 +53,7 @@ export default function SignIn() {
         }
       )
   }
-  if (isAuthenticated) {
+  if (isAuthenticated) {    
     return <Redirect to={'/'} />
   }
   return (
@@ -66,7 +66,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             onChange={handleUser('email')}
             value={user.email || ''}
@@ -125,3 +125,4 @@ export default function SignIn() {
   );
 }
 
+export default withAuthConsumer(Signin)
