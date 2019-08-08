@@ -5,15 +5,13 @@ import { AuthContext } from '../contexts/AuthStore'
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <AuthContext.Consumer>
-    {({ isAuthenticated}) => {
-      debugger
-      return (
+    {({ isAuthenticated}) => (
       <Route render={
         props => isAuthenticated() 
         ? <Component {...props}/> 
         : <Redirect to="/sign-in" />
       } {...rest} />
-    )}}
+    )}
   </AuthContext.Consumer>
 )
 
