@@ -25,8 +25,8 @@ export default function MenuBUttons() {
   return (
     <div>
       
-      <Button  to="/regulate" component={AdapterLink}  variant="contained" color="primary" className={classes.button}>
-        Regulate
+      <Button  to="/new-record" component={AdapterLink}  variant="contained" color="primary" className={classes.button}>
+        New Record
         <Settings className={classes.rightIcon} />
       </Button>
       <Button to="/recordins" component={AdapterLink} variant="contained" color="default" className={classes.button}>
