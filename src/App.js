@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from './components/Login'
 import MainMenu from './components/MainMenu'
-import newRecord from './components/recordings/checkout'
+import newRecord from './components/recordings/Checkout'
 import { Switch } from 'react-router-dom';
 import PrivateRoute from './guards/PrivateRoutes'
 import PublicRoutes from './guards/PublicRoutes'

@@ -1,20 +1,25 @@
 import React from 'react'
 import Regulation from './Regulation'
+import Create from './Create'
+import Talking from './Talking'
+import After from './After'
+import Affective from './Affective'
+import Future from './Future'
 
 function getStepContent(step) {
   switch (step) {
     case 0: //* Create
-      return <Regulation />;
+      return <Create />;
     case 1: //* Before talking
       return <Regulation />;
     case 2: //* After talking
-      return <Regulation />;
+      return <Talking />;
     case 3: //* Talking
-      return <Regulation />;      
+      return <After />;      
     case 4: //* Socio Afective
-      return <Regulation />;
+      return <Affective />;
     case 5: //* Future
-      return <Regulation />;
+      return <Future />;
     default:
       throw new Error('Unknown step');
   }
