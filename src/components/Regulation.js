@@ -8,23 +8,21 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import FormHeader from './misc/FormHeader'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-// import Button from '@material-ui/core/Button';
-// import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
-// import Link from '@material-ui/core/Link';
-// import Box from '@material-ui/core/Box';
-// import Typography from '@material-ui/core/Typography';
-
+import cognitiveValues from './../utils/cognitiveTest'
 
 export default function Regulation() {
+  
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-  });
+  
+  const arrToObj = cognitiveValues.reduce((obj, item) => {
+    obj[item.key] = item.value[0] //[before, after]
+    return obj
+  }, {})
+
+  const [state, setState] = React.useState({arrToObj});
 
   const handleChange = name => event => {
+    console.log(name, event.target.checked)
     setState({ ...state, [name]: event.target.checked });
   };
 
@@ -37,23 +35,26 @@ export default function Regulation() {
             title='Before talking' 
             style={classes.avatar} />
           <form className={classes.form} noValidate>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                      <FormGroup row>
-                        <FormControlLabel
-                          control={
-                            <Switch
-                              checked={state.checkedB}
-                              onChange={handleChange('checkedB')}
-                              value="checkedB"
-                              color="primary"
-                            />
-                          }
-                          label="Primary"
-                          labelPlacement="start"/>                        
-                      </FormGroup>
-                    </Grid>
-                  </Grid>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <FormGroup row>
+                  {cognitiveValues.map((e,i) => (
+                    <FormControlLabel
+                    key={i}
+                    control={
+                      <Switch
+                        checked={state[e.key]}
+                        value={state[e.key]}
+                        onChange={handleChange(e.key)}
+                        color="primary"
+                      />
+                    }
+                    label={e.label}
+                    labelPlacement="start"/>
+                  ))}
+                </FormGroup>
+              </Grid>
+            </Grid>
           </form>
         </div>  
     </Container>  
