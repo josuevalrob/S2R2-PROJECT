@@ -6,20 +6,21 @@ import After from './After'
 import Affective from './Affective'
 import Future from './Future'
 
-function getStepContent(step) {
+function getStepContent(step, callback, data) {
   switch (step) {
     case 0: //* Create
-      return <Create />;
+      console.log('creating')
+      return <Create fn={callback} recording={data}/>;
     case 1: //* Before talking
-      return <Regulation />;
+      return <Regulation fn={callback}/>;
     case 2: //* After talking
-      return <Talking />;
+      return <Talking fn={callback}/>;
     case 3: //* Talking
-      return <After />;      
+      return <After fn={callback}/>;      
     case 4: //* Socio Afective
-      return <Affective />;
+      return <Affective fn={callback}/>;
     case 5: //* Future
-      return <Future />;
+      return <Future fn={callback}/>;
     default:
       throw new Error('Unknown step');
   }

@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { withAuthConsumer } from '../../contexts/AuthStore';
 import Link from '@material-ui/core/Link';
 
-function UserMenu({user}) {
+function UserMenu({user, onUserChange}) {
   const {data} = user
   return (
     <Typography variant="body2" color="textSecondary">
@@ -12,11 +12,11 @@ function UserMenu({user}) {
       <Link color="inherit" to={`/profile/${data.id}`} component={AdapterLink}>
         edit your profile
       </Link>
-      {' or edit the '}
-      <Link color="inherit" to={`/profile/${data.id}`} component={AdapterLink}>
-        Data Police Protection
+      {' or simply  '}
+      <Link color="inherit" to={'/'} onClick={()=> onUserChange()} component={AdapterLink}>
+        logout
       </Link>
-      {' for the entire site'}
+      {' from the site'}
     </Typography>
   );
 }

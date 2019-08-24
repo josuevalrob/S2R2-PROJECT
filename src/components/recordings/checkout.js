@@ -5,43 +5,27 @@ import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import getStepContent from './getStepContent'
 import AdapterLink from './../misc/Enlace'
+import Navigation from './../misc/Navigation'
 import Link from '@material-ui/core/Link'
-import recordingServices from './../../services/recordingServices'
-const steps = ['Create it', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
+// import recordingServices from './../../services/recordingServices'
+const steps = ['Settings', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
 
-export default function Checkout() {
+export default function Checkout(props) {
+  console.log(props)
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [created, wasCreated] =  React.useState(false);
-  const [error, setError] =  React.useState('');
   // * RECORDING DEFINITION. 
-  const [recording, setRecording] = React.useState({});
-  
+  const [recording, setRecording] = React.useState({})
+
   const handleNext = () => {
     if(activeStep === 0 && !created) { //first step, first time. 
-      recordingServices.create(recording).then(
-        (newRecording)=>{
           wasCreated(true)
-          setRecording(newRecording)
+          setRecording(recording)
           setActiveStep(activeStep + 1)
-        },
-        (err)=>setError(err.message)
-      )
-    } else { //updating the existing recording
-      recordingServices.update(recording).then(
-        (upRecording)=>{
-          setRecording(upRecording)
-          setActiveStep(activeStep + 1)
-        },
-        (err)=> {
-          console.error(err)
-          debugger
-        }
-      )
     }   
   };
 
@@ -66,9 +50,10 @@ export default function Checkout() {
             { activeStep === steps.length 
               ? <Thanks /> //last element. 
               : <React.Fragment>
-                  {error && error.message}{/*//? test it */}
-                  {getStepContent(activeStep)}
+                  {/* {error && error.message} */}
+                  {getStepContent(activeStep, setRecording, recording)}
                   <Navigation 
+                  steps={steps}
                   step={activeStep} classes={classes} 
                   back={handleBack} next={handleNext} />
                 </React.Fragment>
@@ -94,31 +79,16 @@ const Thanks = () => (
   </React.Fragment>
 )
 
-const Navigation = ({step, classes, back, next}) => (    
-    <div className={classes.buttons}>
-      {step !== 0 && (
-        <Button onClick={back} className={classes.button}>
-          Back
-        </Button>
-      )}
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={next}
-        className={classes.button}>
-        {step === steps.length - 1 ? 'Place order' : 'Next'}
-      </Button>
-    </div> 
-)
+
 
 function MadeWithLove() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"If you don't wanna be here, "}
       <Link color="inherit" component={AdapterLink} to="/">
-        Go back
+        Click here
       </Link>
-      {' To the main menu.'}
+      {', and Go back to the main menu.'}
     </Typography>
   );
 }
