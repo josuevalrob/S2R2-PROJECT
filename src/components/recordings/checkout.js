@@ -10,15 +10,23 @@ import getStepContent from './getStepContent'
 import Navigation from './../misc/Navigation'
 import GoBack from './../misc/GoBack'
 import Thanks from './Thanks'
+import Alert from './../misc/Alert'
+import { Redirect } from 'react-router-dom'
+
 // import recordingServices from './../../services/recordingServices'
 
-const steps = ['Settings', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
+const steps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
 
-// export const ThemeContext = React.createContext('light');
 
 function Checkout(props) {
   const classes = useStyles();
+  
+  if(props.match.params.id) steps[0] = `Edit ${props.match.params.id}`;
+
   const [activeStep, setActiveStep] = React.useState(0);
+  
+  const [hasError, showError] = React.useState(false);
+
   const [created, wasCreated] =  React.useState(false);
   // * RECORDING DEFINITION. 
   const [recording, setRecording] = React.useState({})
@@ -28,23 +36,25 @@ function Checkout(props) {
       // * Create the new record in the backend. 
       // * If everything goes well, 
         // ? change Create status
+          wasCreated(true)
+        // ? update the recording into the checkout component. 
+          setRecording(recording)
+        // ! update the route in the browser
+          props.history.push(`/record/var`);
         // ? go to the next page
-        // ! update the recording into the recording Context Api. 
-        wasCreated(true)
-        setActiveStep(activeStep + 1)
-        setRecording(recording)
-        // ? update the route in the browser
+          setActiveStep(activeStep + 1)
       // * If something goes wrong. 
-        // ? show errors. 
-        // ? disable the navigation. 
-    
+        // ? show errors and dont go forward. 
+          showError(true)    
     }   
   };
   
   console.log(props)
   
   const handleBack = () => setActiveStep(activeStep - 1);
-
+  
+  // if (created) return <Redirect to={`record/${created}`} />;
+  
   return (
     <React.Fragment>
       <CssBaseline />
@@ -76,19 +86,9 @@ function Checkout(props) {
         </Paper>
         <GoBack />
       </main>
+      <Alert open={hasError} handleClose={()=>showError(false)} />
     </React.Fragment>
   );
 }
-
-// export const RecordingConsumer = (WrappedComponent) => {
-//   return (props) => {
-//     return (
-//       <ThemeContext.Consumer>
-//         {(consumerProps) => (<WrappedComponent {...consumerProps} {...props} />)}
-//       </ThemeContext.Consumer>
-//     )
-//   }
-// }
-
 
 export default  Checkout

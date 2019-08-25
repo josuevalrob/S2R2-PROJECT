@@ -13,7 +13,8 @@ function App() {
           <PrivateRoute exact path="/" component={MainMenu} />
           <PublicRoutes exact path="/sign-in" component={Login} />
           {/* <PublicRoutes exact path="/sign-up" component={Register} /> */}          
-          <PrivateRoute path="/new-record" component={Checkout} />
+          <PrivateRoute exact path="/new-record" component={Checkout} />
+          <PrivateRoute path="/record/:id" component={Checkout} />
           {/* <PrivateRoute exact path="/recordins" component={Recordins} /> */}
           {/* <Route exact path="/" component={() => (
             <Redirect to={"/search"} />

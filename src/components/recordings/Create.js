@@ -42,7 +42,6 @@ class Settings extends React.Component {
   }
 
   render () {
-    console.log(this)
     return (
       <Container component="main" maxWidth="xs">
       <div >      
