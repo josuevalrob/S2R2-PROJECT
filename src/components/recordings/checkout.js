@@ -7,14 +7,14 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Typography from '@material-ui/core/Typography';
 import getStepContent from './getStepContent'
-import AdapterLink from './../misc/Enlace'
 import Navigation from './../misc/Navigation'
-import Link from '@material-ui/core/Link'
+import GoBack from './../misc/GoBack'
+import Thanks from './Thanks'
 // import recordingServices from './../../services/recordingServices'
+
 const steps = ['Settings', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
 
-export default function Checkout(props) {
-  console.log(props)
+function Checkout(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [created, wasCreated] =  React.useState(false);
@@ -23,12 +23,24 @@ export default function Checkout(props) {
 
   const handleNext = () => {
     if(activeStep === 0 && !created) { //first step, first time. 
-          wasCreated(true)
-          setRecording(recording)
-          setActiveStep(activeStep + 1)
+      // * Create the new record in the backend. 
+      // * If everything goes well, 
+        // ? change Create status
+        // ? go to the next page
+        // ! update the recording into the recording Context Api. 
+        wasCreated(true)
+        setActiveStep(activeStep + 1)
+        setRecording(recording)
+        // ? update the route in the browser
+      // * If something goes wrong. 
+        // ? show errors. 
+        // ? disable the navigation. 
+    
     }   
   };
-
+  
+  console.log(props)
+  
   const handleBack = () => setActiveStep(activeStep - 1);
 
   return (
@@ -60,35 +72,10 @@ export default function Checkout(props) {
             }
           </React.Fragment>
         </Paper>
-        <MadeWithLove />
+        <GoBack />
       </main>
     </React.Fragment>
   );
 }
 
-
-const Thanks = () => (
-  <React.Fragment>
-    <Typography variant="h5" gutterBottom>
-      Thank you for your order.
-    </Typography>
-    <Typography variant="subtitle1">
-      Your order number is #2001539. We have emailed your order confirmation, and will
-      send you an update when your order has shipped.
-    </Typography>
-  </React.Fragment>
-)
-
-
-
-function MadeWithLove() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"If you don't wanna be here, "}
-      <Link color="inherit" component={AdapterLink} to="/">
-        Click here
-      </Link>
-      {', and Go back to the main menu.'}
-    </Typography>
-  );
-}
+export default  Checkout

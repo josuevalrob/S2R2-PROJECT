@@ -4,7 +4,10 @@ const RecordContext = React.createContext(); //* creamos el contexto
 class RecordStore extends Component {
   state = {
     record: {
-
+      name: '',
+      comments: '',
+      studentA: '', 
+      studentB:  '',
     }
   }
 
