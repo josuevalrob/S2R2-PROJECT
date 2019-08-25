@@ -3,9 +3,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import validations from './../../utils/validations'
+import { ThemeContext } from './Checkout';
 
 class Settings extends React.Component {
-  
+  static contextType = ThemeContext
   state = {
     content : {
       name: '',
@@ -41,6 +42,7 @@ class Settings extends React.Component {
   }
 
   render () {
+    console.log(this)
     return (
       <Container component="main" maxWidth="xs">
       <div >      
@@ -107,5 +109,6 @@ class Settings extends React.Component {
   }
 }
 
+Settings.contextType = ThemeContext
 
 export default Settings

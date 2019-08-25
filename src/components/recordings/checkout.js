@@ -14,6 +14,8 @@ import Thanks from './Thanks'
 
 const steps = ['Settings', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
 
+export const ThemeContext = React.createContext('light');
+
 function Checkout(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -44,7 +46,7 @@ function Checkout(props) {
   const handleBack = () => setActiveStep(activeStep - 1);
 
   return (
-    <React.Fragment>
+    <ThemeContext.Provider value="dark">
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
@@ -74,8 +76,19 @@ function Checkout(props) {
         </Paper>
         <GoBack />
       </main>
-    </React.Fragment>
+    </ThemeContext.Provider>
   );
 }
+
+export const RecordingConsumer = (WrappedComponent) => {
+  return (props) => {
+    return (
+      <ThemeContext.Consumer>
+        {(consumerProps) => (<WrappedComponent {...consumerProps} {...props} />)}
+      </ThemeContext.Consumer>
+    )
+  }
+}
+
 
 export default  Checkout
