@@ -11,18 +11,18 @@ import Navigation from './../misc/Navigation'
 import GoBack from './../misc/GoBack'
 import Thanks from './Thanks'
 import Alert from './../misc/Alert'
-import { Redirect } from 'react-router-dom'
+import { isEmpty } from 'lodash'
 
-// import recordingServices from './../../services/recordingServices'
+import recordingServices from './../../services/recordingServices'
 
 const steps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
 
 
 function Checkout(props) {
   const classes = useStyles();
+  // ! cant go backward the steps didnt update. 
+  steps[0] = props.match.params.id ? `Edit ${props.match.params.id}` : steps[0]; //? it should be an state?
   
-  if(props.match.params.id) steps[0] = `Edit ${props.match.params.id}`;
-
   const [activeStep, setActiveStep] = React.useState(0);
   
   const [hasError, showError] = React.useState(false);
@@ -34,22 +34,25 @@ function Checkout(props) {
   const handleNext = () => {
     if(activeStep === 0 && !created) { //first step, first time. 
       // * Create the new record in the backend. 
-      // * If everything goes well, 
-        // ? change Create status
+      recordingServices.create(recording).then(
+        (newRecord) => { // * If everything goes well
+          debugger          
+          // ? change Create status
           wasCreated(true)
-        // ? update the recording into the checkout component. 
-          setRecording(recording)
-        // ! update the route in the browser
-          props.history.push(`/record/var`);
-        // ? go to the next page
+          // ? update the recording into the checkout component. 
+          setRecording(newRecord)
+          // ? update the route in the browser
+          props.history.push(`/record/${newRecord.id}`);
+          // ? go to the next page
           setActiveStep(activeStep + 1)
-      // * If something goes wrong. 
-        // ? show errors and dont go forward. 
-          showError(true)    
+        },
+        (error) => { // * If something goes wrong. 
+            // ? show errors and dont go forward. 
+            showError(true)    
+        }
+      )
     }   
-  };
-  
-  console.log(props)
+  };  
   
   const handleBack = () => setActiveStep(activeStep - 1);
   
@@ -78,6 +81,7 @@ function Checkout(props) {
                   {getStepContent(activeStep, setRecording, recording)}
                   <Navigation 
                   steps={steps}
+                  blocked = {isEmpty(recording)}
                   step={activeStep} classes={classes} 
                   back={handleBack} next={handleNext} />
                 </React.Fragment>

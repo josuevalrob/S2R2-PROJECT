@@ -21,8 +21,20 @@ const validations = {
     return message;
   },
   
-  studentA: (v) => !v || v.length < 3 ? 'The first student is required' : '',
-  studentB: (v) => !v || v.length < 3 ? 'The second student is required' : '',
+  studentA: (v) => {
+    let message;
+    if(!v || v.length < 3){
+      message = 'The first student is required'
+    }
+    return message;
+  },
+  studentB: (v) => {
+    let message;
+    if(!v || v.length < 3){
+      message = 'The second student is required'
+    }
+    return message;
+  },
 
   comments: (value) => {
     let message;

@@ -15,29 +15,42 @@ class Settings extends React.Component {
       studentB:  '',
     }, 
     errors: {
-      name: validations.name(''), 
+      // name: validations.name(''), 
       studentA: validations.studentA(''), 
-      studentB: validations.studentB(''), 
+      // studentB: validations.studentB(''), 
     }
   }
   
+  hasErrors = () => {
+    const { content } = this.state;
+    return Object.keys(content)
+      .some(name => {
+        let value = content[name];
+        return validations[name] && validations[name](value)
+      })
+  }
   componentDidMount(){
-    const {name, students, comments} = this.props.recording
+    const {name, students, comments} = this.props.recording  
     if(students && students.length >= 2)
       this.setState({name, comments, studentA: students[0], studentB: students[1]})
   }
 
   handleChange = (event) => {
     const { name, value } = event.target;
+    const {content, errors} = this.state;
     this.setState({
       content: {
-        ...this.state.content,
+        ...content,
         [name]: value
       },
       errors: {
-        ...this.state.errors,
+        ...errors,
         [name]: validations[name] && validations[name](value)
       }
+    }, () => {
+      ! this.hasErrors() 
+      ? this.props.fn({...content, students : [content.studentA, content.studentB]})
+      : this.props.fn({})
     })
   }
 
@@ -64,11 +77,11 @@ class Settings extends React.Component {
                 onChange={this.handleChange}
                 value={this.state.studentA}
                 autoComplete="fstudent"
-                name="firstStudent"
+                name="studentA"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstStudent"
+                id="studentA"
                 label="First Student"
                 autoFocus
               />
@@ -80,9 +93,9 @@ class Settings extends React.Component {
                 variant="outlined"
                 required
                 fullWidth
-                id="secondStudent"
+                id="studentB"
                 label="Second Student"
-                name="secondStudent"
+                name="studentB"
                 autoComplete="sstudent"
               />
             </Grid>            
@@ -92,12 +105,12 @@ class Settings extends React.Component {
                 value={this.state.comments}
                 variant="outlined"
                 fullWidth
-                id="comment"
+                id="comments"
                 label="Some extra coments"
-                name="comment"
+                name="comments"
                 rows = "4"
                 multiline={true}
-                autoComplete="fcomment"
+                autoComplete="fcomments"
               />
             </Grid>
           </Grid>
