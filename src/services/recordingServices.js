@@ -1,6 +1,6 @@
 import http from './BaseServices';
 
-const create = record =>  http.post('/recording', record).then(r => r.data)
+const create = record =>  http.post('/recording', record)
 
 const update = (id, record) => http.put(`/recordings${id}`, record)
 

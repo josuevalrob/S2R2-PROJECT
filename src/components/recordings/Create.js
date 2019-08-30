@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import validations from './../../utils/validations'
+import {isEqual, isEmpty} from 'lodash'
 // import { ThemeContext } from './Checkout';
 
 class Settings extends React.Component {
@@ -15,9 +16,9 @@ class Settings extends React.Component {
       studentB:  '',
     }, 
     errors: {
-      // name: validations.name(''), 
+      name: validations.name(''), 
       studentA: validations.studentA(''), 
-      // studentB: validations.studentB(''), 
+      studentB: validations.studentB(''), 
     }
   }
   
@@ -31,8 +32,21 @@ class Settings extends React.Component {
   }
   componentDidMount(){
     const {name, students, comments} = this.props.recording  
-    if(students && students.length >= 2)
-      this.setState({name, comments, studentA: students[0], studentB: students[1]})
+    if(students &&  students.length >= 2)
+      this.setState({content:{name, comments, studentA: students[0], studentB: students[1]}})
+  }
+
+  componentDidUpdate(prevProps) {    
+    if(!isEqual(this.props.recording, prevProps.recording) && isEmpty(this.props.recording)) {
+      this.setState({
+        content : {
+          name: '',
+          comments: '',
+          studentA: '', 
+          studentB:  '',
+        } 
+      })
+    }
   }
 
   handleChange = (event) => {
@@ -55,6 +69,7 @@ class Settings extends React.Component {
   }
 
   render () {
+    const {content} = this.state;
     return (
       <Container component="main" maxWidth="xs">
       <div >      
@@ -63,7 +78,7 @@ class Settings extends React.Component {
             <Grid item xs={12}>
               <TextField
                 onChange={this.handleChange}
-                value={this.state.name}
+                value={content.name}
                 variant="outlined"
                 fullWidth
                 id="name"
@@ -75,7 +90,7 @@ class Settings extends React.Component {
             <Grid item xs={12} sm={6}>
               <TextField
                 onChange={this.handleChange}
-                value={this.state.studentA}
+                value={content.studentA}
                 autoComplete="fstudent"
                 name="studentA"
                 variant="outlined"
@@ -89,7 +104,7 @@ class Settings extends React.Component {
             <Grid item xs={12} sm={6}>
               <TextField
                 onChange={this.handleChange}
-                value={this.state.studentB}
+                value={content.studentB}
                 variant="outlined"
                 required
                 fullWidth
@@ -102,7 +117,7 @@ class Settings extends React.Component {
             <Grid item xs={12}>
               <TextField
                 onChange={this.handleChange}
-                value={this.state.comments}
+                value={content.comments}
                 variant="outlined"
                 fullWidth
                 id="comments"

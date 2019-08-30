@@ -11,8 +11,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Alert(props) {
+export default function Alert({ok, open, handleClose, message}) {
   const classes = useStyles();
+  
+  const handleOk = () => {
+    ok()
+    handleClose()
+  }
 
   return (
     <div>
@@ -21,15 +26,15 @@ export default function Alert(props) {
           vertical: 'bottom',
           horizontal: 'left',
         }}
-        open={props.open}
-        autoHideDuration={6000}
-        onClose={props.handleClose}
+        open={open}
+        autoHideDuration={5000} // 5 sec
+        onClose={handleOk}
         ContentProps={{
           'aria-describedby': 'message-id',
         }}
-        message={<span id="message-id">Something went wrong</span>}
+        message={<span id="message-id">{message}</span>}
         action={[
-          <Button key="undo" color="secondary" size="small" onClick={props.handleClose}>
+          <Button key="undo" color="secondary" size="small" onClick={handleOk}>
             UNDO
           </Button>,
           <IconButton
@@ -37,7 +42,7 @@ export default function Alert(props) {
             aria-label="close"
             color="inherit"
             className={classes.close}
-            onClick={props.handleClose}
+            onClick={handleOk}
           >
             <CloseIcon />
           </IconButton>,

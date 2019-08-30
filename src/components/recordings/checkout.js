@@ -25,7 +25,7 @@ function Checkout(props) {
   
   const [activeStep, setActiveStep] = React.useState(0);
   
-  const [hasError, showError] = React.useState(false);
+  const [error, showError] = React.useState(false);
 
   const [created, wasCreated] =  React.useState(false);
   // * RECORDING DEFINITION. 
@@ -35,20 +35,19 @@ function Checkout(props) {
     if(activeStep === 0 && !created) { //first step, first time. 
       // * Create the new record in the backend. 
       recordingServices.create(recording).then(
-        (newRecord) => { // * If everything goes well
-          debugger          
+        ({data}) => { // * If everything goes well
           // ? change Create status
           wasCreated(true)
           // ? update the recording into the checkout component. 
-          setRecording(newRecord)
+          setRecording(data)
           // ? update the route in the browser
-          props.history.push(`/record/${newRecord.id}`);
+          props.history.push(`/record/${data.id}`);
           // ? go to the next page
           setActiveStep(activeStep + 1)
         },
         (error) => { // * If something goes wrong. 
             // ? show errors and dont go forward. 
-            showError(true)    
+            showError(error.response.data.message)
         }
       )
     }   
@@ -56,9 +55,7 @@ function Checkout(props) {
   
   const handleBack = () => setActiveStep(activeStep - 1);
   
-  // if (created) return <Redirect to={`record/${created}`} />;
-  
-  return (
+  return (    
     <React.Fragment>
       <CssBaseline />
       <main className={classes.layout}>
@@ -90,7 +87,11 @@ function Checkout(props) {
         </Paper>
         <GoBack />
       </main>
-      <Alert open={hasError} handleClose={()=>showError(false)} />
+      <Alert 
+        message={error} 
+        open={error ? true : false} 
+        ok={setRecording}
+        handleClose={showError} />
     </React.Fragment>
   );
 }
