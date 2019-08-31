@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-const CURRENT_USER_KEY = 'current-user';
+export const CURRENT_USER_KEY = 'current-user';
 const AuthContext = React.createContext(); //* creamos el contexto
 
 class AuthStore extends Component {

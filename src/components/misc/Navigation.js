@@ -15,7 +15,7 @@ const Navigation = ({step, classes, back, next, steps, blocked}) => (
         color="primary"
         onClick={next}
         className={classes.button}>
-        {step === steps.length - 1 ? 'Place order' : 'Next'}
+        {step === steps.length - 1 ? 'Resume' : 'Next'}
       </Button>
     </div> 
 )

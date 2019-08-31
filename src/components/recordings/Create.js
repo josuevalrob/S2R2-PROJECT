@@ -3,18 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import validations from './../../utils/validations'
-import {isEqual, isEmpty} from 'lodash'
-// import { ThemeContext } from './Checkout';
+// import {isEmpty} from 'lodash'
+import { emptyRecording } from './Checkout';
 
 class Settings extends React.Component {
-  // static contextType = ThemeContext
   state = {
-    content : {
-      name: '',
-      comments: '',
-      studentA: '', 
-      studentB:  '',
-    }, 
+    content : emptyRecording, 
     errors: {
       name: validations.name(''), 
       studentA: validations.studentA(''), 
@@ -30,22 +24,10 @@ class Settings extends React.Component {
         return validations[name] && validations[name](value)
       })
   }
-  componentDidMount(){
-    const {name, students, comments} = this.props.recording  
-    if(students &&  students.length >= 2)
-      this.setState({content:{name, comments, studentA: students[0], studentB: students[1]}})
-  }
 
-  componentDidUpdate(prevProps) {    
-    if(!isEqual(this.props.recording, prevProps.recording) && isEmpty(this.props.recording)) {
-      this.setState({
-        content : {
-          name: '',
-          comments: '',
-          studentA: '', 
-          studentB:  '',
-        } 
-      })
+  componentDidUpdate(prevProps, prevState) { // TODO: testing!
+    if(this.props.recording.id !== prevProps.recording.id) { //handling server response. 
+      this.setState({content:this.props.recording}) // fill&clean
     }
   }
 
@@ -64,7 +46,7 @@ class Settings extends React.Component {
     }, () => {
       ! this.hasErrors() 
       ? this.props.fn({...content, students : [content.studentA, content.studentB]})
-      : this.props.fn({})
+      : this.props.fn(emptyRecording)
     })
   }
 
@@ -135,7 +117,5 @@ class Settings extends React.Component {
     );
   }
 }
-
-// Settings.contextType = ThemeContext
 
 export default Settings

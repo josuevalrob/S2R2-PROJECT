@@ -1,10 +1,13 @@
 import http from './BaseServices';
+const base = '/recording'
+const create = record =>  http.post(base, record)
 
-const create = record =>  http.post('/recording', record)
+const update = (id, record) => http.put(`${base}/${id}`, record)
 
-const update = (id, record) => http.put(`/recordings${id}`, record)
-
-const read = credentials => http.post(`/signin`, credentials)//.then(r => r.data)
+const read = id => http.get(`${base}/${id}`).then(r => {
+  const {data} = r
+  return {...data, studentA: data.students[0], studentB: data.students[1]}
+})
 
 const destroy = () => http.post(`/logout`)
 

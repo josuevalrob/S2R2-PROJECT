@@ -12,16 +12,30 @@ import GoBack from './../misc/GoBack'
 import Thanks from './Thanks'
 import Alert from './../misc/Alert'
 import { isEmpty } from 'lodash'
-
+import AdapterLink from './../misc/Enlace'
+import Link from '@material-ui/core/Link'
 import recordingServices from './../../services/recordingServices'
 
 const steps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
-
+export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',}
 
 function Checkout(props) {
   const classes = useStyles();
+  const id = props.match.params.id
+  
+  React.useEffect(()=>{
+    if (id){ //edit page
+      recordingServices.read(id)
+        .then(setRecording)
+        .then(wasCreated(true))
+    } else { 
+      setRecording(emptyRecording)
+      wasCreated(false)
+    }
+  }, [id])
+
   // ! cant go backward the steps didnt update. 
-  steps[0] = props.match.params.id ? `Edit ${props.match.params.id}` : steps[0]; //? it should be an state?
+  steps[0] = id ? `Edit ${id}` : steps[0]; //? it should be an state?
   
   const [activeStep, setActiveStep] = React.useState(0);
   
@@ -46,11 +60,13 @@ function Checkout(props) {
           setActiveStep(activeStep + 1)
         },
         (error) => { // * If something goes wrong. 
-            // ? show errors and dont go forward. 
+            // ? show errors and don't go forward. 
             showError(error.response.data.message)
         }
       )
-    }   
+    } else if(created) {
+
+    }
   };  
   
   const handleBack = () => setActiveStep(activeStep - 1);
@@ -74,7 +90,6 @@ function Checkout(props) {
             { activeStep === steps.length 
               ? <Thanks /> //last element. 
               : <React.Fragment>
-                  {/* {error && error.message} */}
                   {getStepContent(activeStep, setRecording, recording)}
                   <Navigation 
                   steps={steps}
@@ -85,14 +100,27 @@ function Checkout(props) {
             }
           </React.Fragment>
         </Paper>
+        {id && <GoToCreate/>}
         <GoBack />
       </main>
       <Alert 
         message={error} 
         open={error ? true : false} 
-        ok={setRecording}
+        ok={()=>setRecording({...emptyRecording, id:'fck'})}
         handleClose={showError} />
     </React.Fragment>
+  );
+}
+
+function GoToCreate() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"This is not what you are looking for?, "}
+      <Link color="inherit" component={AdapterLink} to="/new-record">
+        Click here
+      </Link>
+      {', and Go to create a new recording.'}
+    </Typography>
   );
 }
 
