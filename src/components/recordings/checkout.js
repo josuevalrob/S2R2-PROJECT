@@ -50,22 +50,17 @@ function Checkout(props) {
       // * Create the new record in the backend. 
       recordingServices.create(recording).then(
         ({data}) => { // * If everything goes well
-          // ? change Create status
-          wasCreated(true)
-          // ? update the recording into the checkout component. 
-          setRecording(data)
-          // ? update the route in the browser
-          props.history.push(`/record/${data.id}`);
-          // ? go to the next page
-          setActiveStep(activeStep + 1)
+          wasCreated(true)// ? change Create status
+          setRecording(data)// ? update the recording into the checkout component. 
+          props.history.push(`/record/${data.id}`);//?change the route
+          setActiveStep(activeStep + 1)// ? go to the next page
         },
         (error) => { // * If something goes wrong. 
-            // ? show errors and don't go forward. 
             showError(error.response.data.message)
         }
       )
     } else if(created) {
-
+      setActiveStep(activeStep + 1)
     }
   };  
   
@@ -93,7 +88,7 @@ function Checkout(props) {
                   {getStepContent(activeStep, setRecording, recording)}
                   <Navigation 
                   steps={steps}
-                  blocked = {isEmpty(recording)}
+                  // blocked = {}
                   step={activeStep} classes={classes} 
                   back={handleBack} next={handleNext} />
                 </React.Fragment>

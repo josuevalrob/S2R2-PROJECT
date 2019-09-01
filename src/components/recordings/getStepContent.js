@@ -11,7 +11,7 @@ function getStepContent(step, callback, data) {
     case 0: //* Create
       return <Create fn={callback} recording={data}/>;
     case 1: //* Before talking
-      return <Regulation fn={callback}/>;
+      return <Regulation fn={callback} recording={data}/>;
     case 2: //* After talking
       return <Talking fn={callback}/>;
     case 3: //* Talking
