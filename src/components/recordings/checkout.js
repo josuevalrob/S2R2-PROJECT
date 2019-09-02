@@ -107,7 +107,7 @@ function Checkout(props) {
   );
 }
 
-function GoToCreate() {
+export function GoToCreate() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"This is not what you are looking for?, "}

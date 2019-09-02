@@ -16,7 +16,7 @@ function App() {
           {/* <PublicRoutes exact path="/sign-up" component={Register} /> */}          
           <PrivateRoute exact path="/new-record" component={Checkout} />
           <PrivateRoute path="/record/:id" component={Checkout} />
-          <PrivateRoute exact path="/recordins" component={RecordingList} />
+          <PrivateRoute exact path="/recordings" component={RecordingList} />
           {/* <Route exact path="/" component={() => (
             <Redirect to={"/search"} />
           )} /> */}

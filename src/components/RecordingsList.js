@@ -9,17 +9,25 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import recordingService from '../services/recordingServices'
+import AdapterLink from './misc/Enlace'
+import SearchBar from './misc/SearchBar'
+import {upperFirst} from 'lodash'
+import GoBack from './misc/GoBack'
+// import queryString from 'query-string';
+import {GoToCreate} from './recordings/Checkout'
+// import {desc, stableSort, getSroting} from '../utils/handlingData'
 
 export default function RecordingList() {
   const classes = useStyles();
+  // const querySearch = queryString.parse(this.props.location.search)
+
   const [data, setData] = React.useState([])
-  React.useEffect(()=>{fetchData()}, [])
-  
   const fetchData = async () => {
     const response = await recordingService.getData()
     setData(response)
   }
-  console.log(data)
+
+  React.useEffect(()=>{fetchData()}, [])
   return (
     <React.Fragment>
       <CssBaseline />
@@ -28,6 +36,7 @@ export default function RecordingList() {
         <Typography component="h1" variant="h4" align="center">
           {'Recordings'}
         </Typography>
+        <SearchBar />
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -40,8 +49,8 @@ export default function RecordingList() {
           <TableBody>
             {data.map(row => (
               <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
+                <TableCell scope="row" component={AdapterLink} to={`/record/${row.id}`}>
+                  {upperFirst(row.name)}
                 </TableCell>
                 <TableCell align="right">{row.studentA}</TableCell>
                 <TableCell align="right">{row.studentB}</TableCell>
@@ -51,6 +60,8 @@ export default function RecordingList() {
           </TableBody>
         </Table>
       </Paper>
+      <GoToCreate/>
+      <GoBack />
       </main>
     </React.Fragment>
 

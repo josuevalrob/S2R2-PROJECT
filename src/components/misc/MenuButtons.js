@@ -29,7 +29,7 @@ export default function MenuBUttons() {
         New Record
         <Settings className={classes.rightIcon} />
       </Button>
-      <Button to="/recordins" component={AdapterLink} variant="contained" color="default" className={classes.button}>
+      <Button to="/recordings" component={AdapterLink} variant="contained" color="default" className={classes.button}>
         Check Recordins
         <AudioTrack className={classes.leftIcon} />
       </Button>
