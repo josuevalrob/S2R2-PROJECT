@@ -13,6 +13,8 @@ import AdapterLink from './misc/Enlace'
 import SearchBar from './misc/SearchBar'
 import {upperFirst} from 'lodash'
 import GoBack from './misc/GoBack'
+import Link from '@material-ui/core/Link'
+
 // import queryString from 'query-string';
 import {GoToCreate} from './recordings/Checkout'
 // import {desc, stableSort, getSroting} from '../utils/handlingData'
@@ -49,8 +51,10 @@ export default function RecordingList() {
           <TableBody>
             {data.map(row => (
               <TableRow key={row.name}>
-                <TableCell scope="row" component={AdapterLink} to={`/record/${row.id}`}>
-                  {upperFirst(row.name)}
+                <TableCell scope="row" component={'th'}>
+                  <Link color="inherit" component={AdapterLink} to={`/record/${row.id}`}>
+                    {upperFirst(row.name)}
+                  </Link>
                 </TableCell>
                 <TableCell align="right">{row.studentA}</TableCell>
                 <TableCell align="right">{row.studentB}</TableCell>

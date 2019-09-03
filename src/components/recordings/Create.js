@@ -8,7 +8,7 @@ import { emptyRecording } from './Checkout';
 
 class Settings extends React.Component {
   state = {
-    content : emptyRecording, 
+    content : this.props.recording.id ? this.props.recording : emptyRecording, 
     errors: {
       name: validations.name(''), 
       studentA: validations.studentA(''), 
@@ -26,6 +26,7 @@ class Settings extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) { // TODO: testing!
+    console.log(this.props.recording.id, prevProps.recording.id)
     if(this.props.recording.id !== prevProps.recording.id) { //handling server response. 
       this.setState({content:this.props.recording}) // fill&clean
     }
