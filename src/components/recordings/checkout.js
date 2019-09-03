@@ -16,27 +16,29 @@ import AdapterLink from './../misc/Enlace'
 import Link from '@material-ui/core/Link'
 import recordingServices from './../../services/recordingServices'
 
-const steps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings'];
-export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',}
-
+export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',} //? should be an exteranl object. More complete
+const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings']
 function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id
+  const [steps, setSteps] = React.useState(constSteps)
   
   React.useEffect(()=>{
     if (id){ //edit page
       recordingServices.read(id)
-        .then(setRecording)
+        .then(r => {
+          setSteps([r.name, ...constSteps.slice(1, constSteps.length)])
+          setRecording(r)
+        })
         .then(wasCreated(true))
     } else { 
       setRecording(emptyRecording)
+      setSteps(constSteps)
       wasCreated(false)
     }
   }, [id])
 
-  // ! cant go backward the steps didnt update. 
-  steps[0] = id ? `Edit ${id}` : steps[0]; //? it should be an state?
-  
+  // React.useEffect(()=>setSteps([...steps]))
   const [activeStep, setActiveStep] = React.useState(0);
   
   const [error, showError] = React.useState(false);
