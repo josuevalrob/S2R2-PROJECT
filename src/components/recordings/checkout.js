@@ -11,10 +11,10 @@ import Navigation from './../misc/Navigation'
 import GoBack from './../misc/GoBack'
 import Thanks from './Thanks'
 import Alert from './../misc/Alert'
-// import { isEmpty } from 'lodash'
 import AdapterLink from './../misc/Enlace'
 import Link from '@material-ui/core/Link'
 import recordingServices from './../../services/recordingServices'
+// import { isEqual } from 'lodash'
 
 export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',} //? should be an exteranl object. More complete
 const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings']
@@ -23,14 +23,14 @@ function Checkout(props) {
   const id = props.match.params.id
   const [steps, setSteps] = React.useState(constSteps)
   
-  React.useEffect(()=>{
+  React.useEffect(() => { //? async & await 🤔
     if (id){ //edit page
       recordingServices.read(id)
         .then(r => {
           setSteps([r.name, ...constSteps.slice(1, constSteps.length)])
           setRecording(r)
+          wasCreated(true)
         })
-        .then(wasCreated(true))
     } else { 
       setRecording(emptyRecording)
       setSteps(constSteps)
@@ -48,6 +48,10 @@ function Checkout(props) {
   const [recording, setRecording] = React.useState({})
 
   const handleNext = () => {
+    if(recording.hasError) {
+      showError(recording.hasError)
+      return
+    }
     if(activeStep === 0 && !created) { //first step, first time. 
       // * Create the new record in the backend. 
       recordingServices.create(recording).then(
@@ -62,7 +66,18 @@ function Checkout(props) {
         }
       )
     } else if(created) {
-      setActiveStep(activeStep + 1)
+      // Check if needs to be updated. //? how 🤔??
+      console.log(recording)
+      recordingServices.update(id, recording).then(
+        ({data})=>{
+          // setRecording(data) //? do i need to update it 🤔?
+          setActiveStep(activeStep + 1)
+        },
+        (error) => { // * If something goes wrong. 
+            showError(error.response.data.message)
+        }
+      )
+
     }
   };  
   
@@ -103,7 +118,7 @@ function Checkout(props) {
       <Alert 
         message={error} 
         open={error ? true : false} 
-        ok={()=>setRecording({...emptyRecording, id:'fck'})}
+        ok={()=>setRecording({...emptyRecording, id:'fck'})} // 🥺 I need a different id for componentDidUpdated let me remove the form content.
         handleClose={showError} />
     </React.Fragment>
   );

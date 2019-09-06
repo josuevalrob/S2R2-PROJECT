@@ -26,7 +26,6 @@ class Settings extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) { // TODO: testing!
-    console.log(this.props.recording.id, prevProps.recording.id)
     if(this.props.recording.id !== prevProps.recording.id) { //handling server response. 
       this.setState({content:this.props.recording}) // fill&clean
     }
@@ -45,9 +44,9 @@ class Settings extends React.Component {
         [name]: validations[name] && validations[name](value)
       }
     }, () => {
-      ! this.hasErrors() 
+      ! this.hasErrors() //if doesn't have errors. 
       ? this.props.fn({...content, students : [content.studentA, content.studentB]})
-      : this.props.fn(emptyRecording)
+      : this.props.fn({...content, hasError: 'Something goes wrong... '}) //should be emptyField(?) 
     })
   }
 
@@ -104,7 +103,7 @@ class Settings extends React.Component {
                 variant="outlined"
                 fullWidth
                 id="comments"
-                label="Some extra coments"
+                label="Some extra comments"
                 name="comments"
                 rows = "4"
                 multiline={true}
