@@ -21,19 +21,34 @@ const  a11yProps = i => ({ id: `simple-tab-${i}`, 'aria-controls': `simple-tabpa
 
 export default function Regulation(props) {  
   const classes = useStyles();  
-  const [student, setStudent] = React.useState(0);
-  //first element => A student 👩‍🎓, second element => B student 👨🏼‍🎓
-  const [cognitives, setCogn] = React.useState([arrToObj, arrToObj]);
+  const [student, setStudent] = React.useState(0); //Tabs navigation 🚢
+  const {cognitive, studentA, studentB} =  props.recording; //[{},{}]
+  // get the value from props. 👴🏾
+  const cognitives = !cognitive || cognitive.length < 2  ? [arrToObj, arrToObj] : cognitive
+  
+  const [itemsArr, dispatch] = React.useReducer((state, action)=>{
+    //first element => A student 👩‍🎓, second element => B student 👨🏼‍🎓
+    let newState = null
+    switch (action.type){
+      case 'A': 
+        newState = [{...state[0], [action.name]: action.value }, state[1]]
+        break
+      case 'B': 
+        newState = [state[0],{...state[1], [action.name]: action.value }]
+        break
+      default: 
+        newState = state;
+    }
+    props.fn({...props.recording, cognitive: newState}) //update the recording from the parent. 🎶
+    return newState;
+  }, cognitives); // [{...studentA}, {...studentB}] 👣 
 
-  const handleChange = name => event => {
-    debugger
-    setCogn([...cognitives, {[name]: event.target.checked}]);
+  const handleChange = (name, type) => event => {
+    dispatch({type, name, value:event.target.checked});
   };
 
-  function handleTab(event, newValue) { 
-    setStudent(newValue);
-  }
-    console.log(cognitives)
+  const handleTab = (event, newValue) => setStudent(newValue);
+  
   return (
     <Container component="main">
         <CssBaseline />
@@ -46,18 +61,18 @@ export default function Regulation(props) {
               variant="fullWidth"
               onChange={handleTab}
             >
-              <Tab label={props.recording.studentA} {...a11yProps(0)}  />
-              <Tab label={props.recording.studentB} {...a11yProps(1)} />
+              <Tab label={studentA} {...a11yProps(0)}  />
+              <Tab label={studentB} {...a11yProps(1)} />
             </Tabs>
           </AppBar>
           <TabPanel value={student} index={0}>
             <Grid container spacing={3}>
-              <Form elem={cognitives[0]} handle={handleChange} />
+              <Form student='A' elem={itemsArr[0]} handle={handleChange} />
             </Grid>
           </TabPanel>
           <TabPanel value={student} index={1}>
             <Grid container spacing={3}>
-              <Form elem={cognitives[1]} handle={handleChange} />
+              <Form student='B' elem={itemsArr[1]} handle={handleChange} />
             </Grid>
           </TabPanel>
         </div>  
@@ -65,7 +80,7 @@ export default function Regulation(props) {
   )
 }
 
-const Form = ({elem, handle}) => (
+const Form = ({elem, handle, student}) => (
   <FormGroup row>
     {cognitiveValues.map((e,i) => (        
       <Grid item xs={6} key={i}>
@@ -74,12 +89,11 @@ const Form = ({elem, handle}) => (
           <Switch
             checked={elem[e.key] ? true : false}
             value={elem[e.key] ? true : false}
-            onChange={handle(e.key)}
+            onChange={handle(e.key, student)}
             color="primary"
           />
         }
         label={e.label}/>
-        {/* labelPlacement="start" */}
       </Grid>
     ))}
   </FormGroup>
