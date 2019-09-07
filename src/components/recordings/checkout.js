@@ -10,19 +10,24 @@ import getStepContent from './getStepContent'
 import Navigation from './../misc/Navigation'
 import GoBack from './../misc/GoBack'
 import Thanks from './Thanks'
-import Alert from './../misc/Alert'
+// import Alert from './../misc/Alert'
 import AdapterLink from './../misc/Enlace'
 import Link from '@material-ui/core/Link'
 import recordingServices from './../../services/recordingServices'
 // import { isEqual } from 'lodash'
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',} //? should be an exteranl object. More complete
 const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings']
+
 function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id
   const [steps, setSteps] = React.useState(constSteps)
-  
+  const { enqueueSnackbar } = useSnackbar(); // 🍿
+
+  const handleErrors = (error) => enqueueSnackbar(error, {variant : 'warning'});
+
   React.useEffect(() => { //? async & await 🤔
     if (id){ //edit page
       recordingServices.read(id)
@@ -38,18 +43,13 @@ function Checkout(props) {
     }
   }, [id])
 
-  // React.useEffect(()=>setSteps([...steps]))
   const [activeStep, setActiveStep] = React.useState(0);
-  
-  const [error, showError] = React.useState(false);
-
   const [created, wasCreated] =  React.useState(false);
-  // * RECORDING DEFINITION. 
   const [recording, setRecording] = React.useState({})
 
   const handleNext = () => {
     if(recording.hasError) {
-      showError(recording.hasError)
+      Object.values(recording.errors).map(e=>handleErrors(e))      
       return
     }
     if(activeStep === 0 && !created) { //first step, first time. 
@@ -62,19 +62,20 @@ function Checkout(props) {
           setActiveStep(activeStep + 1)// ? go to the next page
         },
         (error) => { // * If something goes wrong. 
-            showError(error.response.data.message)
+            handleErrors(error.response.data.message)
         }
       )
     } else if(created) {
       // Check if needs to be updated. //? how 🤔??
       console.log(recording)
       recordingServices.update(id, recording).then(
-        ({data})=>{
-          // setRecording(data) //? do i need to update it 🤔?
+        (data)=>{ // setRecording(data) //? do i need to update it 🤔?
+          setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
           setActiveStep(activeStep + 1)
         },
         (error) => { // * If something goes wrong. 
-            showError(error.response.data.message)
+            console.log(error.response.data)
+            handleErrors(error.response.data.message)
         }
       )
 
@@ -115,11 +116,11 @@ function Checkout(props) {
         {id && <GoToCreate/>}
         <GoBack />
       </main>
-      <Alert 
+      {/* <Alert 
         message={error} 
         open={error ? true : false} 
         ok={()=>setRecording({...emptyRecording, id:'fck'})} // 🥺 I need a different id for componentDidUpdated let me remove the form content.
-        handleClose={showError} />
+        handleClose={showError} /> */}
     </React.Fragment>
   );
 }
@@ -136,4 +137,10 @@ export function GoToCreate() {
   );
 }
 
-export default  Checkout
+export default function IntegrationNotistack(props) {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <Checkout {...props}/>
+    </SnackbarProvider>
+  );
+}

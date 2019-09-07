@@ -10,9 +10,9 @@ class Settings extends React.Component {
   state = {
     content : this.props.recording.id ? this.props.recording : emptyRecording, 
     errors: {
-      name: validations.name(''), 
-      studentA: validations.studentA(''), 
-      studentB: validations.studentB(''), 
+      name: this.props.recording.name ? undefined : validations.name(), 
+      studentA: this.props.recording.studentA ? undefined : validations.studentA(), 
+      studentB: this.props.recording.studentB ? undefined : validations.studentB(), 
     }
   }
   
@@ -27,7 +27,8 @@ class Settings extends React.Component {
 
   componentDidUpdate(prevProps, prevState) { // TODO: testing!
     if(this.props.recording.id !== prevProps.recording.id) { //handling server response. 
-      this.setState({content:this.props.recording}) // fill&clean
+      this.setState({content:this.props.recording, errors:{}}) // fill&clean
+
     }
   }
 
@@ -44,9 +45,10 @@ class Settings extends React.Component {
         [name]: validations[name] && validations[name](value)
       }
     }, () => {
+      const {content, errors} = this.state; 
       ! this.hasErrors() //if doesn't have errors. 
       ? this.props.fn({...content, students : [content.studentA, content.studentB]})
-      : this.props.fn({...content, hasError: 'Something goes wrong... '}) //should be emptyField(?) 
+      : this.props.fn({...content, hasError: true, errors}) //should be emptyField(?) 
     })
   }
 
@@ -61,6 +63,7 @@ class Settings extends React.Component {
               <TextField
                 onChange={this.handleChange}
                 value={content.name}
+                error={this.state.errors.name ? true : false}
                 variant="outlined"
                 fullWidth
                 id="name"
@@ -73,6 +76,7 @@ class Settings extends React.Component {
               <TextField
                 onChange={this.handleChange}
                 value={content.studentA}
+                error={this.state.errors.studentA ? true : false}
                 autoComplete="fstudent"
                 name="studentA"
                 variant="outlined"
@@ -87,6 +91,7 @@ class Settings extends React.Component {
               <TextField
                 onChange={this.handleChange}
                 value={content.studentB}
+                error={this.state.errors.studentB ? true : false}
                 variant="outlined"
                 required
                 fullWidth
