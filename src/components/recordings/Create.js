@@ -57,7 +57,7 @@ class Settings extends React.Component {
     return (
       <Container component="main" maxWidth="xs">
       <div >      
-        <form  noValidate>
+        {/* <form  noValidate> */}
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -116,7 +116,7 @@ class Settings extends React.Component {
               />
             </Grid>
           </Grid>
-        </form>
+        {/* </form> */}
       </div>
     </Container>
     );

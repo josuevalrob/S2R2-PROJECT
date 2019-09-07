@@ -10,6 +10,7 @@ const http = axios.create({
 http.interceptors.response.use(
   response => response,
   error => {
+    // ! handle de error sin response(?). 
     if (error.response.status === 403 || error.response.status === 401) {
       localStorage.removeItem(CURRENT_USER_KEY)
       window.location.assign("/sign-in");

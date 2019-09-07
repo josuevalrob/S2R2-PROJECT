@@ -10,11 +10,9 @@ import getStepContent from './getStepContent'
 import Navigation from './../misc/Navigation'
 import GoBack from './../misc/GoBack'
 import Thanks from './Thanks'
-// import Alert from './../misc/Alert'
 import AdapterLink from './../misc/Enlace'
 import Link from '@material-ui/core/Link'
 import recordingServices from './../../services/recordingServices'
-// import { isEqual } from 'lodash'
 import { SnackbarProvider, useSnackbar } from 'notistack';
 
 export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',} //? should be an exteranl object. More complete
@@ -65,16 +63,13 @@ function Checkout(props) {
             handleErrors(error.response.data.message)
         }
       )
-    } else if(created) {
-      // Check if needs to be updated. //? how 🤔??
-      console.log(recording)
+    } else if(created) { 
       recordingServices.update(id, recording).then(
         (data)=>{ // setRecording(data) //? do i need to update it 🤔?
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
           setActiveStep(activeStep + 1)
         },
         (error) => { // * If something goes wrong. 
-            console.log(error.response.data)
             handleErrors(error.response.data.message)
         }
       )
@@ -116,11 +111,6 @@ function Checkout(props) {
         {id && <GoToCreate/>}
         <GoBack />
       </main>
-      {/* <Alert 
-        message={error} 
-        open={error ? true : false} 
-        ok={()=>setRecording({...emptyRecording, id:'fck'})} // 🥺 I need a different id for componentDidUpdated let me remove the form content.
-        handleClose={showError} /> */}
     </React.Fragment>
   );
 }
