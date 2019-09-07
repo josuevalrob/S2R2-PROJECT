@@ -7,9 +7,9 @@ import Future from './Future'
 
 function getStepContent(step, callback, data) {
   switch (step) {
-    case 0: //* Create
+    case 1: //* Create
       return <Create fn={callback} recording={data}/>;
-    case 1: //* Before talking
+    case 0: //* Before talking
       return <Regulation before fn={callback} recording={data}/>;
     case 2: //* Talking
       return <Talking fn={callback}/>;
