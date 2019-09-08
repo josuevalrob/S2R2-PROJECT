@@ -27,7 +27,6 @@ const Regulation = ({recording, fn}) => {
   const [isLoad, load] = React.useState(false)
   
   const [itemsArr, dispatch] = React.useReducer((state, action)=>{
-    //first element => A student 👩‍🎓, second element => B student 👨🏼‍🎓
     let newState = null
     switch (action.type){
       case 'A': 
@@ -50,7 +49,7 @@ const Regulation = ({recording, fn}) => {
   
 
   React.useEffect(()=>{
-    if(cognitive && !isLoad){ //generate one render more 🤔
+    if(cognitive && cognitive.length && !isLoad){ //generate one render more 🤔
       dispatch({type: 'fill', value: cognitive})
     }
   }, [cognitive, isLoad])
@@ -60,7 +59,6 @@ const Regulation = ({recording, fn}) => {
   };
 
   const handleTab = (event, newValue) => setStudent(newValue);
-
   return (
     <Container component="main">
         <CssBaseline />
