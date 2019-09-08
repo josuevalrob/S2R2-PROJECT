@@ -41,7 +41,7 @@ function Checkout(props) {
     }
   }, [id])
 
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(2);
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
 

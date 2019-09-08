@@ -12,7 +12,7 @@ function getStepContent(step, callback, data) {
     case 1: //* Before talking
       return <Regulation before fn={callback} recording={data}/>;
     case 2: //* Talking
-      return <Talking fn={callback}/>;
+      return <Talking fn={callback} recording={data}/>;
     case 3: //* After talking
       return <Regulation after fn={callback} recording={data}/>;
     case 4: //* Socio Afective

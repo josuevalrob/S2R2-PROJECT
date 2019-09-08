@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import TabHoc from './../misc/TabHoc'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -39,19 +40,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function MediaControlCard() {
+function AudioRecording(props) {
   const classes = useStyles();
   const theme = useTheme();
-
   return (
     <Card className={classes.card}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h5" variant="h5">
-            Live From Space
+            {props.title}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            Mac Miller
+            {props.subTitle && props.subTitle}
           </Typography>
         </CardContent>
         <div className={classes.controls}>
@@ -76,4 +76,14 @@ export default function MediaControlCard() {
       </Button>
     </Card>
   );
+}
+
+export default function Talking ({recording, fn}) {
+  const {studentA, studentB} =  recording; //[{},{}]  
+  const tabLabel = [{label:studentA},{label:studentB}]
+  const tabContent = [
+    {title: 'Viridian', subTitle: 'PostRock'}, 
+    {title: 'Yndi Halda', subTitle: 'Instrumental PostRock'}
+  ]
+  return TabHoc(AudioRecording, tabLabel, tabContent)
 }

@@ -27,7 +27,7 @@ const TabHoc = (Component, label, content) => {  //* </> [...] [...]
               onChange={handleTab}
             >
               {label.map((l, i) => (
-                <Tab key={i} label={l.label} {...a11yProps(i)}  />
+                <Tab key={i} {...l} {...a11yProps(i)}  />
               ))}
             </Tabs>
           </AppBar>
@@ -43,5 +43,5 @@ const TabHoc = (Component, label, content) => {  //* </> [...] [...]
   )
 }
 
-
+ 
 export default TabHoc
