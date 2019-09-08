@@ -4,11 +4,13 @@ import Container from '@material-ui/core/Container';
 import useStyles from '../../styles/forms'
 import Tabs from '@material-ui/core/Tabs';
 import AppBar from '@material-ui/core/AppBar';
-// import {useRenderCounter} from '../../utils/useRenderCounter'
+import TabPanel from '../misc/TabPanel'
+import Grid from '@material-ui/core/Grid';
+import Tab from '@material-ui/core/Tab';
 
-// const  a11yProps = i => ({ id: `simple-tab-${i}`, 'aria-controls': `simple-tabpanel-${i}`});
+const  a11yProps = i => ({ id: `simple-tab-${i}`, 'aria-controls': `simple-tabpanel-${i}`});
 
-const Regulation = (Component, label, Content) => {  
+const TabHoc = (Component, label, content) => {  //* </> [...] [...]
   const classes = useStyles();  
   const [student, setStudent] = React.useState(0); //Tabs navigation 🚢  
   const handleTab = (event, newValue) => setStudent(newValue);
@@ -24,20 +26,22 @@ const Regulation = (Component, label, Content) => {
               variant="fullWidth"
               onChange={handleTab}
             >
-              {/* //* EXAMPLE */}
-              {/* <Tab label={studentA} {...a11yProps(0)}  /> */}
+              {label.map((l, i) => (
+                <Tab key={i} label={l.label} {...a11yProps(i)}  />
+              ))}
             </Tabs>
           </AppBar>
-          {/* //* EXAMPLE */}
-          {/* <TabPanel value={student} index={0}>
-            <Grid container spacing={3}>
-              <Form student='A' elem={itemsArr[0]} handle={handleChange} />
-            </Grid>
-          </TabPanel> */}
+          {content.map((f, i) => (
+            <TabPanel value={student} index={i} key={i}>
+              <Grid container spacing={3}>
+                <Component {...f} />
+              </Grid>
+            </TabPanel>
+          ))}
         </div>  
     </Container>  
   )
 }
 
 
-export default React.memo(Regulation) //from 6 to 4 renders... 🧐
+export default TabHoc
