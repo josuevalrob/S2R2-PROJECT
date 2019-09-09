@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import validations from './../../utils/validations'
+import validations from './../../utils/validations'; //{...}
 // import {isEmpty} from 'lodash'
 import { emptyRecording } from './Checkout';
 
@@ -48,7 +48,7 @@ class Settings extends React.Component {
       const {content, errors} = this.state; 
       ! this.hasErrors() //if doesn't have errors. 
       ? this.props.fn({...content, students : [content.studentA, content.studentB]})
-      : this.props.fn({...content, hasError: true, errors}) //should be emptyField(?) 
+      : this.props.fn({...content, hasError: true, errors}) //should be removed this key?
     })
   }
 
