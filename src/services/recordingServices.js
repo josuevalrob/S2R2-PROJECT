@@ -10,9 +10,9 @@ const create = record =>  http.post(base, record)
 
 const update = (id, record) => http.put(`${base}/${id}`, record).then(({data})=>breakStudent(data))
 
-const read = id => http.get(`${base}/${id}`).then(({data})=>breakStudent(data))
+const read = id => http.get(`${base}/${id}`).then(({data})=>breakStudent(data));
 
-const destroy = () => http.post(`/logout`)
+const destroy = (id) => http.delete(`${base}/${id}`)
 
 export default {
   create,

@@ -11,10 +11,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Alert({ok, open, handleClose, message}) {
+export default function Alert({open, handleClose, message}) {
   const classes = useStyles();
   
-  const handleOk = () => ok() || handleClose()
+  const handleOk = () => handleClose()
 
   return (
     <div>

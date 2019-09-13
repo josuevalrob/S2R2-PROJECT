@@ -41,13 +41,13 @@ function Checkout(props) {
     }
   }, [id])
 
-  const [activeStep, setActiveStep] = React.useState(3);
+  const [activeStep, setActiveStep] = React.useState(0);
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
 
   const handleNext = () => {
     if(recording.hasError) {
-      Object.values(recording.errors).map(e=>handleErrors(e))      
+      Object.values(recording.errors).forEach(e => handleErrors(e))
       return
     }
     if(activeStep === 0 && !created) { //first step, first time. 
@@ -59,19 +59,15 @@ function Checkout(props) {
           props.history.push(`/record/${data.id}`);//?change the route
           setActiveStep(activeStep + 1)// ? go to the next page
         },
-        (error) => { // * If something goes wrong. 
-            handleErrors(error.response.data.message)
-        }
+        (error) => handleErrors(error.response.data.message)
       )
     } else if(created) { 
       recordingServices.update(id, recording).then(
-        (data)=>{ // setRecording(data) //? do i need to update it 🤔?
+        (data) => { // setRecording(data) //? do i need to update it 🤔?
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
           setActiveStep(activeStep + 1)
         },
-        (error) => { // * If something goes wrong. 
-            handleErrors(error.response.data.message)
-        }
+        (error) => handleErrors(error.response.data.message)
       )
 
     }

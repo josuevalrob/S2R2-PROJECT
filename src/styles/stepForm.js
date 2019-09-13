@@ -26,6 +26,9 @@ const useStyles = makeStyles(theme => ({
   stepper: {
     padding: theme.spacing(3, 0, 5),
   },
+  progress: {
+    margin: theme.spacing(2),
+  },
   buttons: {
     display: 'flex',
     justifyContent: 'flex-end',
