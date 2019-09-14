@@ -2,16 +2,16 @@ import React from 'react'
 import FormList from './../misc/FormList'
 import cognitiveValues from '../../utils/cognitiveTest'//arry with keys. 
 import TabHoc from './../misc/TabHoc'
-// import {useRenderCounter} from '../../utils/useRenderCounter'
 
 const arrToObj = cognitiveValues.reduce((obj, item) => {
-    obj[item.key] = item.value //[,before, after]
-    return obj
-  }, {})
+  obj[item.key] = item.value //[,before, after]
+  return obj
+}, {})
 
 const Regulation = ({recording, fn, before, after}) => {  
   const {cognitive, studentA, studentB} =  recording; //[{},{}]  
   const [isLoad, load] = React.useState(false)
+  
   const [itemsArr, dispatch] = React.useReducer((state, action)=>{
     let newState = null
     
@@ -34,8 +34,6 @@ const Regulation = ({recording, fn, before, after}) => {
       default: 
         newState = state;
     }
-    //!if everything is false, it is an error. 
-    // !hasError() &&
     fn({...recording, cognitive: newState}) //update the recording from the parent. 🎶
     return newState;
   }, [arrToObj, arrToObj]); // [{...studentA}, {...studentB}] 👣 
@@ -49,12 +47,6 @@ const Regulation = ({recording, fn, before, after}) => {
   const handleChange = (name, type) => event => {    
     dispatch({type, name, value:event.target.checked});
   };
-
-  // const hasError = () => {   //[{...studentA}, {...studentB}] 👣 
-  //   return itemsArr.some(student => {
-  //     return Object.keys(student).some(cog => !cog)
-  //   })
-  // }
 
   const tabContent = [
     {student:'A', obj:itemsArr[0], handle:handleChange, arr: cognitiveValues, before},

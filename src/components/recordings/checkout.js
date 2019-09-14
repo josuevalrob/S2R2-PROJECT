@@ -53,8 +53,7 @@ function Checkout(props) {
       Object.values(recording.errors).forEach(e => handleErrors(e))
       return
     }
-    if(activeStep === 0 && !created) { //first step, first time. 
-      // * Create the new record in the backend. 
+    if(activeStep === 0 && !created) { // * Create the new record in the backend. 
       recordingServices.create(recording).then(
         ({data}) => { // * If everything goes well
           wasCreated(true)// ? change Create status
@@ -64,7 +63,7 @@ function Checkout(props) {
         },
         (error) => handleErrors(error.response.data.message)
       )
-    } else if(created) { 
+    } else if(created) { //*update content
       recordingServices.update(id, recording).then(
         (data) => { // setRecording(data) //? do i need to update it 🤔?
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
@@ -72,7 +71,6 @@ function Checkout(props) {
         },
         (error) => handleErrors(error.response.data.message)
       )
-
     }
   };  
   
