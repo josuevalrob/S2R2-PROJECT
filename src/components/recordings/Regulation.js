@@ -1,9 +1,9 @@
 import React from 'react'
 import FormList from './../misc/FormList'
-import cognitiveValues from '../../utils/cognitiveTest'//arry with keys. 
+import {cognitiveValues} from '../../utils/cognitiveTest'//arry with keys. 
 import TabHoc from './../misc/TabHoc'
 
-const arrToObj = cognitiveValues.reduce((obj, item) => {
+export const arrToObj = (arr) => arr.reduce((obj, item) => {
   obj[item.key] = item.value //[,before, after]
   return obj
 }, {})
@@ -12,23 +12,17 @@ const Regulation = ({recording, fn, before, after}) => {
   const {cognitive, studentA, studentB} =  recording; //[{},{}]  
   const [isLoad, load] = React.useState(false)
   
-  const [itemsArr, dispatch] = React.useReducer((state, action)=>{
-    let newState = null
-    
-    const getNewArr = (n) => {
-      if(before)  return [action.value, state[n][action.name][0]]
-      if(after)   return [ state[n][action.name][1], action.value]
-    }
-    
-    switch (action.type){
+  const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
+    let newState = null        
+    switch (type){
       case 'A':
-        newState = [{...state[0], [action.name]: getNewArr(0) }, state[1]]
+        newState = [{...state[0], ...payload }, state[1]]
         break
       case 'B': 
-        newState = [state[0],{...state[1], [action.name]: getNewArr(1) }]
+        newState = [state[0],{...state[1], ...payload }]
         break
       case 'fill': 
-        newState = action.value //from  parent. 👴🏾
+        newState = payload //from  parent. 👴🏾
         load(true)
         break
       default: 
@@ -36,16 +30,25 @@ const Regulation = ({recording, fn, before, after}) => {
     }
     fn({...recording, cognitive: newState}) //update the recording from the parent. 🎶
     return newState;
-  }, [arrToObj, arrToObj]); // [{...studentA}, {...studentB}] 👣 
+  }, [arrToObj(cognitiveValues), arrToObj(cognitiveValues)]); // [{...studentA}, {...studentB}] 👣 
 
-  React.useEffect(()=>{
+  React.useEffect(()=>{ //!test 🧐
     if(cognitive && cognitive.length && !isLoad){ 
-      dispatch({type: 'fill', value: cognitive})
+      dispatch({type: 'fill', payload: cognitive})
     }
   }, [cognitive, isLoad])
 
   const handleChange = (name, type) => event => {    
-    dispatch({type, name, value:event.target.checked});
+    const beforeAndAfter = (n) => {
+      if(before)  return [value, itemsArr[n][name][0]]
+      if(after)   return [ itemsArr[n][name][1], value]
+    }
+    const value = event.target.checked
+    dispatch({
+      type, 
+      payload:{
+        [name]:beforeAndAfter(name === 'A' ? 0 : 1)
+      }});
   };
 
   const tabContent = [

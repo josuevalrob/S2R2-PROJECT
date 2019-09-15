@@ -34,7 +34,7 @@ const TabHoc = (Component, label, content) => {  //* </> [...] [...]
           {content.map((f, i) => (
             <TabPanel value={student} index={i} key={i}>
               <Grid container spacing={3}>
-                <Component {...f} />
+                <Component {...f}  />
               </Grid>
             </TabPanel>
           ))}

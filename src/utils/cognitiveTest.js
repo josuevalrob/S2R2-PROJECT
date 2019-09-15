@@ -1,4 +1,26 @@
-const cognitiveValues = [
+export const affectivesValues = [
+  {
+    key:'confident',
+    label: 'Confident',
+    value: false 
+  }, 
+  {
+    key:'lost',
+    label: 'Lost',
+    value: false 
+  }, 
+  {
+    key:'nervous',
+    label: 'Nervous',
+    value: false 
+  }, 
+  {
+    key:'nothing',
+    label: "I didn't feel anything",
+    value: false 
+  }
+]
+export const cognitiveValues = [
     {
       key : 'startingConversation', 
       label: 'Starting the Conversation',
@@ -51,4 +73,3 @@ const cognitiveValues = [
     },
   ]
 
-export default cognitiveValues

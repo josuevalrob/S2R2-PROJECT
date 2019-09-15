@@ -4,7 +4,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 
-const FormList = ({arr, obj, handle, student, before}) => ( // [...], {...}, fn(), '...' 
+const FormList = ({arr, obj, handle, student, before}) => ( // [{...}], {...}, fn(), '...' 
   <FormGroup row>
     {arr.map((e,i) => { 
       return (        
