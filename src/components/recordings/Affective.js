@@ -77,8 +77,8 @@ const Questions = (props) => (
           name={props.feel.student} 
           value={props.help.value ? 'yes' : 'no'} 
           onChange={(e)=> props.help.handle(e, props.feel.student, 'help')} >
-          <FormControlLabel value='yes' control={<Radio />} label="Yes" />
-          <FormControlLabel value='no' control={<Radio />} label="No" />
+          <FormControlLabel value='yes' control={<Radio />} label="Yes, they did" />
+          <FormControlLabel value='no' control={<Radio />} label="No, they didn't" />
         </RadioGroup>
       </FormGroup>
     </Grid>

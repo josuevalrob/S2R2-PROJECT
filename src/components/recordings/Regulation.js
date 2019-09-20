@@ -8,17 +8,17 @@ export const arrToObj = (arr) => arr.reduce((obj, item) => {
   return obj
 }, {})
 
-const Regulation = ({recording, fn, before, after}) => {  
+const Regulation = ({recording, fn, stage}) => {  
   const {cognitive, studentA, studentB} =  recording; //[{},{}]  
   const [isLoad, load] = React.useState(false)
   
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
     let newState = null        
     switch (type){
-      case 'A':
+      case 0:
         newState = [{...state[0], ...payload }, state[1]]
         break
-      case 'B': 
+      case 1: 
         newState = [state[0],{...state[1], ...payload }]
         break
       case 'fill': 
@@ -38,24 +38,18 @@ const Regulation = ({recording, fn, before, after}) => {
     }
   }, [cognitive, isLoad])
 
-  const handleChange = (name, type) => event => {    
-    const beforeAndAfter = (n) => {
-      if(before)  return [value, itemsArr[n][name][0]]
-      if(after)   return [ itemsArr[n][name][1], value]
-    }
-    const value = event.target.checked
+  const handleChange = (key, student) => event => {        
     dispatch({
-      type, 
+      type: student, 
       payload:{
-        [name]:beforeAndAfter(name === 'A' ? 0 : 1)
+        [key]:itemsArr[student][key].map((e, i)=>i===stage ? !e : e)
       }});
   };
 
   const tabContent = [
-    {student:'A', obj:itemsArr[0], handle:handleChange, arr: cognitiveValues, before},
-    {student:'B', obj:itemsArr[1], handle:handleChange, arr: cognitiveValues, before},
+    {student:0, obj:itemsArr[0], handle:handleChange, arr: cognitiveValues, stage},
+    {student:1, obj:itemsArr[1], handle:handleChange, arr: cognitiveValues, stage},
   ]
-
   const tabLabel = [{label:studentA},{label:studentB}]
   return TabHoc(FormList, tabLabel, tabContent)
 }

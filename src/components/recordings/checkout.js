@@ -22,7 +22,7 @@ const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Soc
 function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id
-  const [activeStep, setActiveStep] = React.useState(4);
+  const [activeStep, setActiveStep] = React.useState(4); //*
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)
@@ -66,7 +66,6 @@ function Checkout(props) {
     } else if(created) { //*update content
       recordingServices.update(id, recording).then(
         (data) => { // setRecording(data) //? do i need to update it 🤔?
-          debugger
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
           setActiveStep(activeStep + 1)
         },
