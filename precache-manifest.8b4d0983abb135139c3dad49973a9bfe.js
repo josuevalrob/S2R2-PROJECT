@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "697cc71ddc84e6df2bee7bda5c57e3d5",
+    "revision": "853ce98f9c7eb560f9ff775c71ea0405",
     "url": "/jeval-web/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/jeval-web/static/js/2.9a48f43f.chunk.js"
   },
   {
-    "revision": "2785cd894363896d4761",
-    "url": "/jeval-web/static/js/main.99ca56e6.chunk.js"
+    "revision": "219805d4fca3e7a055e1",
+    "url": "/jeval-web/static/js/main.bbfa5fb8.chunk.js"
   },
   {
     "revision": "ab7a3a67626d45397512",
