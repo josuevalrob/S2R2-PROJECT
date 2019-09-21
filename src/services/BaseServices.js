@@ -2,11 +2,9 @@ import axios from 'axios'
 import {CURRENT_USER_KEY} from '../contexts/AuthStore'
 
 const http = axios.create({
-  // baseURL: `${process.env.REACT_APP_API_URL}`,
-  baseURL: 'http://localhost:3001',
+  baseURL: `${process.env.REACT_APP_API_URL}`,
   withCredentials: true
 });
-
 http.interceptors.response.use(
   response => response,
   error => {
