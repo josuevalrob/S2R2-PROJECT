@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthStore } from './contexts/AuthStore';
 
 ReactDOM.render(
-  <Router basename={process.env.PUBLIC_URL}>
+  <Router basename={process.env.REACT_APP_PUBLIC_URL}>
     <AuthStore>
       <App />
     </AuthStore>
