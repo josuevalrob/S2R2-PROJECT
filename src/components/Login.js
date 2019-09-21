@@ -28,10 +28,6 @@ function Signin(props) {
 
   const handleUser = name => event => setUser({...user, [name]: event.target.value})
 
-  // const handleError = error => event => setErros({ ...errors,
-  //   [error]: validations[error] && validations[error](event.target.value)
-  // })
-
   const handleSubmit = (event) => {
     event.preventDefault();
     authService.authenticate(user)
@@ -42,14 +38,6 @@ function Signin(props) {
         (error) => {
           const { message, errors } = error;          
           console.error(message, errors)
-          // setState({
-          //   wrongCredentials: true,
-          //   errors: {
-          //     ...state.errors,
-          //     ...errors,
-          //     password: !errors && message
-          //   }
-          // })
         }
       )
   }
@@ -77,7 +65,7 @@ function Signin(props) {
             id="email"
             label="Email Address"
             name="email"
-            autoComplete="email"
+            autoComplete="off"
             autoFocus
             type="email"
           />
@@ -91,7 +79,7 @@ function Signin(props) {
             id="password"
             label="Password"
             name="password"
-            autoComplete="current-password"
+            autoComplete="off"
             type="password"
           />
           <FormControlLabel
@@ -103,10 +91,12 @@ function Signin(props) {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
-          >
+            className={classes.submit} >
             Sign In
           </Button>
+            <Link to="/authenticate/google" component={AdapterLink} color={'secondary'}>
+            Google Sign in
+          </Link>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">

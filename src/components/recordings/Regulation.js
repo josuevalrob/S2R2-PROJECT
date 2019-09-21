@@ -15,10 +15,10 @@ const Regulation = ({recording, fn, stage}) => {
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
     let newState = null        
     switch (type){
-      case 0:
+      case 0: //student A
         newState = [{...state[0], ...payload }, state[1]]
         break
-      case 1: 
+      case 1: //student B
         newState = [state[0],{...state[1], ...payload }]
         break
       case 'fill': 

@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from './components/Login'
+import Register from './components/Register'
 import MainMenu from './components/MainMenu'
 import RecordingList from './components/RecordingsList'
 import Checkout from './components/recordings/Checkout'
@@ -13,7 +14,7 @@ function App() {
        <Switch>
           <PrivateRoute exact path="/" component={MainMenu} />
           <PublicRoutes exact path="/sign-in" component={Login} />
-          {/* <PublicRoutes exact path="/sign-up" component={Register} /> */}          
+          <PublicRoutes exact path="/sign-up" component={Register} />          
           <PrivateRoute exact path="/new-record" component={Checkout} />
           <PrivateRoute path="/record/:id" component={Checkout} />
           <PrivateRoute exact path="/recordings" component={RecordingList} />

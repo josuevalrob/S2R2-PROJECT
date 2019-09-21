@@ -22,7 +22,7 @@ const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Soc
 function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id
-  const [activeStep, setActiveStep] = React.useState(4); //*
+  const [activeStep, setActiveStep] = React.useState(0); //*
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)
@@ -50,7 +50,7 @@ function Checkout(props) {
 
   const handleNext = () => {
     if(recording.hasError) {
-      Object.values(recording.errors).forEach(e => handleErrors(e))
+      Object.values(recording.errors).forEach(e => e && handleErrors(e))
       return
     }
     if(activeStep === 0 && !created) { // * Create the new record in the backend. 
