@@ -7,12 +7,12 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Typography from '@material-ui/core/Typography';
 import getStepContent from './getStepContent'
-import Navigation from './../misc/Navigation'
-import GoBack from './../misc/GoBack'
+import Navigation from '../misc/Navigation'
+import GoBack from '../misc/GoBack'
 import Thanks from './Thanks'
-import AdapterLink from './../misc/Enlace'
+import AdapterLink from '../misc/Enlace'
 import Link from '@material-ui/core/Link'
-import recordingServices from './../../services/recordingServices'
+import recordingServices from '../../services/recordingServices'
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
