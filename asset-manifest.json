@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "https://josuevalrob.github.io/static/js/main.bbfa5fb8.chunk.js",
-    "main.js.map": "https://josuevalrob.github.io/static/js/main.bbfa5fb8.chunk.js.map",
-    "runtime~main.js": "https://josuevalrob.github.io/static/js/runtime~main.4fce539b.js",
-    "runtime~main.js.map": "https://josuevalrob.github.io/static/js/runtime~main.4fce539b.js.map",
-    "static/js/2.9a48f43f.chunk.js": "https://josuevalrob.github.io/static/js/2.9a48f43f.chunk.js",
-    "static/js/2.9a48f43f.chunk.js.map": "https://josuevalrob.github.io/static/js/2.9a48f43f.chunk.js.map",
-    "index.html": "https://josuevalrob.github.io/index.html",
-    "precache-manifest.33a4586142568a36b16e408ea8c29f63.js": "https://josuevalrob.github.io/precache-manifest.33a4586142568a36b16e408ea8c29f63.js",
-    "service-worker.js": "https://josuevalrob.github.io/service-worker.js"
+    "main.js": "https://josuevalrob.github.io/jeval-web/static/js/main.74d238fc.chunk.js",
+    "main.js.map": "https://josuevalrob.github.io/jeval-web/static/js/main.74d238fc.chunk.js.map",
+    "runtime~main.js": "https://josuevalrob.github.io/jeval-web/static/js/runtime~main.7c8c6f62.js",
+    "runtime~main.js.map": "https://josuevalrob.github.io/jeval-web/static/js/runtime~main.7c8c6f62.js.map",
+    "static/js/2.9a48f43f.chunk.js": "https://josuevalrob.github.io/jeval-web/static/js/2.9a48f43f.chunk.js",
+    "static/js/2.9a48f43f.chunk.js.map": "https://josuevalrob.github.io/jeval-web/static/js/2.9a48f43f.chunk.js.map",
+    "index.html": "https://josuevalrob.github.io/jeval-web/index.html",
+    "precache-manifest.9911a0ff688e990d43637a8e7f05e0ef.js": "https://josuevalrob.github.io/jeval-web/precache-manifest.9911a0ff688e990d43637a8e7f05e0ef.js",
+    "service-worker.js": "https://josuevalrob.github.io/jeval-web/service-worker.js"
   }
 }
