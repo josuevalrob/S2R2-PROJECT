@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "https://josuevalrob.github.io/jeval-web/static/js/main.ce22e977.chunk.js",
-    "main.js.map": "https://josuevalrob.github.io/jeval-web/static/js/main.ce22e977.chunk.js.map",
-    "runtime~main.js": "https://josuevalrob.github.io/jeval-web/static/js/runtime~main.7c8c6f62.js",
-    "runtime~main.js.map": "https://josuevalrob.github.io/jeval-web/static/js/runtime~main.7c8c6f62.js.map",
-    "static/js/2.9a48f43f.chunk.js": "https://josuevalrob.github.io/jeval-web/static/js/2.9a48f43f.chunk.js",
-    "static/js/2.9a48f43f.chunk.js.map": "https://josuevalrob.github.io/jeval-web/static/js/2.9a48f43f.chunk.js.map",
-    "index.html": "https://josuevalrob.github.io/jeval-web/index.html",
-    "precache-manifest.db50649afdd208ec74f8136571b33675.js": "https://josuevalrob.github.io/jeval-web/precache-manifest.db50649afdd208ec74f8136571b33675.js",
-    "service-worker.js": "https://josuevalrob.github.io/jeval-web/service-worker.js"
+    "main.js": "/static/js/main.5813c120.chunk.js",
+    "main.js.map": "/static/js/main.5813c120.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.9a48f43f.chunk.js": "/static/js/2.9a48f43f.chunk.js",
+    "static/js/2.9a48f43f.chunk.js.map": "/static/js/2.9a48f43f.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.b3dcf4bd2a22eabd9f380c25381c976e.js": "/precache-manifest.b3dcf4bd2a22eabd9f380c25381c976e.js",
+    "service-worker.js": "/service-worker.js"
   }
 }
