@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "https://josuevalrob.github.io/jeval-web/static/js/main.e7754a47.chunk.js",
-    "main.js.map": "https://josuevalrob.github.io/jeval-web/static/js/main.e7754a47.chunk.js.map",
+    "main.js": "https://josuevalrob.github.io/jeval-web/static/js/main.ce22e977.chunk.js",
+    "main.js.map": "https://josuevalrob.github.io/jeval-web/static/js/main.ce22e977.chunk.js.map",
     "runtime~main.js": "https://josuevalrob.github.io/jeval-web/static/js/runtime~main.7c8c6f62.js",
     "runtime~main.js.map": "https://josuevalrob.github.io/jeval-web/static/js/runtime~main.7c8c6f62.js.map",
     "static/js/2.9a48f43f.chunk.js": "https://josuevalrob.github.io/jeval-web/static/js/2.9a48f43f.chunk.js",
     "static/js/2.9a48f43f.chunk.js.map": "https://josuevalrob.github.io/jeval-web/static/js/2.9a48f43f.chunk.js.map",
     "index.html": "https://josuevalrob.github.io/jeval-web/index.html",
-    "precache-manifest.feea1f726ce2cd06b55da65b9dbef262.js": "https://josuevalrob.github.io/jeval-web/precache-manifest.feea1f726ce2cd06b55da65b9dbef262.js",
+    "precache-manifest.db50649afdd208ec74f8136571b33675.js": "https://josuevalrob.github.io/jeval-web/precache-manifest.db50649afdd208ec74f8136571b33675.js",
     "service-worker.js": "https://josuevalrob.github.io/jeval-web/service-worker.js"
   }
 }
