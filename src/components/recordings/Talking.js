@@ -1,18 +1,65 @@
 import React from 'react'
-import clsx from 'clsx';
-
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import SaveIcon from '@material-ui/icons/Save';
-import Typography from '@material-ui/core/Typography';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
 import TabHoc from './../misc/TabHoc'
+import { ReactMic } from 'react-mic';
+import { makeStyles } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Stop from '@material-ui/icons/Stop';
+import Save from '@material-ui/icons/Save';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+
+//* real component
+export default function Talking ({recording, fn}) {
+  const {studentA, studentB} =  recording; //[{},{}]  
+  const tabLabel = [{label:studentA},{label:studentB}]
+  return TabHoc(Recorder, tabLabel, tabLabel)
+} 
+function Recorder({label}) {
+  const classes = useStyles();
+  const [recording, setRecording] = React.useState(false)
+  const [audio, setAudio] = React.useState(new Audio()) 
+  const handleStop = (recordedBlob) => { 
+    const audioUrl = URL.createObjectURL(recordedBlob.blob);
+    const tmpAudio = new Audio(audioUrl);
+    tmpAudio.play()
+    setAudio(tmpAudio)
+  }
+  return (
+    <Card className={classes.card}>
+      <div className={classes.details}>
+        <CardContent className={classes.content}>
+          <Typography component="h5" variant="h5">
+            Track # 1
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {label}
+          </Typography>
+        </CardContent>
+        <div className={classes.controls}>                    
+          <IconButton onClick={() => setRecording(!recording)}  aria-label="play/pause">
+            { ! recording 
+              ? <PlayArrowIcon className={classes.playIcon} />
+              : <Stop className={classes.playIcon} />}
+          </IconButton>          
+          <IconButton aria-label="previous" disabled={recording} >
+            <Save /> 
+          </IconButton>
+        </div>
+      </div>
+      <ReactMic
+        className={classes.cover} //sound-wave
+        record={recording} //Boolean
+        onStop={handleStop}
+        // onData={onData}
+        strokeColor="#ffffff"
+        backgroundColor={blue[800]} />
+    </Card>
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -40,50 +87,3 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function AudioRecording(props) {
-  const classes = useStyles();
-  const theme = useTheme();
-  return (
-    <Card className={classes.card}>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            {props.title}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            {props.subTitle && props.subTitle}
-          </Typography>
-        </CardContent>
-        <div className={classes.controls}>
-          <IconButton aria-label="previous">
-            {theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-          </IconButton>
-          <IconButton aria-label="play/pause">
-            <PlayArrowIcon className={classes.playIcon} />
-          </IconButton>
-          <IconButton aria-label="next">
-            {theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-          </IconButton>
-        </div>
-      </div>
-      <Button variant="contained" disabled color="secondary" className={classes.button}>
-        <KeyboardVoiceIcon className={classes.leftIcon} />
-        Talk
-      </Button>
-      <Button variant="contained" size="small" className={classes.button}>
-        <SaveIcon className={clsx(classes.leftIcon, classes.iconSmall)} />
-        Save
-      </Button>
-    </Card>
-  );
-}
-
-export default function Talking ({recording, fn}) {
-  const {studentA, studentB} =  recording; //[{},{}]  
-  const tabLabel = [{label:studentA},{label:studentB}]
-  const tabContent = [
-    {title: 'Viridian', subTitle: 'PostRock'}, 
-    {title: 'Yndi Halda', subTitle: 'Instrumental PostRock'}
-  ]
-  return TabHoc(AudioRecording, tabLabel, tabContent)
-}

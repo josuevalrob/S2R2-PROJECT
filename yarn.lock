@@ -10144,7 +10144,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10453,6 +10453,11 @@ react-event-listener@^0.6.0:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-ga@^2.2.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.6.0.tgz#c3fe830ead2ad25117e1d33280d9698de9b28496"
+  integrity sha512-GWHBWZDFjDGMkIk1LzroIn0mNTygKw3adXuqvGvheFZvlbpqMPbHsQsTdQBIxRRdXGQM/Zq+dQLRPKbwIHMTaw==
+
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
@@ -10472,6 +10477,14 @@ react-mde@^7.6.2:
   version "7.6.2"
   resolved "https://registry.yarnpkg.com/react-mde/-/react-mde-7.6.2.tgz#2f0dbc427160e4eaa9bdca60d5f65148df2bb1e6"
   integrity sha512-czag0H588ZBs3hGrm/N35hNnMHdxfeyBKBl5auzcliY1mS7WcO/5eb2y7wlZvsLfwTdHP2QTAGqBG2AIE94qBw==
+
+react-mic@^12.4.1:
+  version "12.4.1"
+  resolved "https://registry.yarnpkg.com/react-mic/-/react-mic-12.4.1.tgz#6476a321ccd3babc61ebb12319b0fc0db4ca30c3"
+  integrity sha512-l580F9Mv6NRslSQj+80azx2rr/5OjWISEsjXx2GXBXcLvnT9vGeSYHzFVwDhGBjo/cj25AzXDg+rSp4Bz/qS2w==
+  dependencies:
+    prop-types "^15.5.10"
+    react-ga "^2.2.0"
 
 react-onclickoutside@^6.7.1:
   version "6.8.0"
