@@ -22,7 +22,7 @@ const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Soc
 function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id
-  const [activeStep, setActiveStep] = React.useState(2); //*
+  const [activeStep, setActiveStep] = React.useState(0); //*
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)
