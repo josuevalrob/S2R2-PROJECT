@@ -5,28 +5,44 @@ import { makeStyles } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Stop from '@material-ui/icons/Stop';
+import Stop from '@material-ui/icons/MicOff';
+import Eq from '@material-ui/icons/GraphicEq';
 import Save from '@material-ui/icons/Save';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import Delete from '@material-ui/icons/Delete';
+import Mic from '@material-ui/icons/Mic';
+import ReactAudioPlayer from "react-h5-audio-player";
+
 
 //* real component
 export default function Talking ({recording, fn}) {
-  const {studentA, studentB} =  recording; //[{},{}]  
+  const {studentA, studentB} =  recording; //[{},{}]
   const tabLabel = [{label:studentA},{label:studentB}]
-  return TabHoc(Recorder, tabLabel, tabLabel)
-} 
-function Recorder({label}) {
+  const tabContent = [
+    {student:0, },
+    {student:1,},
+  ]
+  return TabHoc(Recorder, tabLabel, tabContent)
+}
+
+function Recorder({audio}) {
   const classes = useStyles();
-  const [recording, setRecording] = React.useState(false)
-  const [audio, setAudio] = React.useState(new Audio()) 
-  const handleStop = (recordedBlob) => { 
-    const audioUrl = URL.createObjectURL(recordedBlob.blob);
-    const tmpAudio = new Audio(audioUrl);
-    tmpAudio.play()
-    setAudio(tmpAudio)
+  const [isRecording, setIsRecording] = React.useState(false)
+  const [src, setSrc] = React.useState(undefined)
+
+  const handleStop = (recordedBlob) => {
+    // const url = URL.createObjectURL(recordedBlob.blob);
+    setSrc('url')
+  }
+
+  const handleSave = () => {
+    debugger
+  }
+
+  const handlePreview = () => {
+    const tmp = new Audio(src);
+    tmp.play()
   }
   return (
     <Card className={classes.card}>
@@ -36,27 +52,42 @@ function Recorder({label}) {
             Track # 1
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            {label}
+            {src}
           </Typography>
         </CardContent>
-        <div className={classes.controls}>                    
-          <IconButton onClick={() => setRecording(!recording)}  aria-label="play/pause">
-            { ! recording 
-              ? <PlayArrowIcon className={classes.playIcon} />
+        <div className={classes.controls}>
+          <IconButton onClick={() => setIsRecording(!isRecording)}  aria-label="play/pause">
+            { ! isRecording
+              ? <Mic className={classes.playIcon} />
               : <Stop className={classes.playIcon} />}
-          </IconButton>          
-          <IconButton aria-label="previous" disabled={recording} >
-            <Save /> 
+          </IconButton>
+          <IconButton aria-label="previous" onClick={handlePreview} disabled={src ? false : true} >
+            <Eq className={classes.playIcon} />
           </IconButton>
         </div>
       </div>
-      <ReactMic
-        className={classes.cover} //sound-wave
-        record={recording} //Boolean
-        onStop={handleStop}
-        // onData={onData}
-        strokeColor="#ffffff"
-        backgroundColor={blue[800]} />
+      { ! src
+        ? <ReactMic
+            className={classes.cover} //sound-wave
+            record={isRecording} //Boolean
+            onStop={handleStop}
+            strokeColor="#ffffff"
+            backgroundColor={blue[800]} />
+        // ? <button onClick={handleStop}>fuck</button>
+        : <div className={classes.cover}>
+            <div className={classes.saveIcon} >
+              <IconButton  onClick={handleSave} aria-label="previous" >
+                <Save   className={classes.saveIcon} />
+              </IconButton>
+              <IconButton onClick={handleSave} disabled={audio?false:true} aria-label="previous" >
+                <Delete  />
+              </IconButton>
+            </div>
+            {audio && <ReactAudioPlayer
+              src={src}
+              />}
+          </div>
+      }
     </Card>
   );
 }
@@ -73,7 +104,11 @@ const useStyles = makeStyles(theme => ({
     flex: '1 0 auto',
   },
   cover: {
-    width: 151,
+    backgroundColor: '#1565c0',
+    width: 160,
+    display: 'flex',
+    justifyContent:'flex-end',
+    flexDirection:'column'
   },
   controls: {
     display: 'flex',
@@ -84,6 +119,12 @@ const useStyles = makeStyles(theme => ({
   playIcon: {
     height: 38,
     width: 38,
+  },
+  saveIcon: {
+    // height: 76,
+    // width: 76,
+    margin:'auto',
+    color:'#fff'
   },
 }));
 

@@ -8,12 +8,12 @@ export const arrToObj = (arr) => arr.reduce((obj, item) => {
   return obj
 }, {})
 
-const Regulation = ({recording, fn, stage}) => {  
-  const {cognitive, studentA, studentB} =  recording; //[{},{}]  
+const Regulation = ({recording, fn, stage}) => {
+  const {cognitive, studentA, studentB} =  recording; //[{},{}]
   const [isLoad, load] = React.useState(false)
-  
+
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
-    let newState = null        
+    let newState = null
     switch (type){
       case 0: //student A
         newState = [{...state[0], ...payload }, state[1]]
@@ -21,26 +21,26 @@ const Regulation = ({recording, fn, stage}) => {
       case 1: //student B
         newState = [state[0],{...state[1], ...payload }]
         break
-      case 'fill': 
+      case 'fill':
         newState = payload //from  parent. 👴🏾
         load(true)
         break
-      default: 
+      default:
         newState = state;
     }
     fn({...recording, cognitive: newState}) //update the recording from the parent. 🎶
     return newState;
-  }, [arrToObj(cognitiveValues), arrToObj(cognitiveValues)]); // [{...studentA}, {...studentB}] 👣 
+  }, [arrToObj(cognitiveValues), arrToObj(cognitiveValues)]); // [{...studentA}, {...studentB}] 👣
 
   React.useEffect(()=>{ //!test 🧐
-    if(cognitive && cognitive.length && !isLoad){ 
+    if(cognitive && cognitive.length && !isLoad){
       dispatch({type: 'fill', payload: cognitive})
     }
   }, [cognitive, isLoad])
 
-  const handleChange = (key, student) => event => {        
+  const handleChange = (key, student) => event => {
     dispatch({
-      type: student, 
+      type: student,
       payload:{
         [key]:itemsArr[student][key].map((e, i)=>i===stage ? !e : e)
       }});

@@ -6,9 +6,9 @@ import Grid from '@material-ui/core/Grid';
 
 const FormList = ({arr, obj, handle, student, stage}) => ( // [{...}], {...}, fn(), '...' 
   <FormGroup row>
-    {arr.map((e,i) => { 
+    {arr.map((e,i) => {
       let val = obj[e.key][stage] ? true : false
-      return (        
+      return (
       <Grid item xs={6} key={i}>
         <FormControlLabel
         control={

@@ -7,12 +7,11 @@ import AppBar from '@material-ui/core/AppBar';
 import TabPanel from '../misc/TabPanel'
 import Grid from '@material-ui/core/Grid';
 import Tab from '@material-ui/core/Tab';
-
-const  a11yProps = i => ({ id: `simple-tab-${i}`, 'aria-controls': `simple-tabpanel-${i}`});
+const a11yProps = i => ({ id: `simple-tab-${i}`, 'aria-controls': `simple-tabpanel-${i}`});
 
 const TabHoc = (Component, label, content) => {  //* </> [...] [...]
-  const classes = useStyles();  
-  const [student, setStudent] = React.useState(0); //Tabs navigation 🚢  
+  const classes = useStyles();
+  const [student, setStudent] = React.useState(0); //Tabs navigation 🚢
   const handleTab = (event, newValue) => setStudent(newValue);
   return (
     <Container component="main">
@@ -38,10 +37,9 @@ const TabHoc = (Component, label, content) => {  //* </> [...] [...]
               </Grid>
             </TabPanel>
           ))}
-        </div>  
-    </Container>  
+        </div>
+    </Container>
   )
 }
 
- 
 export default TabHoc

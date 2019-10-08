@@ -53,11 +53,11 @@ function Checkout(props) {
       Object.values(recording.errors).forEach(e => e && handleErrors(e))
       return
     }
-    if(activeStep === 0 && !created) { // * Create the new record in the backend. 
+    if(activeStep === 0 && !created) { // * Create the new record in the backend.
       recordingServices.create(recording).then(
         ({data}) => { // * If everything goes well
           wasCreated(true)// ? change Create status
-          setRecording(data)// ? update the recording into the checkout component. 
+          setRecording(data)// ? update the recording into the checkout component.
           props.history.push(`/record/${data.id}`);//?change the route
           setActiveStep(activeStep + 1)// ? go to the next page
         },
@@ -72,11 +72,11 @@ function Checkout(props) {
         (error) => handleErrors(error.response.data.message)
       )
     }
-  };  
-  
+  };
+
   const handleBack = () => setActiveStep(activeStep - 1);
-  
-  return (    
+
+  return (
     <React.Fragment>
       <CssBaseline />
       <main className={classes.layout}>
@@ -92,10 +92,10 @@ function Checkout(props) {
             ))}
           </Stepper>
           <React.Fragment>
-            { activeStep === steps.length 
-              ? <Thanks /> //last element. 
+            { activeStep === steps.length
+              ? <Thanks /> //last element.
               : <React.Fragment>
-                  { 
+                  {
                     loading 
                     ? <LinearProgress />
                     : getStepContent(activeStep, setRecording, recording)
