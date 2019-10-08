@@ -32,8 +32,8 @@ function Recorder({audio}) {
   const [src, setSrc] = React.useState(undefined)
 
   const handleStop = (recordedBlob) => {
-    // const url = URL.createObjectURL(recordedBlob.blob);
-    setSrc('url')
+    const url = URL.createObjectURL(recordedBlob.blob);
+    setSrc(url)
   }
 
   const handleSave = () => {
