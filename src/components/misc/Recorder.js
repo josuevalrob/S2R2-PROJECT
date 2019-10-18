@@ -18,19 +18,20 @@ export default function Recorder({student, audio, handle}) {
   const [isRecording, setIsRecording] = React.useState(false)
   const [blob, setBlob] = React.useState(new Blob())
   const handleStop = (recordedBlob) => {
-    const url = URL.createObjectURL(recordedBlob.blob);
+    // const url = URL.createObjectURL(recordedBlob.blob);
     setBlob(recordedBlob)
   }
 
-  const handleSave = () => {
-    handle(student, blob)
+  const handleSave = async () => {
+    let isSaved = await handle(student, blob)
+    console.log(isSaved)
+    debugger
   }
 
   const handlePreview = () => {
-    const tmp = new Audio(blob);
+    const tmp = new Audio(blob.blobURL);
     tmp.play()
   }
-
   return (
     <Card className={classes.card}>
       <div className={classes.details}>

@@ -63,13 +63,15 @@ function Checkout(props) {
         },
         (error) => handleErrors(error.response.data.message)
       )
-    } else if(created) { //*update content
+    } else if(created) { //* update content
       recordingServices.update(id, recording).then(
         (data) => { // setRecording(data) //? do i need to update it 🤔?
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
           setActiveStep(activeStep + 1)
         },
-        (error) => handleErrors(error.response.data.message)
+        (error) => {
+          handleErrors(error.response.data.message)
+        }
       )
     }
   };
@@ -96,14 +98,14 @@ function Checkout(props) {
               ? <Thanks /> //last element.
               : <React.Fragment>
                   {
-                    loading 
+                    loading
                     ? <LinearProgress />
                     : getStepContent(activeStep, setRecording, recording)
                   }
-                  <Navigation 
+                  <Navigation
                   steps={steps}
                   // blocked = {}
-                  step={activeStep} classes={classes} 
+                  step={activeStep} classes={classes}
                   back={handleBack} next={handleNext} />
                 </React.Fragment>
             }
