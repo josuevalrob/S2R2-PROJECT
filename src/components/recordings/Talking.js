@@ -34,7 +34,7 @@ export default function Talking ({recording, fn}) {
   return TabHoc(TabContainer, tabLabel, tabContent)
 }
 
-const TabContainer = ({newAudio, student, audios}) => {
+const TabContainer = ({newAudio, student, audios=[]}) => {
   // console.log(audios)
   return (
     <Card style={{display:'flex'}}>
