@@ -1,65 +1,50 @@
 import React from 'react'
 import TabHoc from './../misc/TabHoc'
 import Recorder from './../misc/Recorder'
-import recordingServices from '../../services/recordingServices'
+import ReactAudioPlayer from "react-h5-audio-player";
+import readUploadedFileAsAudio from '../../utils/audioFile'
 import { v4 } from 'uuid';
+import Card from '@material-ui/core/Card';
 
 export default function Talking ({recording, fn}) {
-  const {studentA, studentB, id} =  recording; //[{},{}]
+  const {studentA, studentB, id, audioIds} =  recording; //[{},{}]
   const tabLabel = [{label:studentA},{label:studentB}]
-  const [uploading, setUploading] = React.useState(false)
-  const [ids, setIds] = React.useState([["355c71ed-be90-438f-8554-806d7f01da88"], []])
+  const [ids, setIds] = React.useState([[],[]]) //[[],[]] 🦉
 
-  const handleSave = async (student, audio) => {
+  const handleSave = async (student, url) => {
     const audioName = v4()
     const newIds = ids.map((e,i)=>i===student?[...ids[student], audioName]:e)
-    setUploading(true)
     try {
-      const newRecording = await readUploadedFileAsAudio(id, audioName, newIds, audio.blob);
-      debugger
-      setUploading(false)
+      const newRecording = await readUploadedFileAsAudio(id, audioName, newIds, url);
       fn(newRecording)
       return true
     } catch (e) {
       console.log(e);
-      setUploading(false)
       return false
     }
   }
+  React.useEffect(()=>{
+    audioIds && setIds([audioIds[0], audioIds[1]])
+  }, [audioIds])
 
   const tabContent = [
-    {student:0, handle: handleSave, audio: ids[0]},
-    {student:1, handle: handleSave, audio: ids[1]},
+    {student:0, newAudio: handleSave, audios:ids[0]},
+    {student:1, newAudio: handleSave, audios:ids[1]},
   ]
-  return TabHoc(Recorder, tabLabel, tabContent)
+  return TabHoc(TabContainer, tabLabel, tabContent)
 }
-const readUploadedFileAsAudio = (id, audioName, audioIds, audioUrl) =>{
-  const reader = new FileReader();
-  reader.readAsDataURL(audioUrl);
-  return new Promise((resolve, reject)=>{
-    reader.onerror = () => {
-      reader.abort()
-      debugger
-      reject(new DOMException('Problem parsing file'))
-    }
-    reader.onload = async () => {
-      const base64AudioMessage = reader.result.split(',')[1];
-      const audioObj = {audioName,audioIds, audio: base64AudioMessage}
-      debugger
-      //! i am losing the .then why???
-      recordingServices.createAudio(id, audioObj).then( response =>{
-            debugger
-            resolve(response) //*returned value
-            // populateAudioMessages();
-          }, response => {
-            debugger
-            console.error('Invalid status saving audio message: ' + response.status)
-            reject(response)
-          }
-        )
-        .catch(error=>{
-          debugger
-        })
-    };
-  })
+
+const TabContainer = ({newAudio, student, audios}) => {
+  // console.log(audios)
+  return (
+    <Card style={{display:'flex'}}>
+      <Recorder handleSave={({blob})=>newAudio(student, blob)}/>
+      <div style={{minWidth:300, maxHeight:200, overflow:'scroll'}}>
+        {!!audios.length && audios.reverse().map((id, i) => (
+          <ReactAudioPlayer key={i}
+            src={`${process.env.REACT_APP_API_URL}/messages/${id}`} />
+        ))}
+      </div>
+    </Card>
+  )
 }

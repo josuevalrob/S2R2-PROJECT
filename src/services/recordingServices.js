@@ -10,14 +10,11 @@ const create = record =>  http.post(base, record)
 
 const update = (id, record) => http.put(`${base}/${id}`, record).then(({data})=>breakStudent(data))
 
-const createAudio = (id, audio) => {
-  console.log('preparing the service', id)
-  debugger
-  http.put(`${base}/${id}/audio`, audio).then(({data})=>{
+const createAudio = (id, audio) => http.put(`${base}/${id}/audio`, audio).then(({data})=>breakStudent(data))
+  .catch(e=>{
     debugger
-    console.log('receiving the data: ', breakStudent(data))
-    return breakStudent(data)
-  }) }
+    return e
+  })
 
 const read = id => http.get(`${base}/${id}`).then(({data})=>breakStudent(data));
 

@@ -32,8 +32,8 @@ function Signin(props) {
     event.preventDefault();
     authService.register(user)
       .then(
-        (user) => {          
-          props.onUserChange(user); //* actualizamos el context          
+        (user) => {
+          props.onUserChange(user); //* actualizamos el context
           setAuth(true)
         },
         (error) => {
@@ -42,7 +42,7 @@ function Signin(props) {
         }
       )
   }
-  if (isAuthenticated) {    
+  if (isAuthenticated) {
     return <Redirect to={'/'} />
   }
   return (
