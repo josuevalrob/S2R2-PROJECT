@@ -7,13 +7,13 @@ import { v4 } from 'uuid';
 import Card from '@material-ui/core/Card';
 
 export default function Talking ({recording, fn}) {
-  const {studentA, studentB, id, audioIds} =  recording; //[{},{}]
+  const {studentA, studentB, id, audioIds} =  recording;
   const tabLabel = [{label:studentA},{label:studentB}]
-  const [ids, setIds] = React.useState([[],[]]) //[[],[]] 🦉
+  const [ids, setIds] = React.useState([[],[]]) //[[],[]]   
 
   const handleSave = async (student, url) => {
     const audioName = v4()
-    const newIds = ids.map((e,i)=>i===student?[...ids[student], audioName]:e)
+    const newIds = arrayIds(audioName, ids, student)
     try {
       const newRecording = await readUploadedFileAsAudio(id, audioName, newIds, url);
       fn(newRecording)
@@ -48,3 +48,11 @@ const TabContainer = ({newAudio, student, audios=[]}) => {
     </Card>
   )
 }
+
+const arrayIds = (audioName, ids, student) => ids.map((e,i)=>{
+      return i===student
+        ? !!ids[student]
+          ? [...ids[student], audioName]
+          : [audioName]
+        : e
+      })

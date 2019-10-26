@@ -2,7 +2,7 @@ import React from 'react'
 import useStyles from './../../styles/recorderStyles';
 import { ReactMic } from 'react-mic';
 import blue from '@material-ui/core/colors/blue';
-import Card from '@material-ui/core/Card';
+// import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -26,6 +26,7 @@ export default function Recorder({handleSave}) {
   const onSave = async () => {
     setUploading(true)
     let isSaved = await handleSave(blob)
+    console.log(isSaved)
     setUploading(false)
   }
 

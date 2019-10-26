@@ -22,7 +22,7 @@ export default function ConfirmDialog({open, message, handleClose, handleOk}) {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-slide-title">{"Delete Recording"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             {message}
