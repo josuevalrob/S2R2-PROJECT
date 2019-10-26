@@ -23,6 +23,7 @@ export default function Talking ({recording, fn}) {
       return false
     }
   }
+
   React.useEffect(()=>{
     audioIds && setIds([audioIds[0], audioIds[1]])
   }, [audioIds])
@@ -33,26 +34,31 @@ export default function Talking ({recording, fn}) {
   ]
   return TabHoc(TabContainer, tabLabel, tabContent)
 }
-
+/**
+ * wrapper de recording y player
+ * @param {newAudio, student, audios} props callback, idtab, array
+ */
 const TabContainer = ({newAudio, student, audios=[]}) => {
   // console.log(audios)
   return (
     <Card style={{display:'flex'}}>
       <Recorder handleSave={({blob})=>newAudio(student, blob)}/>
-      <div style={{minWidth:300, maxHeight:200, overflow:'scroll'}}>
-        {!!audios.length && audios.reverse().map((id, i) => (
-          <ReactAudioPlayer key={i}
-            src={`${process.env.REACT_APP_API_URL}/messages/${id}`} />
-        ))}
-      </div>
+      { !!audios.length &&
+        <div style={{minWidth:300, maxHeight:200, overflow:'scroll'}}>
+          {audios.reverse().map((id, i) => (
+            <ReactAudioPlayer key={i}
+              src={`${process.env.REACT_APP_API_URL}/messages/${id}`} />
+          ))}
+        </div>
+      }
     </Card>
   )
 }
 
-const arrayIds = (audioName, ids, student) => ids.map((e,i)=>{
-      return i===student
-        ? !!ids[student]
-          ? [...ids[student], audioName]
-          : [audioName]
-        : e
-      })
+const arrayIds = (audioName, ids, student) =>
+  ids.map( (e,i) => i === student //update an specific tab
+    ? !!ids[student] //if dont find the ids of that student
+      ? [...ids[student], audioName] //clone one
+      : [audioName] // create a new one
+    : e || [] //if there is not e, return an array
+  )
