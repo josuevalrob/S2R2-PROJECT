@@ -11,10 +11,8 @@ const create = record =>  http.post(base, record)
 const update = (id, record) => http.put(`${base}/${id}`, record).then(({data})=>breakStudent(data))
 
 const createAudio = (id, audio) => http.put(`${base}/${id}/audio`, audio).then(({data})=>breakStudent(data))
-  .catch(e=>{
-    debugger
-    return e
-  })
+
+const deleteAudio = (id, audio) => http.put(`${base}/${id}/delete`, audio)
 
 const read = id => http.get(`${base}/${id}`).then(({data})=>breakStudent(data));
 
@@ -26,5 +24,6 @@ export default {
   getData,
   update,
   createAudio,
-  destroy
+  destroy,
+  deleteAudio
 }
