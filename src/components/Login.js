@@ -35,8 +35,8 @@ function Signin(props) {
     authService.authenticate(user)
       .then(
         (user) => {
-          props.onUserChange(user, setAuth); //* actualizamos el context
           setLoader(false)
+          props.onUserChange(user); //* actualizamos el context
         },
         (error) => {
           const { message, errors } = error;

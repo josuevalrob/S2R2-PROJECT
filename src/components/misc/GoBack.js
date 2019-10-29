@@ -8,9 +8,9 @@ function GoBack() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"If you don't wanna be here, "}
       <Link color="inherit" component={AdapterLink} to="/">
-        Click here
+        Go back
       </Link>
-      {', and Go back to the main menu.'}
+      {' to the main menu.'}
     </Typography>
   );
 }

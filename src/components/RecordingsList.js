@@ -72,19 +72,24 @@ export default function RecordingList() {
                     <LinearProgress />
                   </TableCell>
                 </TableRow>
-              : data.map(row => (
-                  <TableRow key={row.name}>
-                    <TableCell scope="row" component={'th'}>
-                      <Link color="inherit" component={AdapterLink} to={`/record/${row.id}`}>
-                        {upperFirst(row.name)}
-                      </Link>
-                    </TableCell>
-                    <TableCell align="right">{row.studentA}</TableCell>
-                    <TableCell align="right">{row.studentB}</TableCell>
-                    <TableCell align="right">{row.date.split("T")[0]}</TableCell>
-                    <TableCell align="right">
-                      <Delete onClick={()=>setAlert(row.id)}  />
-                    </TableCell>
+              : data.map((row, index) => (
+                  <TableRow key={index}>
+                    {row.error 
+                    ? <TableCell scope="row" component={'th'} colSpan={5}>{row.error}</TableCell>
+                    : <>
+                        <TableCell scope="row" component={'th'}>
+                          <Link color="inherit" component={AdapterLink} to={`/record/${row.id}`}>
+                            {upperFirst(row.name)}
+                          </Link>
+                        </TableCell>
+                        <TableCell align="right">{row.studentA}</TableCell>
+                        <TableCell align="right">{row.studentB}</TableCell>
+                        <TableCell align="right">{row.date.split("T")[0]}</TableCell>
+                        <TableCell align="right">
+                          <Delete onClick={()=>setAlert(row.id)}  />
+                        </TableCell>
+                      </>
+                    }
                   </TableRow>
                 ))}
           </TableBody>

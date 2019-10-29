@@ -4,7 +4,10 @@ const base = '/recording'
 const breakStudent = e =>({...e, studentA: e.students[0], studentB: e.students[1]})
 
 //? can include pagination
-const getData = () => http.get(`${base}`).then(({data})=> data.map(breakStudent))
+const getData = () =>
+  http.get(`${base}`)
+    .then(({data})=> data.map(breakStudent))
+    .catch(er => [{error:er.response.data.message}])
 
 const create = record =>  http.post(base, record)
 
