@@ -15,6 +15,7 @@ import AdapterLink from './misc/Enlace';
 import authService from './../services/AuthServices'
 import { Redirect } from 'react-router-dom'
 import { withAuthConsumer } from '../contexts/AuthStore';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // import validations from './misc/Validations'
 
@@ -25,23 +26,26 @@ function Signin(props) {
   const [isAuthenticated, setAuth] = React.useState(false)
 
   const [user, setUser] = React.useState({email: '',password: ''})
-
+  const [isLoading, setLoader] = React.useState(false)
   const handleUser = name => event => setUser({...user, [name]: event.target.value})
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoader(true)
     authService.authenticate(user)
       .then(
-        (user) => {          
-          props.onUserChange(user, setAuth); //* actualizamos el context          
+        (user) => {
+          props.onUserChange(user, setAuth); //* actualizamos el context
+          setLoader(false)
         },
         (error) => {
-          const { message, errors } = error;          
+          const { message, errors } = error;
           console.error(message, errors)
+          setLoader(false)
         }
       )
   }
-  if (isAuthenticated) {    
+  if (isAuthenticated) {
     return <Redirect to={'/'} />
   }
   return (
@@ -92,11 +96,13 @@ function Signin(props) {
             variant="contained"
             color="primary"
             className={classes.submit} >
-            Sign In
+            {!isLoading
+              ? 'Sign In'
+              : <CircularProgress className={classes.progress} color="secondary" />}
           </Button>
-            <Link to="/authenticate/google" component={AdapterLink} color={'secondary'}>
+          {/* <Link to="/authenticate/google" component={AdapterLink} color={'secondary'}>
             Google Sign in
-          </Link>
+          </Link> */}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
