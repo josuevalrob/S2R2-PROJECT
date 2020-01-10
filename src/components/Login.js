@@ -23,7 +23,8 @@ function Signin(props) {
   const classes = useStyles();
   // const [errors, setErros] = React.useState({})
 
-  const [isAuthenticated, setAuth] = React.useState(false)
+  // const [isAuthenticated, setAuth] = React.useState(false)
+  const isAuthenticated = false
 
   const [user, setUser] = React.useState({email: '',password: ''})
   const [isLoading, setLoader] = React.useState(false)

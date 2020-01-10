@@ -3,7 +3,7 @@ import TabHoc from './../misc/TabHoc'
 import Recorder from './../misc/Recorder'
 import './../../styles/player.css';
 import ReactH5AudioPlayer from "react-h5-audio-player";
-import readUploadedFileAsAudio from '../../utils/audioFile'
+import readAndUploadFileAsAudio from '../../utils/audioFile'
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { v4 } from 'uuid';
@@ -15,11 +15,12 @@ export default function Talking ({recording, fn}) {
   const tabLabel = [{label:studentA},{label:studentB}]
   const [ids, setIds] = React.useState([[],[]]) //[[],[]]
 
-  const handleSave = async (student, url) => {
+  const handleSave = async (student, urlAudio) => {
     const audioName = v4()
-    const newIds = addIds(audioName, ids, student)
+    // const newIds = addIds(audioName, ids, student)
     try {
-      const newRecording = await readUploadedFileAsAudio(id, audioName, newIds, url);
+      // const newRecording = await readUploadedFileAsAudio(id, audioName, newIds, urlAudio);
+      const newRecording = await readAndUploadFileAsAudio(id, audioName, urlAudio)
       fn(newRecording)
       return true
     } catch (e) {
@@ -75,13 +76,13 @@ const TabContainer = ({newAudio, deleteAudio, student, audios=[]}) => {
   )
 }
 
-const addIds = (audioName, ids, student) =>
-  ids.map( (e,i) => i === student //update an specific tab
-    ? !!ids[student] //if that students has any ids
-      ? [...ids[student], audioName] //clone one, or
-      : [audioName] // create a new one
-    : e || [] //if there is not e, return an array
-  )
+// const addIds = (audioName, ids, student) =>
+//   ids.map( (e,i) => i === student //update an specific tab
+//     ? !!ids[student] //if that students has any ids
+//       ? [...ids[student], audioName] //clone one, or
+//       : [audioName] // create a new one
+//     : e || [] //if there is not e, return an array
+//   )
 
 const deleteId = (ids, student, audID) =>
   ids.map((e, i)=> i === student
