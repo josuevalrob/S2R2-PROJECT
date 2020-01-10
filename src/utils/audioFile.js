@@ -1,6 +1,6 @@
 import recordingServices from '../services/recordingServices'
 
-const readUploadedFileAsAudio = (id, audioName, audioIds, audioUrl) =>{
+const readUploadedFileAsAudio = (id, audioName, audioIds, audioUrl) => {
   const reader = new FileReader();
   reader.readAsDataURL(audioUrl);
   return new Promise((resolve, reject)=>{
@@ -10,15 +10,15 @@ const readUploadedFileAsAudio = (id, audioName, audioIds, audioUrl) =>{
     }
     reader.onload = async () => {
       const base64AudioMessage = reader.result.split(',')[1];
-      const audioObj = {audioName,audioIds, audio: base64AudioMessage}
+      const audioObj = {audioName, audioIds, audio: base64AudioMessage}
       recordingServices.createAudio(id, audioObj)
         .then( response =>{
           resolve(response) //*returned value
           // populateAudioMessages();
-        }, response => {
+        }, err => {
           debugger
-          console.error('Invalid status saving audio message: ' + response.status)
-          reject(response)
+          console.error('Invalid status saving audio message: ' + err.status)
+          reject(err)
         }
         )
     };
