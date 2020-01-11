@@ -17,6 +17,8 @@ const createAudio = (id, audio) => http.put(`${base}/${id}/create`, audio).then(
 
 const singleAudio = (id, audio) => http.put(`${base}/${id}/single`, audio).then(({data})=>breakStudent(data))
 
+const deleteSingleAudio = (id, audio) => http.put(`${base}/${id}/singleDelete`, audio)
+
 const deleteAudio = (id, audio) => http.put(`${base}/${id}/delete`, audio)
 
 const read = id => http.get(`${base}/${id}`).then(({data})=>breakStudent(data));
@@ -31,5 +33,6 @@ export default {
   createAudio,
   destroy,
   singleAudio,
+  deleteSingleAudio,
   deleteAudio
 }

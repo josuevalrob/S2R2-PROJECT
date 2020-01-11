@@ -1,5 +1,6 @@
 import React from 'react'
-import TabHoc from './../misc/TabHoc'
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
 import Recorder from './../misc/Recorder'
 import './../../styles/player.css';
 import ReactH5AudioPlayer from "react-h5-audio-player";
@@ -11,11 +12,11 @@ import Card from '@material-ui/core/Card';
 import RecordingService from './../../services/recordingServices'
 
 export default function Talking ({recording, fn}) {
-  const {studentA, studentB, id, audioIds} =  recording;
-  const tabLabel = [{label:studentA},{label:studentB}]
-  const [ids, setIds] = React.useState([[],[]]) //[[],[]]
+  const {id, audioId} =  recording;
+  // const tabLabel = [{label:studentA},{label:studentB}]
+  // const [ids, setIds] = React.useState([[],[]]) //[[],[]]
 
-  const handleSave = async (student, urlAudio) => {
+  const handleSave = async (urlAudio) => {
     const audioName = v4()
     // const newIds = addIds(audioName, ids, student)
     try {
@@ -29,62 +30,68 @@ export default function Talking ({recording, fn}) {
     }
   }
 
-  const handleDelete = async (student, audioName) => {
-    const newIds = deleteId(ids, student, audioName)
-    RecordingService.deleteAudio(id,{audioName, audioIds:newIds})
-      .then(setIds(newIds), (error)=>{
-        //handling de error al borrar
-        debugger
+  const handleDelete = async (audioName) => {
+    // const newIds = deleteId(ids, student, audioName)
+    RecordingService.deleteSingleAudio(id, {audioName})
+      .then(
+        fn({...recording, audioId:''}), 
+        (error)=>{
+          console.error(error)
+          debugger
       })
   }
 
-  React.useEffect(()=>{
-    audioIds && setIds([audioIds[0], audioIds[1]])
-  }, [audioIds])
+  // React.useEffect(()=>{
+  //   audioId && setIds([audioId[0], audioIds[1]])
+  // }, [audioIds])
 
-  const tabContent = [
-    {student:0, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[0]},
-    {student:1, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[1]},
-  ]
-  return TabHoc(TabContainer, tabLabel, tabContent)
+  // const tabContent = [
+  //   {student:0, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[0]},
+  //   {student:1, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[1]},
+  // ]
+  // return TabHoc(TabContainer, tabLabel, tabContent)
+  return <TabContainer newAudio={handleSave} deleteAudio={handleDelete} audio={audioId}/>
 }
 /**
- * wrapper de recording y player
+ * wrapper the recording & player
  * @param {newAudio, student, audios} props callback, idtab, array
  */
-const TabContainer = ({newAudio, deleteAudio, student, audios=[]}) => {
+const TabContainer = ({newAudio, deleteAudio, audio}) => {
   const {REACT_APP_API_URL} = process.env
   return (
-    <Card style={{display:'flex'}}>
-      <Recorder handleSave={({blob})=>newAudio(student, blob)}/>
-      { !!audios.length &&
-        <div style={{minWidth:300, maxHeight:200, overflow:'scroll'}}>
-          {audios.reverse().map((id, i) => (
-            <div style={{display:'flex'}} key={i}>
-              <ReactH5AudioPlayer
-                src={`${REACT_APP_API_URL}/messages/${id}`} />
-              <IconButton style={{margin:'.5em 0'}}
-                  onClick={()=>deleteAudio(student, id)}
-                  aria-label="delete audio" >
-                <Delete  />
-              </IconButton>
-            </div>
-          ))}
-        </div>
-      }
-    </Card>
+    <Container component="main">
+    <CssBaseline />
+    <Card style={{display:'flex', height:'100%'}}>
+        <Recorder handleSave={({blob})=>newAudio(blob)}/>
+        { !!audio &&
+          <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
+            {/* {audios.reverse().map((id, i) => ( */}
+              <div style={{display:'flex'}}>
+                <ReactH5AudioPlayer
+                  src={`${REACT_APP_API_URL}/messages/${audio}`} />
+                <IconButton style={{margin:'.5em 0'}}
+                    onClick={()=>deleteAudio(audio)}
+                    aria-label="delete audio" >
+                  <Delete  />
+                </IconButton>
+              </div>
+            {/* ))} */}
+          </div>
+        }
+      </Card>
+    </Container>
   )
 }
 
-// const addIds = (audioName, ids, student) =>
-//   ids.map( (e,i) => i === student //update an specific tab
-//     ? !!ids[student] //if that students has any ids
-//       ? [...ids[student], audioName] //clone one, or
-//       : [audioName] // create a new one
-//     : e || [] //if there is not e, return an array
-//   )
+export const addIds = (audioName, ids, student) =>
+  ids.map( (e,i) => i === student //update an specific tab
+    ? !!ids[student] //if that students has any ids
+      ? [...ids[student], audioName] //clone one, or
+      : [audioName] // create a new one
+    : e || [] //if there is not e, return an array
+  )
 
-const deleteId = (ids, student, audID) =>
+export const deleteId = (ids, student, audID) =>
   ids.map((e, i)=> i === student
     ? ids[student].filter(e=>e!==audID)
     : e
