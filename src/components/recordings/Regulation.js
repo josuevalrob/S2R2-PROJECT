@@ -13,23 +13,24 @@ const Regulation = ({recording, fn, stage}) => {
   const [isLoad, load] = React.useState(false)
 
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
-    let newState = null
+    let cognitiveSkills = null
     switch (type){
       case 0: //student A
-        newState = [{...state[0], ...payload }, state[1]]
+        cognitiveSkills = [{...state[0], ...payload }, state[1]]
         break
       case 1: //student B
-        newState = [state[0],{...state[1], ...payload }]
+        cognitiveSkills = [state[0],{...state[1], ...payload }]
         break
       case 'fill':
-        newState = payload //from  parent. 👴🏾
+        cognitiveSkills = payload //from  parent. 👴🏾
         load(true)
         break
       default:
-        newState = state;
+        cognitiveSkills = state;
     }
-    fn({...recording, cognitive: newState}) //update the recording from the parent. 🎶
-    return newState;
+    //update the recording from the parent. 🎶
+    fn(updateParent(recording, cognitiveSkills, stage))
+    return cognitiveSkills;
   }, [arrToObj(cognitiveValues), arrToObj(cognitiveValues)]); // [{...studentA}, {...studentB}] 👣
 
   React.useEffect(()=>{ //!test 🧐
@@ -55,3 +56,19 @@ const Regulation = ({recording, fn, stage}) => {
 }
 
 export default Regulation //4 renders... 🧐
+
+const hasCornitivesErrors = (cognitive, stage) => 
+  cognitive
+    .map(obj => delete obj._id && obj) //clean _id prop. 
+    .map(obj => Object.values(obj).some(ar => ar[stage]))
+    .some(bool => !bool) //check if one boolean is false
+
+const updateParent = (recording, cognitiveSkills, stage ) => ({
+  ...recording,
+  ...(hasCornitivesErrors(cognitiveSkills, stage) 
+    ? { hasError:true, 
+        errors: {
+        cognitive: 'At least one value should be selected for both students.'
+      }}
+    : { hasError:false, cognitive: cognitiveSkills})
+}) 

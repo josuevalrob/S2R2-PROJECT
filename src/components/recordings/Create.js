@@ -6,7 +6,7 @@ import validations from './../../utils/validations'; //{...}
 // import {isEmpty} from 'lodash'
 import { emptyRecording } from './Checkout';
 
-class Settings extends React.Component {
+class Settings extends React.Component { //update to hooks. 
   state = {
     content : this.props.recording.id ? this.props.recording : emptyRecording, 
     errors: {

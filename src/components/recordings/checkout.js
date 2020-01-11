@@ -49,6 +49,7 @@ function Checkout(props) {
   }, [id])
 
   const handleNext = () => {
+    //* if the recording obj comes with an error key, it wont proceed. 
     if(recording.hasError) {
       Object.values(recording.errors).forEach(e => e && handleErrors(e))
       return
