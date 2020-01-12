@@ -3,7 +3,7 @@ import Login from './components/Login'
 import Register from './components/Register'
 import MainMenu from './components/MainMenu'
 import RecordingList from './components/RecordingsList'
-import Checkout from './components/recordings/Checkout'
+import Checkout from './components/recordings/Checkout.js'
 import { Switch } from 'react-router-dom';
 import PrivateRoute from './guards/PrivateRoutes'
 import PublicRoutes from './guards/PublicRoutes'
