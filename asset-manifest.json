@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/jeval-web/static/css/main.9411e819.chunk.css",
-    "main.js": "/jeval-web/static/js/main.cc1b77a3.chunk.js",
-    "main.js.map": "/jeval-web/static/js/main.cc1b77a3.chunk.js.map",
+    "main.js": "/jeval-web/static/js/main.39a51329.chunk.js",
+    "main.js.map": "/jeval-web/static/js/main.39a51329.chunk.js.map",
     "runtime-main.js": "/jeval-web/static/js/runtime-main.4007c2e4.js",
     "runtime-main.js.map": "/jeval-web/static/js/runtime-main.4007c2e4.js.map",
     "static/js/2.d899bcfa.chunk.js": "/jeval-web/static/js/2.d899bcfa.chunk.js",
     "static/js/2.d899bcfa.chunk.js.map": "/jeval-web/static/js/2.d899bcfa.chunk.js.map",
     "index.html": "/jeval-web/index.html",
-    "precache-manifest.9cf6a541fdf824263195fe441b4b0780.js": "/jeval-web/precache-manifest.9cf6a541fdf824263195fe441b4b0780.js",
+    "precache-manifest.952ef138a09b3fca5eefc245e317dca8.js": "/jeval-web/precache-manifest.952ef138a09b3fca5eefc245e317dca8.js",
     "service-worker.js": "/jeval-web/service-worker.js",
     "static/css/main.9411e819.chunk.css.map": "/jeval-web/static/css/main.9411e819.chunk.css.map",
     "static/js/2.d899bcfa.chunk.js.LICENSE": "/jeval-web/static/js/2.d899bcfa.chunk.js.LICENSE"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.4007c2e4.js",
     "static/js/2.d899bcfa.chunk.js",
     "static/css/main.9411e819.chunk.css",
-    "static/js/main.cc1b77a3.chunk.js"
+    "static/js/main.39a51329.chunk.js"
   ]
 }
