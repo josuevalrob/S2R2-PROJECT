@@ -20,5 +20,5 @@ jobs:
       with:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-        BRANCH: gh-pages
+        BRANCH: master
         FOLDER: build
