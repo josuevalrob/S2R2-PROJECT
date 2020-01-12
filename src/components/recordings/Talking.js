@@ -57,7 +57,9 @@ export default function Talking ({recording, fn}) {
  * @param {newAudio, student, audios} props callback, idtab, array
  */
 const TabContainer = ({newAudio, deleteAudio, audio}) => {
-  const {REACT_APP_API_URL} = process.env
+  const API = process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_PRO_API
+    : process.env.REACT_APP_API_URL
   return (
     <Container component="main">
     <CssBaseline />
@@ -68,7 +70,7 @@ const TabContainer = ({newAudio, deleteAudio, audio}) => {
             {/* {audios.reverse().map((id, i) => ( */}
               <div style={{display:'flex'}}>
                 <ReactH5AudioPlayer
-                  src={`${REACT_APP_API_URL}/messages/${audio}`} />
+                  src={`${API}/messages/${audio}`} />
                 <IconButton style={{margin:'.5em 0'}}
                     onClick={()=>deleteAudio(audio)}
                     aria-label="delete audio" >
