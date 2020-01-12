@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {CURRENT_USER_KEY} from '../contexts/AuthStore'
-
+console.log(process.env)
 const http = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}`,
   withCredentials: true
