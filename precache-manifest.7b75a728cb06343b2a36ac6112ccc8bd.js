@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "10408258dae3969fa8121d1649e2a2fc",
+    "revision": "97f1ab377877eee823405d6000693a54",
     "url": "/jeval-web/index.html"
   },
   {
-    "revision": "ce6758208297da75f807",
+    "revision": "300365d3f6484352a0a4",
     "url": "/jeval-web/static/css/main.9411e819.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/jeval-web/static/js/2.d899bcfa.chunk.js.LICENSE"
   },
   {
-    "revision": "ce6758208297da75f807",
-    "url": "/jeval-web/static/js/main.cd420590.chunk.js"
+    "revision": "300365d3f6484352a0a4",
+    "url": "/jeval-web/static/js/main.dafdcd53.chunk.js"
   },
   {
     "revision": "699e446c0a82dbf4ae43",
