@@ -25,6 +25,9 @@ const Regulation = ({recording, fn, stage}) => {
         cognitiveSkills = payload //from  parent. 👴🏾
         load(true)
         break
+      case 'preFill':
+        cognitiveSkills = state //everything is false, forcing the error
+        break
       default:
         cognitiveSkills = state;
     }
@@ -32,10 +35,12 @@ const Regulation = ({recording, fn, stage}) => {
     fn(updateParent(recording, cognitiveSkills, stage))
     return cognitiveSkills;
   }, [arrToObj(cognitiveValues), arrToObj(cognitiveValues)]); // [{...studentA}, {...studentB}] 👣
-
+  
   React.useEffect(()=>{ //!test 🧐
     if(cognitive && cognitive.length && !isLoad){
       dispatch({type: 'fill', payload: cognitive})
+    } else {
+      dispatch({type: 'preFill', payload: []})
     }
   }, [cognitive, isLoad])
 

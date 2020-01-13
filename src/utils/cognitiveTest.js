@@ -27,48 +27,53 @@ export const cognitiveValues = [
       value: [false, false, false]
     },
     {
-      key : 'myOpinion',
-      label: 'Giving my opinion',
+      key : 'risk',
+      label: 'Take the risk to speak',
       value: [false, false, false]
     },
     {
-      key : 'asking',
-      label: 'Asking Questions',
+      key : 'opinion',
+      label: 'Say my opinion',
       value: [false, false, false]
     },
     {
-      key : 'partnerGesture',
-      label: "Noticing my partners' gesture",
+      key : 'askClarification',
+      label: "Ask clarification questions",
       value: [false, false, false]
     },
     {
-      key : 'comments',
-      label: 'Making comments',
+      key : 'provClarification',
+      label: 'Provide clarifications',
       value: [false, false, false]
     },
     {
-      key : 'listeningPartnerIdeas',
-      label: "Listening to my partner's ideas",
+      key : 'askExamples',
+      label: "Ask for examples",
       value: [false, false, false]
     },
     {
-      key : 'answering',
-      label: 'Answering Questions',
+      key : 'giveExamples',
+      label: 'Give examples',
       value: [false, false, false]
     },
     {
-      key : 'smiling',
-      label: 'Smiling',
+      key : 'understanding',
+      label: 'Show understanding',
       value: [false, false, false]
     },
     {
       key : 'eyeContact',
-      label: 'Establishing eye contact',
+      label: 'Make eye contact',
       value: [false, false, false]
     },
     {
-      key : 'bodyLanguage',
-      label: 'Addresing body language',
+      key : 'saySomething',
+      label: 'Encourage myself to say something',
+      value: [false, false, false]
+    },
+    {
+      key : 'filters',
+      label: 'Use fillers',
       value: [false, false, false]
     },
   ]
