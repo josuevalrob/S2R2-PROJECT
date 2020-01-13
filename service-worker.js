@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/jeval-web/precache-manifest.7b75a728cb06343b2a36ac6112ccc8bd.js"
+  "/jeval-web/precache-manifest.dc0f69c88208f1edfed0bc948b982be6.js"
 );
 
 self.addEventListener('message', (event) => {
