@@ -38,18 +38,15 @@ export default function RecordingList() {
 
   const DeleteRow = async (id) => {
     setLoader(true)
-    debugger
     recordingService.destroy(id).then(()=>{
       fetchData()
-      debugger
       setLoader(false)
       setAlert(false)
     },
     (error)=>{
       setLoader(false)
-      setMessage('Therer was an error trying to delete the file. Contact with the admin')
+      setMessage('Ups, we have an error trying to delete the file. Contact with the admin')
       console.log(error)
-      debugger
     })
   }
 
@@ -86,7 +83,7 @@ export default function RecordingList() {
                     ? <TableCell scope="row" component={'th'} colSpan={5}>{row.error}</TableCell>
                     : <>
                         <TableCell scope="row" component={'th'}>
-                          <Link color="inherit" component={AdapterLink} to={`/record/${row.id}`}>
+                          <Link color="inherit" component={AdapterLink} to={`/record/${row.id}/checkout`}>
                             {upperFirst(row.name)}
                           </Link>
                         </TableCell>

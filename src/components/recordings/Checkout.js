@@ -40,6 +40,8 @@ function Checkout(props) {
           setRecording(r)
           wasCreated(true)
           setLoader(false)
+          if(!!r.complete)
+            setActiveStep(steps.length)
         })
     } else { 
       setRecording(emptyRecording)
@@ -65,7 +67,9 @@ function Checkout(props) {
         (error) => handleErrors(error.response.data.message)
       )
     } else if(created) { //* update content
-      recordingServices.update(id, recording).then(
+      //session is a variable that can be set as a middleware. And before going to the back, set custom variables.
+      const session = activeStep + 1 < steps.length ? recording : {...recording, complete:true}
+      recordingServices.update(id, session).then(
         (data) => { // setRecording(data) //? do i need to update it 🤔?
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
           setActiveStep(activeStep + 1)
