@@ -27,6 +27,8 @@ export default function RecordingList() {
   // const querySearch = queryString.parse(this.props.location.search)
 
   const [data, setData] = React.useState([])
+  const [isLoading, setLoader] = React.useState(false)
+  const [message, setMessage] = React.useState('This action can not be undone.')
   const fetchData = async () => {
     const response = await recordingService.getData()
     setData(response)
@@ -35,11 +37,17 @@ export default function RecordingList() {
   const [alert, setAlert] = React.useState(false)
 
   const DeleteRow = async (id) => {
+    setLoader(true)
+    debugger
     recordingService.destroy(id).then(()=>{
       fetchData()
+      debugger
+      setLoader(false)
       setAlert(false)
     },
     (error)=>{
+      setLoader(false)
+      setMessage('Therer was an error trying to delete the file. Contact with the admin')
       console.log(error)
       debugger
     })
@@ -103,7 +111,10 @@ export default function RecordingList() {
         handleClose={()=>setAlert(false)}
         handleOk={DeleteRow} 
         title={'Are you sure?'}
-        message={'This action can not be undone.'}/>
+        message={isLoading
+          ? <LinearProgress />
+          : message
+        }/>
     </React.Fragment>
 
   );

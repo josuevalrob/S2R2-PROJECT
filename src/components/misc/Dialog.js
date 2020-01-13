@@ -24,9 +24,12 @@ export default function ConfirmDialog({open, message, handleClose, handleOk}) {
       >
         <DialogTitle id="alert-dialog-slide-title">{"Delete Recording"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            {message}
-          </DialogContentText>
+          {!React.isValidElement(message) 
+          ? <DialogContentText id="alert-dialog-slide-description">
+              {message}
+            </DialogContentText>
+          : message //message can be a component like loader
+          }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
