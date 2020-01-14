@@ -8,9 +8,9 @@ function getStepContent(step, callback, data) {
   switch (step) {
     case 0: //* Create
       return <Create fn={callback} recording={data}/>;
-    case 2: //* Before talking
+    case 1: //* Before talking
       return <Regulation stage={0} fn={callback} recording={data}/>;
-    case 1: //* Talking
+    case 2: //* Talking
       return <Talking fn={callback} recording={data}/>;
     case 3: //* After talking
       return <Regulation stage={1} fn={callback} recording={data}/>;
