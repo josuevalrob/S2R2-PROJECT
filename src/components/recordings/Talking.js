@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Recorder from './../misc/Recorder'
@@ -13,6 +13,7 @@ import RecordingService from './../../services/recordingServices'
 
 export default function Talking ({recording, fn}) {
   const {id, audioId} =  recording;
+  // const {audio, setAudio} = useState()
   // const tabLabel = [{label:studentA},{label:studentB}]
   // const [ids, setIds] = React.useState([[],[]]) //[[],[]]
 
@@ -22,7 +23,7 @@ export default function Talking ({recording, fn}) {
     try {
       // const newRecording = await readUploadedFileAsAudio(id, audioName, newIds, urlAudio);
       const newRecording = await readAndUploadFileAsAudio(id, audioName, urlAudio)
-      fn(newRecording)
+      fn({...newRecording, hasError:false, errors:{}})
       return true
     } catch (e) {
       console.log(e);
@@ -37,14 +38,17 @@ export default function Talking ({recording, fn}) {
         fn({...recording, audioId:''}), 
         (error)=>{
           console.error(error)
-          debugger
-      })
-  }
-
-  // React.useEffect(()=>{
-  //   audioId && setIds([audioId[0], audioIds[1]])
-  // }, [audioIds])
-
+        })
+      }
+      
+  useEffect(() => {
+    !audioId && fn({
+      ...recording, 
+      hasError: true, 
+      errors:{x:'We need an audio recording'}
+    })
+  }, []);
+  
   // const tabContent = [
   //   {student:0, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[0]},
   //   {student:1, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[1]},

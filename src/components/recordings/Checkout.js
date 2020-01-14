@@ -56,6 +56,7 @@ function Checkout(props) {
       Object.values(recording.errors).forEach(e => e && handleErrors(e))
       return
     }
+    enqueueSnackbar('Saving...', {variant : 'success', autoHideDuration: 800,})
     if(activeStep === 0 && !created) { // * Create the new record in the backend.
       recordingServices.create(recording).then(
         ({data}) => { // * If everything goes well
@@ -81,7 +82,11 @@ function Checkout(props) {
     }
   };
 
-  const handleBack = () => setActiveStep(activeStep - 1);
+  const handleBack = () => {
+    enqueueSnackbar('Okey, we won´t save that...', {autoHideDuration: 1000,})
+    setRecording({...recording, hasError:false, errors:{}}) //clean possible errors
+    setActiveStep(activeStep - 1)
+  };
 
   return (
     <React.Fragment>
