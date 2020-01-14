@@ -48,7 +48,7 @@ function Checkout(props) {
       setSteps(constSteps)
       wasCreated(false)
     }
-  }, [id])
+  }, [id, steps.length])
 
   const handleNext = () => {
     //* if the recording obj comes with an error key, it wont proceed. 
@@ -68,7 +68,7 @@ function Checkout(props) {
       )
     } else if(created) { //* update content
       //session is a variable that can be set as a middleware. And before going to the back, set custom variables.
-      const session = activeStep + 1 < steps.length ? recording : {...recording, complete:true}
+      const session = activeStep + 1 < steps.length ? {...recording} : {...recording, complete:true}
       recordingServices.update(id, session).then(
         (data) => { // setRecording(data) //? do i need to update it 🤔?
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])

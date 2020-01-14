@@ -28,7 +28,6 @@ class Settings extends React.Component { //update to hooks.
   componentDidUpdate(prevProps, prevState) { // TODO: testing!
     if(this.props.recording.id !== prevProps.recording.id) { //handling server response. 
       this.setState({content:this.props.recording, errors:{}}) // fill&clean
-
     }
   }
 
@@ -54,6 +53,7 @@ class Settings extends React.Component { //update to hooks.
 
   render () {
     const {content} = this.state;
+    console.log(content)
     return (
       <Container component="main" maxWidth="xs">
       <div >      
