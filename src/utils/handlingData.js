@@ -1,3 +1,4 @@
+import {affectivesValues} from './cognitiveTest'
 export function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -21,3 +22,20 @@ export function stableSort(array, cmp) {
 export function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
+
+export const findLabel = neddle => (values, i) => pst => 
+  Object.keys(values[i])
+    .filter(k => Array.isArray(values[i][k]))
+    .filter(k => values[i][k][pst])
+    .map(bftk => neddle
+      .filter(cgnVl => cgnVl.key === bftk)
+      .map(obj => obj.label)
+    )
+
+export const findAffective = neddle => (values, i) => pst => 
+  Object.keys(values[i])
+    .filter(k => k!=='_id')
+    .map(bftk => affectivesValues
+      .filter(cgnVl => cgnVl.key === bftk)
+      .map(obj => obj.label)
+    )

@@ -60,35 +60,34 @@ export default function Talking ({recording, fn}) {
  * wrapper the recording & player
  * @param {newAudio, student, audios} props callback, idtab, array
  */
-const TabContainer = ({newAudio, deleteAudio, audio}) => {
-  const API = process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_PRO_API
-    : process.env.REACT_APP_API_URL
-  return (
+const TabContainer = ({newAudio, deleteAudio, audio}) => (
     <Container component="main">
     <CssBaseline />
     <Card style={{display:'flex', height:'100%'}}>
         <Recorder handleSave={({blob})=>newAudio(blob)}/>
-        { !!audio &&
-          <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
-            {/* {audios.reverse().map((id, i) => ( */}
-              <div style={{display:'flex'}}>
-                <ReactH5AudioPlayer
-                  src={`${API}/messages/${audio}`} />
-                <IconButton style={{margin:'.5em 0'}}
-                    onClick={()=>deleteAudio(audio)}
-                    aria-label="delete audio" >
-                  <Delete  />
-                </IconButton>
-              </div>
-            {/* ))} */}
-          </div>
-        }
+        <AudioPlayer onDelete={()=>deleteAudio(audio)} audio={audio} />
       </Card>
     </Container>
   )
-}
 
+export const AudioPlayer = ({audio, onDelete}) => {
+  const API = process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_PRO_API
+    : process.env.REACT_APP_API_URL
+  return !!audio &&
+    <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
+        <div style={{display:'flex'}}>
+          <ReactH5AudioPlayer
+            src={`${API}/messages/${audio}`} />
+          {onDelete && 
+          <IconButton style={{margin:'.5em 0'}}
+              onClick={onDelete}
+              aria-label="delete audio" >
+            <Delete  />
+          </IconButton>}
+        </div>
+    </div>
+}
 export const addIds = (audioName, ids, student) =>
   ids.map( (e,i) => i === student //update an specific tab
     ? !!ids[student] //if that students has any ids

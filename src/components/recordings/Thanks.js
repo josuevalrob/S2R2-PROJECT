@@ -1,12 +1,21 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import TabHoc from './../misc/TabHoc'
-import {cognitiveValues} from './../../utils/cognitiveTest'
+import {cognitiveValues, affectivesValues} from './../../utils/cognitiveTest'
+import {findLabel} from './../../utils/handlingData'
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import {AudioPlayer} from './Talking'
+const findLabelInCgntVal = findLabel(cognitiveValues)
+// const findLabelInAffectVal = findLabel(affectivesValues)
 
 const Thanks = ({data}) => {
-  const {studentA, studentB, name, students, cognitive} =  data; //[{},{}]  
+  const {studentA, studentB, name} =  data; //[{},{}]  
   const tabLabel = [{label:studentA},{label:studentB}]
-  const tabContent = treatData(students, cognitive)
+  const tabContent = treatData(data)
   return (
     <React.Fragment>
       <Typography variant="h5" gutterBottom>
@@ -15,31 +24,45 @@ const Thanks = ({data}) => {
       <Typography variant="subtitle1">
         Here you will see all your inputs and have a discussion with your teacher and partner
       </Typography>
-      {TabHoc(Questions, tabLabel, tabContent)}
+      {TabHoc(TabBody, tabLabel, tabContent)}
     </React.Fragment>
   )
 }
 export default Thanks
 
-
-const Questions = (props) => (
-  'hello world'
+const TabBody = ({before_talking, talking, help, after_talking, socio_affective, future}) => (
+  <Container >
+  <Grid container >
+    <GridItem data={before_talking} />
+    <Grid item xs={12} >
+      <h3 style={{marginBottom:0}}>{talking.label}</h3>
+      <AudioPlayer audio={talking.content} />
+    </Grid>
+    <GridItem data={after_talking} />
+    <GridItem data={socio_affective} />
+    <GridItem data={help} />
+    <GridItem data={future} />
+  </Grid>
+  </Container>
 )
 
-const findLabel = neddle => (values, i) => pst => 
-  Object.keys(values[i])
-    .filter(k => Array.isArray(values[i][k]))
-    .filter(k => values[i][k][pst])
-    .map(bftk => neddle
-      .filter(cgnVl => cgnVl.key === bftk)
-      .map(obj => obj.label)
-    )
+const GridItem = ({data:{label, content}}) => (
+  <Grid item xs={12} >
+    <h3 style={{marginBottom:0}}>{label}</h3>
+    <List style={{paddingTop:0}} dense>
+      {content.map((e, i) => 
+        <ListItem key={i}>
+          <ListItemText primary={e}/>
+        </ListItem>,
+      )}
+    </List>
+  </Grid>
+)
 
-const findLabelInCgntVal = findLabel(cognitiveValues)
-
-const treatData = (students, cognitive) => 
-  students.map((std, i) => {
-    let findLabelPerStepWithCgntVal = findLabelInCgntVal(cognitive,i)
+const treatData = (data) => 
+  data.students.map((std, i) => {
+    let findLabelPerStepWithCgntVal = findLabelInCgntVal(data.cognitive, i)
+    let feelingKey = data.socioAffective[i].feel
     return {
       before_talking: {
         label: 'Which strategies did you evaluate before start talking',
@@ -54,12 +77,18 @@ const treatData = (students, cognitive) =>
         content: findLabelPerStepWithCgntVal(1)
       },
       socio_affective : {
-        label: 'How did you feel?',
-        content: ['sad', 'haooy']
+        label: 'How did you feel when using strategies?',
+        content: [affectivesValues.find(o => o.key === feelingKey).label]
+      },
+      help : {
+        label: 'Did they help you to talk to your partner?',
+        content: !!data.socioAffective[0].help
+          ? ['Yes, they did']
+          : ["No, they didn't"]
       },
       future: {
         label: 'What is the plan for the next time?',
-        content: findLabelPerStepWithCgntVal(3)
+        content: findLabelPerStepWithCgntVal(2)
       }
     }
   })
