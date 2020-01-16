@@ -51,7 +51,7 @@ const Affective = ({recording, fn}) => {
     feel: 'How did you feel when using strategies?', 
     help: 'Did they help you to talk to your partner?'
   }
-  const tabContent = [{
+  const tabContent = [{ // this should be done with a .map()
     feel : {arr: affectivesValues, student:'A', value: itemsArr[0].feel, handle: handleChange}, 
     questions,
     help: {value: itemsArr[0].help, handle: handleChange}

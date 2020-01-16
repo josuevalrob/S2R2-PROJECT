@@ -105,7 +105,7 @@ function Checkout(props) {
           </Stepper>
           <React.Fragment>
             { activeStep === steps.length
-              ? <Thanks /> //last element.
+              ? <Thanks data={recording} /> //last element.
               : <React.Fragment>
                   {
                     loading

@@ -53,7 +53,6 @@ class Settings extends React.Component { //update to hooks.
 
   render () {
     const {content} = this.state;
-    console.log(content)
     return (
       <Container component="main" maxWidth="xs">
       <div >      
