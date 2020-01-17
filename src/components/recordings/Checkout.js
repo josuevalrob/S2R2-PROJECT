@@ -17,12 +17,12 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',} //? should be an exteranl object. More complete
-const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'Socio Affective', 'Future Recordings']
+const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'How about you?', 'Future Recordings']
 
 function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id
-  const [activeStep, setActiveStep] = React.useState(0); //*
+  const [activeStep, setActiveStep] = React.useState(4); //*
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)

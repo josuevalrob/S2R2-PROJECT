@@ -12,7 +12,7 @@ const Affective = ({recording, fn}) => {
   const [isLoad, load] = React.useState(false)
 
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
-    let newState = null        
+    let newState = null 
     switch (type){
       case 'A':
         newState = [{...state[0], ...payload }, state[1]]
@@ -29,7 +29,7 @@ const Affective = ({recording, fn}) => {
     }
     fn({...recording, socioAffective: newState}) //update the recording from the parent. 🎶
     return newState;
-  }, [{feel: '', help : undefined}, {feel: '', help: false}]); // [{...studentA}, {...studentB}] 👣 
+  }, [{feel: '', help : undefined}, {feel: '', help: undefined}]); // [{...studentA}, {...studentB}] 👣 
 
   React.useEffect(()=>{ //!test 🧐
     if(socioAffective && socioAffective.length && !isLoad){ 
@@ -51,15 +51,19 @@ const Affective = ({recording, fn}) => {
     feel: 'How did you feel when using strategies?', 
     help: 'Did they help you to talk to your partner?'
   }
-  const tabContent = [{ // this should be done with a .map()
-    feel : {arr: affectivesValues, student:'A', value: itemsArr[0].feel, handle: handleChange}, 
+  const tabContent = recording.students.map((std, i) => ({
     questions,
-    help: {value: itemsArr[0].help, handle: handleChange}
-  }, {
-    feel : {arr: affectivesValues, student:'B', value: itemsArr[1].feel, handle: handleChange}, 
-    questions,
-    help: {value: itemsArr[1].help, handle: handleChange}    
-  }]
+    feel : {
+      arr: affectivesValues, 
+      student:!!i?'B':'A', 
+      value: itemsArr[i].feel, 
+      handle: handleChange
+    }, 
+    help: {
+      value: typeof itemsArr[i].help !== "undefined" && (itemsArr[i].help ? 'yes' : 'no'),
+      handle: handleChange
+    }
+  }))
   const tabLabel = [{label:studentA},{label:studentB}]
   return TabHoc(Questions, tabLabel, tabContent)
 }
@@ -75,7 +79,7 @@ const Questions = (props) => (
       <FormGroup row>
         <RadioGroup 
           name={props.feel.student} 
-          value={props.help.value ? 'yes' : 'no'} 
+          value={props.help.value} 
           onChange={(e)=> props.help.handle(e, props.feel.student, 'help')} >
           <FormControlLabel value='yes' control={<Radio />} label="Yes, they did" />
           <FormControlLabel value='no' control={<Radio />} label="No, they didn't" />

@@ -13,15 +13,13 @@ import RecordingService from './../../services/recordingServices'
 
 export default function Talking ({recording, fn}) {
   const {id, audioId} =  recording;
-  // const {audio, setAudio} = useState()
-  // const tabLabel = [{label:studentA},{label:studentB}]
-  // const [ids, setIds] = React.useState([[],[]]) //[[],[]]
-
+  const recordingRef = React.useRef(recording)
+  useEffect(() => {
+    recordingRef.current = recording
+  })
   const handleSave = async (urlAudio) => {
     const audioName = v4()
-    // const newIds = addIds(audioName, ids, student)
     try {
-      // const newRecording = await readUploadedFileAsAudio(id, audioName, newIds, urlAudio);
       const newRecording = await readAndUploadFileAsAudio(id, audioName, urlAudio)
       fn({...newRecording, hasError:false, errors:{}})
       return true
@@ -32,28 +30,24 @@ export default function Talking ({recording, fn}) {
   }
 
   const handleDelete = async (audioName) => {
-    // const newIds = deleteId(ids, student, audioName)
     RecordingService.deleteSingleAudio(id, {audioName})
       .then(
-        fn({...recording, audioId:''}), 
+        fn({...recording, audioId:'', hasError: true, 
+        errors:{x:'We need an audio recording'}}), 
         (error)=>{
           console.error(error)
         })
       }
       
   useEffect(() => {
-    !audioId && fn({
-      ...recording, 
+    !recordingRef.current.audioId && fn({
+      ...recordingRef.current, 
       hasError: true, 
       errors:{x:'We need an audio recording'}
     })
-  }, []);
+  }, [fn]);
   
-  // const tabContent = [
-  //   {student:0, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[0]},
-  //   {student:1, newAudio: handleSave, deleteAudio:handleDelete, audios:ids[1]},
-  // ]
-  // return TabHoc(TabContainer, tabLabel, tabContent)
+  
   return <TabContainer newAudio={handleSave} deleteAudio={handleDelete} audio={audioId}/>
 }
 /**

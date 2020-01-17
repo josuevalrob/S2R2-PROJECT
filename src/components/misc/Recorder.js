@@ -18,10 +18,6 @@ export default function Recorder({handleSave}) {
   const [isRecording, setIsRecording] = React.useState(false)
   const [uploading, setUploading] = React.useState(false)
   const [blob, setBlob] = React.useState(new Blob())
-  const handleStop = (recordedBlob) => {
-    // const url = URL.createObjectURL(recordedBlob.blob);
-    setBlob(recordedBlob)
-  }
 
   const onSave = async () => {
     setUploading(true)
@@ -30,9 +26,7 @@ export default function Recorder({handleSave}) {
     setUploading(false)
   }
 
-  const handleCancel = ()=> {
-    debugger
-  }
+  const handleCancel = ()=> setBlob(new Blob())
 
   const handlePreview = () => {
     const tmp = new Audio(blob.blobURL);
@@ -61,7 +55,7 @@ export default function Recorder({handleSave}) {
         ? <ReactMic
             className={classes.cover} //sound-wave
             record={isRecording} //Boolean
-            onStop={handleStop}
+            onStop={setBlob}
             strokeColor="#ffffff"
             backgroundColor={blue[800]} />
         : <div className={classes.cover}>

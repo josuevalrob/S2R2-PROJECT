@@ -15,7 +15,7 @@ function getStepContent(step, callback, data) {
     case 3: //* After talking
       return <Regulation stage={1} fn={callback} recording={data}/>;
     case 4: //* Socio Afective
-      return <Affective fn={callback} recording={data}/>;
+      return data.students && <Affective fn={callback} recording={data}/>;
     case 5: //* Future
       return <Regulation stage={2} fn={callback} recording={data}/>;
     default:
