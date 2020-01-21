@@ -65,15 +65,15 @@ const treatData = (data) =>
     let feelingKey = data.socioAffective[i].feel
     return {
       before_talking: {
-        label: 'Which strategies did you evaluate before start talking',
+        label: 'The strategies you chose before talking 🧐',
         content: findLabelPerStepWithCgntVal(0)
       },
       talking: {
-        label: "Let's play your recording",
+        label: "Let's play your recording 🎶",
         content: data.audioId
       }, 
       after_talking : {
-        label: 'Check the student strategies that really did',
+        label: 'The strategies you really applied',
         content: findLabelPerStepWithCgntVal(1)
       },
       socio_affective : {
