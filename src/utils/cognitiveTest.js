@@ -63,7 +63,7 @@ export const cognitiveValues = [
     },
     {
       key : 'eyeContact',
-      label: 'Make eye contact',
+      label: "Ask for my partner's opinion",
       value: [false, false, false]
     },
     {
