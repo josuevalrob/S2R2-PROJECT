@@ -15,10 +15,10 @@ export default function MainMenu() {
       <CssBaseline />
       <Container component="main" className={classes.main} maxWidth="sm">
         <Typography variant="h2" component="h1" gutterBottom>
-          Jeval
+          S<sup>2</sup>R<sup>2</sup> PROJECT
         </Typography>
         <Typography variant="h5" component="h2" gutterBottom>
-          {'A simple App for voice recording and spech recognition analysis.'}
+          {'A simple App for voice recording and speech recognition analysis.'}
         </Typography>
         <Typography variant="body1">What do you want to do now.</Typography>
         <MenuBUttons />
