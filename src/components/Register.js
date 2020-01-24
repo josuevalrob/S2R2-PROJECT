@@ -45,6 +45,7 @@ function Signin(props) {
   if (isAuthenticated) {
     return <Redirect to={'/'} />
   }
+  return null
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

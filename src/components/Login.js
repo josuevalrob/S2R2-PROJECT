@@ -111,9 +111,9 @@ function Signin(props) {
               </Link>
             </Grid>
             <Grid item>
-              <Link to="/sign-up" component={AdapterLink}  variant="body2">
+              {/* <Link to="/sign-up" component={AdapterLink}  variant="body2">
                 {"Don't have an account? Sign Up"}
-              </Link>
+              </Link> */}
             </Grid>
           </Grid>
         </form>
