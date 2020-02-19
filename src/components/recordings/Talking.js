@@ -65,9 +65,7 @@ const TabContainer = ({newAudio, deleteAudio, audio}) => (
   )
 
 export const AudioPlayer = ({audio, onDelete}) => {
-  const API = process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_PRO_API
-    : process.env.REACT_APP_API_URL
+  const API = process.env.REACT_APP_API_URL
   return !!audio &&
     <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
         <div style={{display:'flex'}}>
