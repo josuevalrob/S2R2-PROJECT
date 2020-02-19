@@ -9,6 +9,7 @@ import PrivateRoute from './guards/PrivateRoutes'
 import PublicRoutes from './guards/PublicRoutes'
 
 function App() {
+  console.log(process.env)
   return (
     <React.Fragment>
        <Switch>
