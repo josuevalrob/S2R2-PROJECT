@@ -15,7 +15,7 @@ function App() {
        <Switch>
           <PrivateRoute exact path="/" component={MainMenu} />
           <PublicRoutes exact path="/sign-in" component={Login} />
-          {/* <PublicRoutes exact path="/sign-up" component={Register} />           */}
+          <PublicRoutes exact path="/sign-up" component={Register} />          
           <PrivateRoute exact path="/new-record" component={Checkout} />
           <PrivateRoute path="/record/:id" component={Checkout} />
           <PrivateRoute exact path="/recordings" component={RecordingList} />
