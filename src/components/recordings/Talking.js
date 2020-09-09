@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { v4 } from 'uuid';
 import Card from '@material-ui/core/Card';
 import RecordingService from './../../services/recordingServices'
+const {NODE_ENV, REACT_APP_API_URL, REACT_APP_DEV_API} = process.env 
 
 export default function Talking ({recording, fn}) {
   const {id, audioId} =  recording;
@@ -65,7 +66,7 @@ const TabContainer = ({newAudio, deleteAudio, audio}) => (
   )
 
 export const AudioPlayer = ({audio, onDelete}) => {
-  const API = process.env.REACT_APP_API_URL
+  const API = NODE_ENV === "development" ? REACT_APP_DEV_API : REACT_APP_API_URL;
   return !!audio &&
     <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
         <div style={{display:'flex'}}>

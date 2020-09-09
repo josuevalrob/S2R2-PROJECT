@@ -11,7 +11,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import useStyles from './../styles/forms'
-import AdapterLink from './misc/Enlace';
 import authService from './../services/AuthServices'
 import { Redirect } from 'react-router-dom'
 import { withAuthConsumer } from '../contexts/AuthStore';
