@@ -65,7 +65,13 @@ function Checkout(props) {
           props.history.push(`/record/${data.id}`);//?change the route
           setActiveStep(activeStep + 1)// ? go to the next page
         },
-        (error) => handleErrors(error.response.data.message)
+        (error) => {
+          if(error.response) {
+            handleErrors(error.response.data.message)
+          } else {
+            console.error(error)
+          }
+        }
       )
     } else if(created) { //* update content
       //session is a variable that can be set as a middleware. And before going to the back, set custom variables.
@@ -76,7 +82,11 @@ function Checkout(props) {
           setActiveStep(activeStep + 1)
         },
         (error) => {
-          handleErrors(error.response.data.message)
+          if(error.response) {
+            handleErrors(error.response.data.message)
+          } else {
+            console.error(error)
+          }
         }
       )
     }

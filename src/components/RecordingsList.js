@@ -89,7 +89,7 @@ export default function RecordingList() {
                         </TableCell>
                         <TableCell align="right">{row.studentA}</TableCell>
                         <TableCell align="right">{row.studentB}</TableCell>
-                        <TableCell align="right">{row.date.split("T")[0]}</TableCell>
+                        {!!row.date && <TableCell align="right">{row.date.split("T")[0]}</TableCell>}
                         <TableCell align="right">
                           <Delete onClick={()=>setAlert(row.id)}  />
                         </TableCell>

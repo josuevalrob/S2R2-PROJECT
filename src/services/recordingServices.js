@@ -7,7 +7,10 @@ const breakStudent = e =>({...e, studentA: e.students[0], studentB: e.students[1
 const getData = () =>
   http.get(`${base}`)
     .then(({data})=> data.map(breakStudent))
-    .catch(er => [{error:er.response.data.message}])
+    .catch(er => {
+      console.error(er.response);
+      return [{error:er.response.data.message}]
+    })
 
 const create = record =>  http.post(base, record)
 
