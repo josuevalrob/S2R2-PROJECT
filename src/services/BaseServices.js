@@ -12,7 +12,8 @@ http.interceptors.response.use(
     // ! handle de error sin response(?). 
     if (error.response.status === 403 || error.response.status === 401) {
       localStorage.removeItem(CURRENT_USER_KEY)
-      window.location.assign("/sign-in");
+      const signInRoute = `${process.env.REACT_APP_BASE_URL}/sign-in`
+      window.location.assign(signInRoute);
     } else {
       return Promise.reject(error);
     }
