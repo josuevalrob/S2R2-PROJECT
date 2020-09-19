@@ -8,8 +8,9 @@ const getData = () =>
   http.get(`${base}`)
     .then(({data})=> data.map(breakStudent))
     .catch(er => {
-      console.error(er.response);
-      return [{error:er.response.data.message}]
+      return [{
+        error: er.response ? er.response.data.message : er.message
+      }]
     })
 
 const create = record =>  http.post(base, record)

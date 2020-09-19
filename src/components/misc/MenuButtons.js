@@ -1,8 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import Settings from '@material-ui/icons/Settings';
-import AudioTrack from '@material-ui/icons/Audiotrack';
 import AdapterLink from './Enlace'
 const useStyles = makeStyles(theme => ({
   button: {
@@ -19,22 +17,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function MenuBUttons() {
+export default function MenuBUttons({buttons}) {
   const classes = useStyles();
 
   return (
     <div>
-      
-      <Button  to="/new-record" component={AdapterLink}  variant="contained" color="primary" className={classes.button}>
-        New Record
-        <Settings className={classes.rightIcon} />
-      </Button>
-      <Button to="/recordings" component={AdapterLink} variant="contained" color="default" className={classes.button}>
-        Check Recordins
-        <AudioTrack className={classes.leftIcon} />
-      </Button>
-
-      
+      {
+        buttons.map(({label,Icon,link}, index) => (
+          <Button
+            to={link}
+            key={index}
+            component={AdapterLink}
+            variant="contained"
+            color={!index ? "primary" : "default" }
+            className={classes.button}
+          >
+            {label}
+            <Icon className={classes.rightIcon} />
+          </Button>
+        ))
+      }
     </div>
   );
+}
+
+MenuBUttons.defaultProps = {
+  buttons : []
 }

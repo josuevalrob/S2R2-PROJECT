@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,9 +22,9 @@ import { withAuthConsumer } from '../contexts/AuthStore';
 function Signin(props) {
   const classes = useStyles();
 
-  const [isAuthenticated, setAuth] = React.useState(false)
+  const [isAuthenticated, setAuth] = useState(false)
 
-  const [user, setUser] = React.useState({email: '', password: '', name:'', lastName:'', rol: 'student'})
+  const [user, setUser] = useState({email: '', password: '', name:'', lastName:'', rol: 'student'})
 
   const handleUser = name => event => setUser({...user, [name]: event.target.value})
 
@@ -42,6 +42,7 @@ function Signin(props) {
         }
       )
   }
+
   if (isAuthenticated) {
     return <Redirect to={'/'} />
   }
@@ -57,6 +58,17 @@ function Signin(props) {
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} autoComplete="off">
           <Grid container spacing={2}>
+            <Grid item xs={12}>
+             <FormGroup row>
+              <RadioGroup row
+                name={user.rol} 
+                value={user.rol} 
+                onChange={handleUser('rol')} >
+                <FormControlLabel value={'teacher'} control={<Radio />} label="Teacher" />
+                <FormControlLabel value={'student'}control={<Radio />} label="Student" />
+              </RadioGroup>
+            </FormGroup>
+            </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="off"
@@ -110,17 +122,6 @@ function Signin(props) {
                 autoComplete="none"
               />
             </Grid>
-            <Grid item xs={12}>
-             <FormGroup row>
-              <RadioGroup row
-                name={user.rol} 
-                value={user.rol} 
-                onChange={handleUser('rol')} >
-                <FormControlLabel value={'teacher'} control={<Radio />} label="Teacher" />
-                <FormControlLabel value={'student'}control={<Radio />} label="Student" />
-              </RadioGroup>
-            </FormGroup>
-            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -129,17 +130,17 @@ function Signin(props) {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Register a new {user.rol}
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2" color={'secondary'}>
-                {'Register with google'}
+              <Link href="/" variant="body2" color={'secondary'}>
+                {'Cancel and go back'}
               </Link>
             </Grid>
             <Grid item>
-              <Link to="/sign-in" component={AdapterLink}  variant="body2">
-                {"Already have an account? Sign In"}
+              <Link to="/students" component={AdapterLink}  variant="body2">
+                {"Do you wanna check if the user exist?"}
               </Link>
             </Grid>
           </Grid>

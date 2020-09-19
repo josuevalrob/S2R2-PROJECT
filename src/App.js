@@ -9,13 +9,12 @@ import PrivateRoute from './guards/PrivateRoutes'
 import PublicRoutes from './guards/PublicRoutes'
 
 function App() {
-  console.log(process.env)
   return (
     <React.Fragment>
        <Switch>
           <PrivateRoute exact path="/" component={MainMenu} />
           <PublicRoutes exact path="/sign-in" component={Login} />
-          <PublicRoutes exact path="/sign-up" component={Register} />          
+          <PrivateRoute exact path="/sign-up" component={Register} />
           <PrivateRoute exact path="/new-record" component={Checkout} />
           <PrivateRoute path="/record/:id" component={Checkout} />
           <PrivateRoute exact path="/recordings" component={RecordingList} />

@@ -20,7 +20,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Signin(props) {
   const classes = useStyles();
-  // const [errors, setErros] = React.useState({})
+  const [error, setErro] = React.useState('')
 
   // const [isAuthenticated, setAuth] = React.useState(false)
   const isAuthenticated = false
@@ -39,9 +39,9 @@ function Signin(props) {
           props.onUserChange(user); //* actualizamos el context
         },
         (error) => {
-          const { message, errors } = error;
-          console.error(message, errors)
-          setLoader(false)
+          const { response:{data:message} } = error;
+          setErro(message.message);
+          setLoader(false);
         }
       )
   }
@@ -90,6 +90,7 @@ function Signin(props) {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
+          { !!error && <div> {error} </div> }
           <Button
             type="submit"
             fullWidth
@@ -100,9 +101,6 @@ function Signin(props) {
               ? 'Sign In'
               : <CircularProgress className={classes.progress} color="secondary" />}
           </Button>
-          {/* <Link to="/authenticate/google" component={AdapterLink} color={'secondary'}>
-            Google Sign in
-          </Link> */}
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
