@@ -1,5 +1,3 @@
 //! Set a timer for the user life cycle. 
 
-//! 💩
-
 //!test 🧐
