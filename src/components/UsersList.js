@@ -64,6 +64,7 @@ export default function UserList() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
+              <TableCell>Last name</TableCell>
               <TableCell align="right">e-mail</TableCell>
               <TableCell align="right">Edit</TableCell>
               <TableCell align="right">Delete</TableCell>
@@ -86,6 +87,7 @@ export default function UserList() {
                             {upperFirst(row.name)}
                           </Link>
                         </TableCell>
+                        <TableCell>{row.lastName}</TableCell>
                         <TableCell align="right">{row.email}</TableCell>
                         <TableCell align="right" scope="row" component={'th'}>
                           <Link color="inherit" component={AdapterLink} to={`/user/${row.id}/edit`}>

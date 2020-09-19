@@ -11,9 +11,9 @@ const getData = () =>
       }]
     })
 
-const update = (id, user) => http.put(`${base}/${id}`, user);//.then(({data})=>breakStudent(data))
+const update = id => user => http.put(`${base}/${id}`, user).then(({data})=>data)
 
-const read = id => http.get(`${base}/${id}`);//.then(({data})=>breakStudent(data));
+const read = id => http.get(`${base}/${id}`).then(({data})=>data);
 
 const destroy = (id) => http.delete(`${base}/${id}`)
 

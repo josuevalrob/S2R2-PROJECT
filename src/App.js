@@ -16,6 +16,9 @@ function App() {
           <PrivateRoute exact path="/" component={MainMenu} />
           <PublicRoutes exact path="/sign-in" component={Login} />
           <PrivateRoute exact path="/sign-up" component={Register} />
+
+          <PrivateRoute exact path="/user/:id/edit" component={Register} />
+
           <PrivateRoute exact path="/new-record" component={Checkout} />
           <PrivateRoute path="/record/:id" component={Checkout} />
           <PrivateRoute exact path="/recordings" component={RecordingList} />

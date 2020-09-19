@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,26 +12,34 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
-import useStyles from '../styles/forms'
+import useStyles from '../styles/forms';
 import AdapterLink from './misc/Enlace';
-import authService from '../services/AuthServices'
-import { Redirect } from 'react-router-dom'
+import authService from '../services/AuthServices';
+import userService from '../services/Users.Services';
+import { Redirect } from 'react-router-dom';
 import { withAuthConsumer } from '../contexts/AuthStore';
 
 
-function Signin(props) {
+function Signin({match:{params:{id}}}) {
   const classes = useStyles();
 
   const [isAuthenticated, setAuth] = useState(false)
 
-  const [user, setUser] = useState({email: '', password: '', name:'', lastName:'', rol: 'student'})
+  const [user, setUser] = useState({email: '', password: '', name:'', lastName:'', role: 'student'})
+
+  const fetchUser = async (id) => {
+    const response = await userService.read(id);
+    setUser(response);
+  }
+
+  useEffect(()=>{fetchUser(id)}, [id])
 
   const handleUser = name => event => setUser({...user, [name]: event.target.value})
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    authService.register(user)
-      .then(
+    const UserRequest = !!id ?  userService.update(id) : authService.register;
+    UserRequest(user).then(
         (user) => setAuth(true),
         (error) => {
           const { message, errors } = error;
@@ -58,11 +66,11 @@ function Signin(props) {
             <Grid item xs={12}>
              <FormGroup row>
               <RadioGroup row
-                name={user.rol} 
-                value={user.rol} 
-                onChange={handleUser('rol')} >
+                name={user.role} 
+                value={user.role} 
+                onChange={handleUser('role')} >
                 <FormControlLabel value={'teacher'} control={<Radio />} label="Teacher" />
-                <FormControlLabel value={'student'}control={<Radio />} label="Student" />
+                <FormControlLabel value={'student'} control={<Radio />} label="Student" />
               </RadioGroup>
             </FormGroup>
             </Grid>
@@ -93,7 +101,8 @@ function Signin(props) {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
+              <TextField 
+                disabled={!!id}
                 onChange={handleUser('email')}
                 value={user.email || ''}
                 variant="outlined"
@@ -110,7 +119,7 @@ function Signin(props) {
                 onChange={handleUser('password')}
                 value={user.password || ''}
                 variant="outlined"
-                required
+                required={!id}
                 fullWidth
                 name="password"
                 label="password"
@@ -127,19 +136,24 @@ function Signin(props) {
             color="primary"
             className={classes.submit}
           >
-            Register a new {user.rol}
+            {!!id
+              ? `Update ${user.name}`
+              : `Register a new ${user.role}`
+            }
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="/" variant="body2" color={'secondary'}>
+              <Link href={!!id ? "/students" : "/"} variant="body2" color={'secondary'}>
                 {'Cancel and go back'}
               </Link>
             </Grid>
-            <Grid item>
-              <Link to="/students" component={AdapterLink}  variant="body2">
-                {"Do you wanna check if the user exist?"}
-              </Link>
-            </Grid>
+            {!id &&
+              <Grid item>
+                <Link to="/students" component={AdapterLink}  variant="body2">
+                  {"Do you wanna check if the user exist?"}
+                </Link>
+              </Grid>
+            }
           </Grid>
         </form>
       </div>
