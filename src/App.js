@@ -1,12 +1,13 @@
 import React from 'react';
-import Login from './components/Login'
-import Register from './components/Register'
-import MainMenu from './components/MainMenu'
-import RecordingList from './components/RecordingsList'
-import Checkout from './components/recordings/Checkout.js'
+import Login from './components/Login';
+import Register from './components/Register';
+import MainMenu from './components/MainMenu';
+import RecordingList from './components/RecordingsList';
+import UserList from './components/UsersList';
+import Checkout from './components/recordings/Checkout.js';
 import { Switch } from 'react-router-dom';
-import PrivateRoute from './guards/PrivateRoutes'
-import PublicRoutes from './guards/PublicRoutes'
+import PrivateRoute from './guards/PrivateRoutes';
+import PublicRoutes from './guards/PublicRoutes';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <PrivateRoute exact path="/new-record" component={Checkout} />
           <PrivateRoute path="/record/:id" component={Checkout} />
           <PrivateRoute exact path="/recordings" component={RecordingList} />
+          <PrivateRoute exact path="/students" component={UserList} />
           {/* <Route exact path="/" component={() => (
             <Redirect to={"/search"} />
           )} /> */}

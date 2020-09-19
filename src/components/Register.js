@@ -32,19 +32,16 @@ function Signin(props) {
     event.preventDefault();
     authService.register(user)
       .then(
-        (user) => {
-          props.onUserChange(user); //* actualizamos el context
-          setAuth(true)
-        },
+        (user) => setAuth(true),
         (error) => {
-          const { message, errors } = error; 
+          const { message, errors } = error;
           console.error(message, errors)
         }
       )
   }
 
   if (isAuthenticated) {
-    return <Redirect to={'/'} />
+    return <Redirect to={'/students'} />
   }
   return (
     <Container component="main" maxWidth="xs">

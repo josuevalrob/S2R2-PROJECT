@@ -24,7 +24,7 @@ export const buttonsProps = (role) => {
     {
       label:  'Check Students',
       Icon: List,
-      link: "/recordings" 
+      link: "/students" 
     }
   ]
   : [
