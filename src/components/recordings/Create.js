@@ -3,19 +3,33 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import validations from './../../utils/validations'; //{...}
-// import {isEmpty} from 'lodash'
+import UserService from '../../services/Users.Services';
 import { emptyRecording } from './Checkout';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 class Settings extends React.Component { //update to hooks. 
   state = {
-    content : this.props.recording.id ? this.props.recording : emptyRecording, 
+    content : this.props.recording.id ? this.props.recording : emptyRecording,
+    users: [],
+    loading: true,
     errors: {
-      name: this.props.recording.name ? undefined : validations.name(), 
-      studentA: this.props.recording.studentA ? undefined : validations.studentA(), 
-      studentB: this.props.recording.studentB ? undefined : validations.studentB(), 
+      name: this.props.recording.name ? undefined : validations.name(),
+      studentA: this.props.recording.studentA ? undefined : validations.studentA(),
+      studentB: this.props.recording.studentB ? undefined : validations.studentB(),
     }
   }
-  
+
+  componentDidMount() {
+    UserService.getData()
+      .then(users => {
+        this.setState({users, loading:false});
+      })
+  }
+
   hasErrors = () => {
     const { content } = this.state;
     return Object.keys(content)
@@ -52,10 +66,10 @@ class Settings extends React.Component { //update to hooks.
   }
 
   render () {
-    const {content} = this.state;
+    const {content, users, loading} = this.state;
     return (
       <Container component="main" maxWidth="xs">
-      <div >      
+      <div >
         {/* <form  noValidate> */}
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -70,36 +84,49 @@ class Settings extends React.Component { //update to hooks.
                 label="Recording Name"
                 autoComplete="fname"
               />
-            </Grid>            
+            </Grid>
+            { !!loading ? <LinearProgress /> :
+              !users.length ? <div style={{textAlign:'center'}}> First, please add some users </div> :
+            <>
             <Grid item xs={12} sm={6}>
-              <TextField
-                onChange={this.handleChange}
-                value={content.studentA}
-                error={this.state.errors.studentA ? true : false}
-                autoComplete="fstudent"
-                name="studentA"
-                variant="outlined"
-                required
-                fullWidth
-                id="studentA"
-                label="First Student"
-                autoFocus
-              />
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="studentA-label">First Student</InputLabel>
+                <Select
+                  labelId="studentA-label"
+                  id="studentA"
+                  name="studentA"
+                  value={content.studentA}
+                  onChange={this.handleChange}
+                  label="First Student"
+                  required
+                >
+                  {users.map(({id, name, lastName}) =>
+                    <MenuItem key={id} value={id} >{`${name} ${lastName}`}</MenuItem>
+                  )}
+
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                onChange={this.handleChange}
-                value={content.studentB}
-                error={this.state.errors.studentB ? true : false}
-                variant="outlined"
-                required
-                fullWidth
-                id="studentB"
-                label="Second Student"
-                name="studentB"
-                autoComplete="sstudent"
-              />
-            </Grid>            
+              <FormControl variant="outlined" fullWidth>
+                <InputLabel id="studentB-label">Second Student</InputLabel>
+                <Select
+                  labelId="studentB-label"
+                  id="studentB"
+                  name="studentB"
+                  value={content.studentB }
+                  onChange={this.handleChange}
+                  label="Second Student"
+                  required
+                >
+                  {users.map(({id, name, lastName}) =>
+                    <MenuItem key={id} value={id} >{`${name} ${lastName}`}</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            </Grid>
+            </>
+            }
             <Grid item xs={12}>
               <TextField
                 onChange={this.handleChange}

@@ -27,6 +27,8 @@ function Signin({match:{params:{id}}}) {
 
   const [isAuthenticated, setAuth] = useState(false)
 
+  const [error, setError] = React.useState('')
+
   const [visiblePass, setVisiblePass] = useState(false)
 
   const [user, setUser] = useState({email: '', password: '', name:'', lastName:'', role: 'student'})
@@ -46,11 +48,12 @@ function Signin({match:{params:{id}}}) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const UserRequest = !!id ?  userService.update(id) : authService.register;
-    UserRequest(user).then(
+    UserRequest(user)
+      .then(
         (user) => setAuth(true),
         (error) => {
-          const { message, errors } = error;
-          console.error(message, errors)
+          const { response:{data:message} } = error;
+          setError(message.message);
         }
       )
   }
@@ -141,6 +144,7 @@ function Signin({match:{params:{id}}}) {
               />
             </Grid>
           </Grid>
+          { !!error && <div> {error} </div> }
           <Button
             type="submit"
             fullWidth

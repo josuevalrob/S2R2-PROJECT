@@ -1,4 +1,5 @@
 import Settings from '@material-ui/icons/Settings';
+import Mic from '@material-ui/icons/Mic';
 import AudioTrack from '@material-ui/icons/Audiotrack';
 import Person from '@material-ui/icons/Person';
 import List from '@material-ui/icons/List';
@@ -8,7 +9,7 @@ export const buttonsProps = (role) => {
   ? [
     {
       label:  'New Record',
-      Icon: Settings,
+      Icon: Mic,
       link: "/new-record"
     },
     {
@@ -29,12 +30,12 @@ export const buttonsProps = (role) => {
   ]
   : [
     {
-      label:  'New Record',
+      label:  'settings',
       Icon: Settings,
-      link: "/new-record"
+      link: "/settings"
     },
     {
-      label:  'Check Recordins',
+      label:  'Check sessions',
       Icon: AudioTrack,
       link: "/recordings" 
     },

@@ -30,7 +30,7 @@ export default function RecordingList() {
   const [isLoading, setLoader] = React.useState(false)
   const [message, setMessage] = React.useState('This action can not be undone.')
   const fetchData = async () => {
-    const response = await recordingService.getData()
+    const response = await recordingService.getData();
     setData(response)
   }
 

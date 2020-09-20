@@ -26,14 +26,14 @@ function Checkout(props) {
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)
-  const [loading, setLoader] = React.useState(false)
+  const [loading, setLoader] = React.useState(true)
+  const [isSaving, saving] = React.useState(false)
   const { enqueueSnackbar } = useSnackbar(); // 🍿
 
   const handleErrors = (error) => enqueueSnackbar(error, {variant : 'warning'});
 
   React.useEffect(() => { //? async & await 🤔
     if (id){ //edit page
-      setLoader(true)
       recordingServices.read(id)
         .then(r => {
           setSteps([r.name, ...constSteps.slice(1, constSteps.length)])
@@ -44,6 +44,7 @@ function Checkout(props) {
             setActiveStep(steps.length)
         })
     } else { 
+      setLoader(false)
       setRecording(emptyRecording)
       setSteps(constSteps)
       wasCreated(false)
@@ -58,15 +59,18 @@ function Checkout(props) {
     }
     enqueueSnackbar('Saving...', {variant : 'success', autoHideDuration: 800,})
     if(activeStep === 0 && !created) { // * Create the new record in the backend.
+      saving(true);
       recordingServices.create(recording).then(
         ({data}) => { // * If everything goes well
           wasCreated(true)// ? change Create status
           setRecording(data)// ? update the recording into the checkout component.
           props.history.push(`/record/${data.id}`);//?change the route
           setActiveStep(activeStep + 1)// ? go to the next page
+          saving(false);
         },
         (error) => {
           if(error.response) {
+            saving(false);
             handleErrors(error.response.data.message)
           } else {
             console.error(error)
@@ -124,7 +128,7 @@ function Checkout(props) {
                   }
                   <Navigation
                   steps={steps}
-                  // blocked = {}
+                  blocked = {isSaving}
                   step={activeStep} classes={classes}
                   back={handleBack} next={handleNext} />
                 </React.Fragment>

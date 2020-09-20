@@ -20,7 +20,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Signin(props) {
   const classes = useStyles();
-  const [error, setErro] = React.useState('')
+  const [error, setError] = React.useState('')
 
   // const [isAuthenticated, setAuth] = React.useState(false)
   const isAuthenticated = false
@@ -40,7 +40,7 @@ function Signin(props) {
         },
         (error) => {
           const { response:{data:message} } = error;
-          setErro(message.message);
+          setError(message.message);
           setLoader(false);
         }
       )
