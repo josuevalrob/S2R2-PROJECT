@@ -9,6 +9,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -25,6 +27,8 @@ function Signin({match:{params:{id}}}) {
 
   const [isAuthenticated, setAuth] = useState(false)
 
+  const [visiblePass, setVisiblePass] = useState(false)
+
   const [user, setUser] = useState({email: '', password: '', name:'', lastName:'', role: 'student'})
 
   const fetchUser = async (id) => {
@@ -32,7 +36,10 @@ function Signin({match:{params:{id}}}) {
     setUser(response);
   }
 
-  useEffect(()=>{fetchUser(id)}, [id])
+  useEffect(() => {
+    if(id)
+      fetchUser(id)
+  }, [id])
 
   const handleUser = name => event => setUser({...user, [name]: event.target.value})
 
@@ -123,9 +130,14 @@ function Signin({match:{params:{id}}}) {
                 fullWidth
                 name="password"
                 label="password"
-                type="password"
+                type={visiblePass ? "text" : "password"}
                 id="password"
                 autoComplete="none"
+                InputProps={{
+                  endAdornment: visiblePass
+                    ? <Visibility onClick={()=>setVisiblePass(false)} />
+                    : <VisibilityOff onClick={()=>setVisiblePass(true)} />
+                 }}
               />
             </Grid>
           </Grid>
