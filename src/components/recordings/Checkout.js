@@ -22,8 +22,9 @@ const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'How
 
 function Checkout(props) {
   const classes = useStyles();
-  const id = props.match.params.id
-  const [activeStep, setActiveStep] = React.useState(props.user.data.role === 'student' ? 1 :0); //*
+  const id = props.match.params.id;
+  const isStudent = props.user.data.role === 'student';
+  const [activeStep, setActiveStep] = React.useState(isStudent ? 1 :0); //*
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)
@@ -129,6 +130,7 @@ function Checkout(props) {
                   }
                   <Navigation
                   steps={steps}
+                  isStudent={isStudent}
                   blocked = {isSaving}
                   step={activeStep} classes={classes}
                   back={handleBack} next={handleNext} />
@@ -136,7 +138,7 @@ function Checkout(props) {
             }
           </React.Fragment>
         </Paper>
-        {id && activeStep < 1  && <GoToCreate/>}
+        {!isStudent && id && activeStep < 1  && <GoToCreate/>}
         <GoBack />
       </main>
     </React.Fragment>
