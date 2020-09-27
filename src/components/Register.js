@@ -159,7 +159,7 @@ function Signin({match:{params:{id}}}) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href={!!id ? "/students" : "/"} variant="body2" color={'secondary'}>
+              <Link href={"/"} variant="body2" color={'secondary'}>
                 {'Cancel and go back'}
               </Link>
             </Grid>

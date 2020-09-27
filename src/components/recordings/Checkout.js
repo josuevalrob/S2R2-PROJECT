@@ -15,6 +15,7 @@ import Link from '@material-ui/core/Link'
 import recordingServices from '../../services/recordingServices'
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { withAuthConsumer } from './../../contexts/AuthStore';
 
 export const emptyRecording = {id:'',name: '',comments: '', studentA: '', studentB:  '',} //? should be an exteranl object. More complete
 const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'How about you?', 'Future Recordings']
@@ -22,7 +23,7 @@ const constSteps = ['Set-Up', 'Before talking', 'Talking', 'After talking', 'How
 function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id
-  const [activeStep, setActiveStep] = React.useState(0); //*
+  const [activeStep, setActiveStep] = React.useState(props.user.data.role === 'student' ? 1 :0); //*
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)
@@ -36,10 +37,10 @@ function Checkout(props) {
     if (id){ //edit page
       recordingServices.read(id)
         .then(r => {
-          setSteps([r.name, ...constSteps.slice(1, constSteps.length)])
-          setRecording(r)
-          wasCreated(true)
-          setLoader(false)
+          setSteps([r.name, ...constSteps.slice(1, constSteps.length)]);
+          setRecording(r);
+          wasCreated(true);
+          setLoader(false);
           if(!!r.complete)
             setActiveStep(steps.length)
         })
@@ -146,7 +147,7 @@ export function GoToCreate() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"This is not what you are looking for?, "}
-      <Link color="inherit" component={AdapterLink} to="/new-record" >
+      <Link color="primary" component={AdapterLink} to="/new-record" >
         Click here
       </Link>
       {', and Go to create a new recording.'}
@@ -154,10 +155,12 @@ export function GoToCreate() {
   );
 }
 
-export default function IntegrationNotistack(props) {
+function IntegrationNotistack(props) {
   return (
     <SnackbarProvider maxSnack={3}>
       <Checkout {...props}/>
     </SnackbarProvider>
   );
 }
+
+export default withAuthConsumer(IntegrationNotistack)

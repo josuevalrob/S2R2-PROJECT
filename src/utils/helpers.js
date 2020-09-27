@@ -3,6 +3,9 @@ import Mic from '@material-ui/icons/Mic';
 import AudioTrack from '@material-ui/icons/Audiotrack';
 import Person from '@material-ui/icons/Person';
 import List from '@material-ui/icons/List';
+import RecentActors from '@material-ui/icons/RecentActors';
+import InsertEmoticon from '@material-ui/icons/InsertEmoticon';
+import Explore from '@material-ui/icons/Explore';
 
 export const buttonsProps = (role) => {
   return role ==='teacher' 
@@ -15,7 +18,7 @@ export const buttonsProps = (role) => {
     {
       label:  'Check Recordins',
       Icon: AudioTrack,
-      link: "/recordings" 
+      link: "/recordings"
     },
     {
       label:  'New Student',
@@ -25,19 +28,29 @@ export const buttonsProps = (role) => {
     {
       label:  'Check Students',
       Icon: List,
-      link: "/students" 
+      link: "/students"
     }
   ]
   : [
     {
-      label:  'settings',
-      Icon: Settings,
-      link: "/settings"
-    },
-    {
       label:  'Check sessions',
       Icon: AudioTrack,
-      link: "/recordings" 
+      link: "/recordings"
+    },
+    {
+      label:  'Strategies',
+      Icon: Explore,
+      link: "/strategies"
+    },
+    {
+      label:  'EFL Profile',
+      Icon: RecentActors,
+      link: "/efl"
+    },
+    {
+      label:  'Emotions',
+      Icon: InsertEmoticon,
+      link: "/emotions"
     },
   ]
 }
