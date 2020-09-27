@@ -7,7 +7,7 @@ function GoBack() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"If you don't wanna be here, "}
-      <Link color="inherit" component={AdapterLink} to="/">
+      <Link color="inherit" component={AdapterLink} to="/" color={'secondary'}>
         Go back
       </Link>
       {' to the main menu.'}
