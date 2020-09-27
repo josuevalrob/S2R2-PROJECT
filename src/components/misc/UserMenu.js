@@ -9,11 +9,11 @@ function UserMenu({user, onUserChange}) {
   return (
     <Typography variant="body2" color="textSecondary">
       {`Hello ${data.name}, here you can `}
-      <Link color="inherit" to={`/user/${data.id}/edit`} component={AdapterLink} color={'primary'}>
+      <Link to={`/user/${data.id}/edit`} component={AdapterLink} color={'primary'}>
         edit your profile
       </Link>
       {' or simply  '}
-      <Link color="inherit" to={'/'} onClick={()=> onUserChange()} component={AdapterLink} color={'secondary'}>
+      <Link to={'/'} onClick={()=> onUserChange()} component={AdapterLink} color={'secondary'}>
         logout
       </Link>
       {' from the site'}

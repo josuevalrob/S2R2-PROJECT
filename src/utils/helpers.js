@@ -1,4 +1,3 @@
-import Settings from '@material-ui/icons/Settings';
 import Mic from '@material-ui/icons/Mic';
 import AudioTrack from '@material-ui/icons/Audiotrack';
 import Person from '@material-ui/icons/Person';
