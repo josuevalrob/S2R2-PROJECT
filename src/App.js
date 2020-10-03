@@ -8,7 +8,7 @@ import Checkout from './components/recordings/Checkout.js';
 import { Switch } from 'react-router-dom';
 import PrivateRoute from './guards/PrivateRoutes';
 import PublicRoutes from './guards/PublicRoutes';
-import Form from './components/Form';
+import EflForm from './components/Forms/Efl.form';
 
 function App() {
   return (
@@ -20,9 +20,9 @@ function App() {
           <PrivateRoute exact path="/user" component={Register} />
           <PrivateRoute exact path="/user/:id/edit" component={Register} />
 
-          <PrivateRoute exact path="/strategies" component={Form} />
-          <PrivateRoute exact path="/efl" component={Form} />
-          <PrivateRoute exact path="/emotions" component={Form} />
+          <PrivateRoute exact path="/strategies" component={EflForm} />
+          <PrivateRoute exact path="/efl" component={EflForm} />
+          <PrivateRoute exact path="/emotions" component={EflForm} />
 
           <PrivateRoute exact path="/new-record" component={Checkout} />
           <PrivateRoute path="/record/:id" component={Checkout} />
