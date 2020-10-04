@@ -97,9 +97,11 @@ function Signin(props) {
             variant="contained"
             color="primary"
             className={classes.submit} >
-            {!isLoading
+            { 
+              !isLoading
               ? 'Sign In'
-              : <CircularProgress className={classes.progress} color="secondary" />}
+              : <CircularProgress className={classes.progress} color="secondary" />
+            }
           </Button>
           <Grid container>
             <Grid item xs>
