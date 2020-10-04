@@ -19,7 +19,7 @@ const Form = ({
   handleSubmit,
   classes
 }) => (
-  <Container component="main" maxWidth="xs">
+  <Container component="main" >
     <CssBaseline />
     { isLoading
     ? <LinearProgress className={classes.progress} color="secondary" />

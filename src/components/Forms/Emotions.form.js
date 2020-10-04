@@ -5,6 +5,7 @@ import { withAuthConsumer } from '../../contexts/AuthStore';
 import useStyles from '../../styles/forms';
 import {useForm} from '../../hooks';
 import Form from './form';
+import Typography from '@material-ui/core/Typography';
 
 const Emotions = ({user}) => {
   const {data:{id}} = user;
@@ -15,7 +16,14 @@ const Emotions = ({user}) => {
 
   useEffect(()=>{fetchData();}, []);
 
-  return <Form {...fields} classes={classes} />
+  return (
+  <React.Fragment>
+    <Typography variant="body1" gutterBottom >
+      {'Scenario 1: You and your partner have to talk in English AND your teacher will check what you are saying.'}
+    </Typography>
+    <Form {...fields} classes={classes} />
+  </React.Fragment>
+  )
 }
 
 
