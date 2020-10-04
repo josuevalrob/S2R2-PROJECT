@@ -10,60 +10,20 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import useStyles from '../../styles/forms';
+import {useForm, fieldsMapper} from '../../hooks';
 
-export const fieldsMapper = data => data.labels.map(label => ({...label, value: data.questions[label.key]}))
+
 
 const Efl = ({user}) => {
   const {data:{id}} = user;
   const classes = useStyles();
-  const [isLoading, setLoader] = useState(false)
-
-  const [data, setData] = useState([]);
-  const [error, setError] = useState('Fetching field forms')
-
-  const fetchData = async () => {
-    setLoader(true);
-    const response= await formsService.readElf(id);
-    const fields = fieldsMapper(response)
-    if(!fields.length) {
-      setError('We can not fetch the field forms')
-    } else {
-      setData(fields);
-      setLoader(false);
-    }
-  }
-
-  const handleSubmit = (event) => {
-    setLoader(true);
-    event.preventDefault();
-    const questions = data.reduce((ac, cr) => ({...ac, ...{ [cr.key] : cr.value } }), {})
-    debugger
-    formsService.updateElf(id)(questions)
-      .then(response => {
-        const fields = fieldsMapper(response)
-        setData(fields);
-        setLoader(false);
-      })
-      .catch(error => {
-        debugger
-      })
-  }
-
-  const handleChange = name => event => {
-    const index = data.findIndex(x => x.key === name);
-    const update = [...data];
-    update[index].value = event.target.value;
-    setData(update)
-  }
+  const update = formsService.updateElf(id);
+  const get = formsService.readElf(id);
+  const { values, error, isLoading, handleChange, handleSubmit, fetchData } = useForm({update, get});
 
   useEffect(()=>{fetchData();}, [])
 
@@ -72,13 +32,13 @@ const Efl = ({user}) => {
       <CssBaseline />
       { isLoading
       ? <LinearProgress className={classes.progress} color="secondary" />
-      : !data.length
+      : !values.length
         ? !!error && <div> {error} </div>
         : <div className={classes.paper}>
           <form className={classes.form} onSubmit={handleSubmit} autoComplete="off">
           <Grid container spacing={2}>
             {
-              data.map(obj => (
+              values.map(obj => (
                   <Grid item xs={12} key={obj.key}>
                     {
                       obj.options && !!obj.options.length
