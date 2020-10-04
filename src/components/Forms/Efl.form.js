@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import withFormPage from './withFormPage';
 import formsService from '../../services/forms.services'
 import { withAuthConsumer } from '../../contexts/AuthStore';
@@ -13,9 +13,8 @@ const Efl = ({user}) => {
   const classes = useStyles();
   const update = formsService.updateElf(id);
   const get = formsService.readElf(id);
-  const { fetchData, ...fields } = useForm({update, get});
+  const { ...fields } = useForm({update, get});
 
-  useEffect(()=>{fetchData();}, []);
 
   return (
     <React.Fragment>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const fieldsMapper = data => data.labels.map(label => ({
   ...label, value: data.questions[label.key]
@@ -45,10 +45,11 @@ export const useForm = ({update, get}) => {
     }
   }
 
+  useEffect(()=>{fetchData();}, []);
+
   return {
     handleChange,
     handleSubmit,
-    fetchData,
     values,
     error,
     isLoading,

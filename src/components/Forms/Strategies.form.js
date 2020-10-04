@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import withFormPage from './withFormPage';
 import formsService from '../../services/forms.services'
 import { withAuthConsumer } from '../../contexts/AuthStore';
@@ -14,7 +14,7 @@ const Strategies = ({user}) => {
   const classes = useStyles();
   const update = formsService.updateStr(1)(id);
   const get = formsService.readStr(1)(id);
-  const { fetchData, ...fields } = useForm({update, get});
+  const { ...fields } = useForm({update, get});
   const options = [
     '1 es “nunca o casi nunca”',
     '2 “generalmente no lo hago” (menos de la mitad de las veces),',
@@ -22,7 +22,6 @@ const Strategies = ({user}) => {
     '4 “a menudo” (más de la mitad de las veces) ',
     '5 “siempre o casi siempre”',
   ]
-  useEffect(()=>{fetchData();}, []);
 
   return (
   <React.Fragment>

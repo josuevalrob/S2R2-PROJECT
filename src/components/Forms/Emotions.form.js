@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import withFormPage from './withFormPage';
 import formsService from '../../services/forms.services'
 import { withAuthConsumer } from '../../contexts/AuthStore';
@@ -12,9 +12,7 @@ const Emotions = ({user}) => {
   const classes = useStyles();
   const update = formsService.updateEmotion(id);
   const get = formsService.readEmotion(id);
-  const { fetchData, ...fields } = useForm({update, get});
-
-  useEffect(()=>{fetchData();}, []);
+  const { ...fields } = useForm({update, get});
 
   return (
   <React.Fragment>
