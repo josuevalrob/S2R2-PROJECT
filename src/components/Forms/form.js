@@ -4,13 +4,14 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
-
+import Checkbox from '@material-ui/core/Checkbox';
 const Form = ({
   values,
   error,
@@ -31,15 +32,24 @@ const Form = ({
           {
             values.map(obj => (
                 <Grid item xs={12} key={obj.key}>
+                  <FormControl component="fieldset" fullWidth>
                   {
                     obj.options && !!obj.options.length
                     ? <FormGroup row>
                         <FormLabel component="legend">{obj.label}</FormLabel>
-                        <RadioGroup row name={obj.key} value={obj.value} onChange={handleChange(obj.key)} >
+                      { obj.type === 'multiple'
+                      ? obj.options.map((label, i) => (
+                        <FormControlLabel key={label.trim()}
+                          control={<Checkbox checked={obj.value[label]} onChange={handleChange(obj.key)} name={label} />}
+                          label={label}
+                        />
+                      ))
+                      : <RadioGroup row name={obj.key} value={obj.value || obj.options[0]} onChange={handleChange(obj.key)} >
                           {obj.options.map((option) => (
                             <FormControlLabel key={option} value={option} control={<Radio />} label={option} />
                           ))}
                         </RadioGroup>
+                      }
                       </FormGroup>
                     : <TextField
                         autoComplete="off"
@@ -47,13 +57,15 @@ const Form = ({
                         onChange={handleChange(obj.key)}
                         value={obj.value}
                         variant="outlined"
-                        // required
+                        multiline
+                        rows={3}
                         fullWidth
                         id={obj.key}
                         label={obj.label}
                         autoFocus
                       />
                   }
+                  </FormControl>
                 </Grid>
               )
             )

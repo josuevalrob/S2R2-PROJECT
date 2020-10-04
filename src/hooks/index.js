@@ -26,14 +26,17 @@ export const useForm = ({update, get}) => {
     event.persist();
     const index = values.findIndex(x => x.key === name);
     const update = [...values];
-    update[index].value = isNaN(Number(event.target.value)) ? Number(event.target.value) : event.target.value;
+    update[index].value = event.type === 'change' && update[index].type === 'multiple'
+      ? {...update[index].value, [event.target.name] : event.target.checked}
+      : isNaN(Number(event.target.value)) ? event.target.value : Number(event.target.value);
+
     setValues(update)
   };
 
   const fetchData = async () => {
     setLoader(true);
     const response= await get;
-    const fields = fieldsMapper(response)
+    const fields = fieldsMapper(response);
     if(!fields.length) {
       setError('We can not fetch the field forms')
     } else {
