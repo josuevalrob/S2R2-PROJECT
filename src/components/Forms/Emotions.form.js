@@ -6,12 +6,11 @@ import useStyles from '../../styles/forms';
 import {useForm} from '../../hooks';
 import Form from './form';
 
-
-const Efl = ({user}) => {
+const Emotions = ({user}) => {
   const {data:{id}} = user;
   const classes = useStyles();
-  const update = formsService.updateElf(id);
-  const get = formsService.readElf(id);
+  const update = formsService.updateEmotion(id);
+  const get = formsService.readEmotion(id);
   const { fetchData, ...fields } = useForm({update, get});
 
   useEffect(()=>{fetchData();}, []);
@@ -20,4 +19,4 @@ const Efl = ({user}) => {
 }
 
 
-export default withAuthConsumer(withFormPage(Efl));
+export default withAuthConsumer(withFormPage(Emotions));

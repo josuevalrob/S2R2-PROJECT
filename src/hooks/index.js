@@ -26,7 +26,7 @@ export const useForm = ({update, get}) => {
     event.persist();
     const index = values.findIndex(x => x.key === name);
     const update = [...values];
-    update[index].value = event.target.value;
+    update[index].value = Number(event.target.value) !== NaN ? Number(event.target.value) : event.target.value;
     setValues(update)
   };
 

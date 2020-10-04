@@ -6,18 +6,17 @@ import useStyles from '../../styles/forms';
 import {useForm} from '../../hooks';
 import Form from './form';
 
-
-const Efl = ({user}) => {
+const Strategies = ({user}) => {
   const {data:{id}} = user;
   const classes = useStyles();
-  const update = formsService.updateElf(id);
-  const get = formsService.readElf(id);
+  const update = formsService.updateStr(1)(id);
+  const get = formsService.readStr(1)(id);
   const { fetchData, ...fields } = useForm({update, get});
 
   useEffect(()=>{fetchData();}, []);
 
-  return <Form {...fields} classes={classes} />
+  return <Form {...fields} classes={classes}  />
 }
 
 
-export default withAuthConsumer(withFormPage(Efl));
+export default withAuthConsumer(withFormPage(Strategies));
