@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const fieldsMapper = data => data.labels.map(label => ({
   ...label, value: data.questions[label.key]
@@ -33,7 +33,7 @@ export const useForm = ({update, get}) => {
     setValues(update)
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoader(true);
     const response= await get;
     const fields = fieldsMapper(response);
@@ -43,9 +43,9 @@ export const useForm = ({update, get}) => {
       setValues(fields);
       setLoader(false);
     }
-  }
+  }, [])
 
-  useEffect(()=>{fetchData();}, []);
+  useEffect(()=>{fetchData();}, [fetchData]);
 
   return {
     handleChange,

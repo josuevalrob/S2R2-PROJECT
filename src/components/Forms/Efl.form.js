@@ -18,7 +18,7 @@ const Efl = ({user}) => {
 
   return (
     <React.Fragment>
-      <Typography component="h1" variant="h5">
+      <Typography component="h3" >
         {'Este cuestionario ha sido diseñado para estudiantes de inglés como lengua extranjera que participan en conversaciones por pareja. Por favor lee cada enunciado y selecciona la respuesta marcando con una X la casilla (1,2,3,4,5) que más se acerque a tu realidad.'}
       </Typography>
       <Form {...fields} classes={classes} />

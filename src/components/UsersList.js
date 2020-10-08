@@ -30,14 +30,14 @@ export default function UserList() {
   const [message, setMessage] = React.useState('This action can not be undone.')
 
   const fetchData = async () => {
-    const response = await userService.getData()
+    const response = await userService.getData();
     setData(response)
   }
 
   const [alert, setAlert] = React.useState(false)
 
   const DeleteRow = async (id) => {
-    setLoader(true)
+    setLoader(true);
     userService.destroy(id).then(()=>{
       fetchData()
       setLoader(false)
