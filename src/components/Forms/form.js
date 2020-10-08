@@ -50,7 +50,7 @@ const Form = ({
                           label={label}
                         />
                       ))
-                      : <RadioGroup row name={obj.key} value={obj.value || obj.options[0]} onChange={handleChange(obj.key)} >
+                      : <RadioGroup row name={obj.key} value={obj.value || ''} onChange={handleChange(obj.key)} >
                           {obj.options.map((option) => (
                             <FormControlLabel key={option} value={option} control={<Radio />} label={option} />
                           ))}
