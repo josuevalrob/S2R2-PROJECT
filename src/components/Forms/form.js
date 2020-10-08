@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import FormGroup from '@material-ui/core/FormGroup';
 import Checkbox from '@material-ui/core/Checkbox';
+
 const Form = ({
   values,
   error,
@@ -38,9 +39,14 @@ const Form = ({
                     ? <FormGroup row>
                         <FormLabel component="legend">{obj.label}</FormLabel>
                       { obj.type === 'multiple'
-                      ? obj.options.map((label, i) => (
-                        <FormControlLabel key={label.trim()}
-                          control={<Checkbox checked={obj.value[label]} onChange={handleChange(obj.key)} name={label} />}
+                      ? obj.options
+                        .map((option, i) => ({
+                          opt:option, 
+                          label:!!obj.labels ? obj.labels[i] : option
+                        }))
+                        .map(({opt, label}) => (
+                        <FormControlLabel key={opt.trim()}
+                          control={<Checkbox checked={obj.value[opt]} onChange={handleChange(obj.key)} name={opt} />}
                           label={label}
                         />
                       ))
