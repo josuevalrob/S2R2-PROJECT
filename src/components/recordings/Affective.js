@@ -8,7 +8,7 @@ import {affectivesValues} from '../../utils/cognitiveTest'
 import Grid from '@material-ui/core/Grid';
 
 const Affective = ({recording, fn}) => {
-  const {socioAffective, studentA, studentB} =  recording; //[{},{}]  
+  const {socioAffective, labels} =  recording; //[{},{}]  
   const [isLoad, load] = React.useState(false)
 
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
@@ -63,9 +63,8 @@ const Affective = ({recording, fn}) => {
       value: typeof itemsArr[i].help !== "undefined" && (itemsArr[i].help ? 'yes' : 'no'),
       handle: handleChange
     }
-  }))
-  const tabLabel = [{label:studentA},{label:studentB}]
-  return TabHoc(Questions, tabLabel, tabContent)
+  }));
+  return TabHoc(Questions, labels, tabContent)
 }
 
 const Questions = (props) => (

@@ -16,7 +16,6 @@ export const readUploadedFileAsAudio = (id, audioName, audioIds, audioUrl) => {
           resolve(response) //*returned value
           // populateAudioMessages();
         }, err => {
-          debugger
           console.error('Invalid status saving audio message: ' + err.status)
           reject(err)
         }

@@ -13,8 +13,7 @@ const findLabelInCgntVal = findLabel(cognitiveValues)
 // const findLabelInAffectVal = findLabel(affectivesValues)
 
 const Thanks = ({data}) => {
-  const {studentA, studentB, name} =  data; //[{},{}]  
-  const tabLabel = [{label:studentA},{label:studentB}]
+  const {name, labels} =  data; //[{},{}] 
   const tabContent = treatData(data)
   return (
     <React.Fragment>
@@ -24,7 +23,7 @@ const Thanks = ({data}) => {
       <Typography variant="subtitle1">
         Here you will see all your inputs and have a discussion with your teacher and partner
       </Typography>
-      {TabHoc(TabBody, tabLabel, tabContent)}
+      {TabHoc(TabBody, labels, tabContent)}
     </React.Fragment>
   )
 }

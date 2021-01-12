@@ -1,7 +1,14 @@
 import http from './BaseServices';
 const base = '/recording'
 
-const breakStudent = e =>({...e, studentA: e.students[0], studentB: e.students[1]})
+const breakStudent = e => {
+  return ({
+    ...e,
+    studentA: e.students[0],
+    studentB: e.students[1],
+    labels: e.participants.map(({name}) => name)
+  })
+}
 
 //? can include pagination
 const getData = () =>
@@ -13,7 +20,7 @@ const getData = () =>
       }]
     })
 
-const create = record =>  http.post(base, record)
+const create = record =>  http.post(base, record).then(({data})=>breakStudent(data))
 
 const update = (id, record) => http.put(`${base}/${id}`, record).then(({data})=>breakStudent(data))
 

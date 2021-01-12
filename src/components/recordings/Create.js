@@ -90,7 +90,9 @@ class Settings extends React.Component { //update to hooks.
             <>
             <Grid item xs={12} sm={6}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel id="studentA-label">First Student</InputLabel>
+                <InputLabel id="studentA-label" style={{background:'#fff'}}>
+                  First Student
+                </InputLabel>
                 <Select
                   labelId="studentA-label"
                   id="studentA"
@@ -109,7 +111,7 @@ class Settings extends React.Component { //update to hooks.
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl variant="outlined" fullWidth>
-                <InputLabel id="studentB-label">Second Student</InputLabel>
+                <InputLabel id="studentB-label" style={{background:'#fff'}}>Second Student</InputLabel>
                 <Select
                   labelId="studentB-label"
                   id="studentB"

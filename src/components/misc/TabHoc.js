@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Tab from '@material-ui/core/Tab';
 const a11yProps = i => ({ id: `simple-tab-${i}`, 'aria-controls': `simple-tabpanel-${i}`});
 
-const TabHoc = (Component, label, content) => {  //* </> [...] [...]
+const TabHoc = (Component, labels, content) => {  //* </> [...] [...]
   const classes = useStyles();
   const [student, setStudent] = React.useState(0); //Tabs navigation 🚢
   const handleTab = (event, newValue) => setStudent(newValue);
@@ -25,8 +25,8 @@ const TabHoc = (Component, label, content) => {  //* </> [...] [...]
               variant="fullWidth"
               onChange={handleTab}
             >
-              {label.map((l, i) => (
-                <Tab key={i} {...l} {...a11yProps(i)}  />
+              {labels.map((l, i) => (
+                <Tab key={i} label={l} {...a11yProps(i)}  />
               ))}
             </Tabs>
           </AppBar>

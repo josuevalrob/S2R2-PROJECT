@@ -63,7 +63,7 @@ function Checkout(props) {
     if(activeStep === 0 && !created) { // * Create the new record in the backend.
       saving(true);
       recordingServices.create(recording).then(
-        ({data}) => { // * If everything goes well
+        (data) => { // * If everything goes well
           wasCreated(true)// ? change Create status
           setRecording(data)// ? update the recording into the checkout component.
           props.history.push(`/record/${data.id}`);//?change the route

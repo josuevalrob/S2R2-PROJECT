@@ -15,7 +15,7 @@ export const buttonsProps = (role) => {
       link: "/new-record"
     },
     {
-      label:  'Check Recordins',
+      label:  'Check Recordings',
       Icon: AudioTrack,
       link: "/recordings"
     },

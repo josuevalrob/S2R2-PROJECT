@@ -9,7 +9,7 @@ export const arrToObj = (arr) => arr.reduce((obj, item) => {
 }, {})
 
 const Regulation = ({recording, fn, stage}) => {
-  const {cognitive, studentA, studentB, participants} =  recording; //[{},{}]
+  const {cognitive, labels} =  recording; //[{},{}]
   const [isLoad, load] = React.useState(false)
 
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
@@ -55,15 +55,8 @@ const Regulation = ({recording, fn, stage}) => {
   const tabContent = [
     {student:0, obj:itemsArr[0], handle:handleChange, arr: cognitiveValues, stage},
     {student:1, obj:itemsArr[1], handle:handleChange, arr: cognitiveValues, stage},
-  ]
-  const tabLabel = [
-    {
-      label: !!participants.length ? participants[0].name : studentA
-    },
-    {
-      label: !!participants.length ? participants[1].name : studentB
-    }]
-  return TabHoc(FormList, tabLabel, tabContent)
+  ];
+  return TabHoc(FormList, labels, tabContent)
 }
 
 export default Regulation //4 renders... 🧐
