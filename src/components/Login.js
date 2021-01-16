@@ -39,6 +39,7 @@ function Signin(props) {
           props.onUserChange(user); //* actualizamos el context
         },
         (error) => {
+          console.log(error);
           const { response:{data:message} } = error;
           setError(message.message);
           setLoader(false);
