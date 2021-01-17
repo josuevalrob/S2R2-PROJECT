@@ -83,7 +83,8 @@ function Checkout(props) {
       //session is a variable that can be set as a middleware. And before going to the back, set custom variables.
       const session = activeStep + 1 < steps.length ? {...recording} : {...recording, complete:true}
       recordingServices.update(id, session).then(
-        (data) => { // setRecording(data) //? do i need to update it 🤔?
+        (data) => { // 
+          setRecording(data) //? do i need to update it 🤔?
           setSteps([data.name, ...constSteps.slice(1, constSteps.length)])
           setActiveStep(activeStep + 1)
         },
