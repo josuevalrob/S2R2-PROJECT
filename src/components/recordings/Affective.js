@@ -6,6 +6,8 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import {affectivesValues} from '../../utils/cognitiveTest'
 import Grid from '@material-ui/core/Grid';
+import Talking from './Talking'
+import { v4 } from 'uuid';
 
 const Affective = ({recording, fn}) => {
   const {socioAffective, labels} =  recording; //[{},{}]  
@@ -62,7 +64,9 @@ const Affective = ({recording, fn}) => {
     help: {
       value: typeof itemsArr[i].help !== "undefined" && (itemsArr[i].help ? 'yes' : 'no'),
       handle: handleChange
-    }
+    },
+    callback: fn,
+    data: recording
   }));
   return TabHoc(Questions, labels, tabContent)
 }
@@ -84,6 +88,18 @@ const Questions = (props) => (
           <FormControlLabel value='no' control={<Radio />} label="No, they didn't" />
         </RadioGroup>
       </FormGroup>
+    </Grid>
+    <Grid item xs={12} sm={6}>
+      <FormGroup row>
+          <Talking 
+            fn={props.callback}
+            recording={props.data}
+            updateQuery={{
+              ...props.data.socioAffective,
+              audioId: v4()
+            }}
+          />
+        </FormGroup>
     </Grid>
   </Grid>
 )

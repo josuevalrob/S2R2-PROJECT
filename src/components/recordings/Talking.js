@@ -7,21 +7,19 @@ import ReactH5AudioPlayer from "react-h5-audio-player";
 import readAndUploadFileAsAudio from '../../utils/audioFile'
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { v4 } from 'uuid';
 import Card from '@material-ui/core/Card';
 import RecordingService from './../../services/recordingServices'
 const {NODE_ENV, REACT_APP_API_URL, REACT_APP_DEV_API} = process.env 
 
-export default function Talking ({recording, fn}) {
+export default function Talking ({recording, fn, updateQuery}) {
   const {id, audioId} =  recording;
   const recordingRef = React.useRef(recording)
   useEffect(() => {
     recordingRef.current = recording
   })
   const handleSave = async (urlAudio) => {
-    const audioName = v4()
     try {
-      const newRecording = await readAndUploadFileAsAudio(id, audioName, urlAudio)
+      const newRecording = await readAndUploadFileAsAudio(id, updateQuery, urlAudio)
       fn({...newRecording, hasError:false, errors:{}})
       return true
     } catch (e) {
@@ -71,7 +69,7 @@ export const AudioPlayer = ({audio, onDelete}) => {
     <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
         <div style={{display:'flex'}}>
           <ReactH5AudioPlayer
-            src={`${API}/messages/${audio}`} />
+            src={`https://s2r2.app/messages/${audio}`} />
           {onDelete && 
           <IconButton style={{margin:'.5em 0'}}
               onClick={onDelete}

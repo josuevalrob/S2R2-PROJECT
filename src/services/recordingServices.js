@@ -24,7 +24,6 @@ const create = record =>  http.post(base, record).then(({data})=>breakStudent(da
 
 const update = (id, record) => http.put(`${base}/${id}`, record).then(({data})=>breakStudent(data))
 
-const createAudio = (id, audio) => http.put(`${base}/${id}/create`, audio).then(({data})=>breakStudent(data))
 
 const singleAudio = (id, audio) => http.put(`${base}/${id}/single`, audio).then(({data})=>breakStudent(data))
 
@@ -41,7 +40,6 @@ export default {
   read,
   getData,
   update,
-  createAudio,
   destroy,
   singleAudio,
   deleteSingleAudio,
