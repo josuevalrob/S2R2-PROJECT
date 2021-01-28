@@ -68,8 +68,10 @@ export const AudioPlayer = ({audio, onDelete}) => {
   return !!audio &&
     <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
         <div style={{display:'flex'}}>
-          <ReactH5AudioPlayer
-            src={`https://s2r2.app/messages/${audio}`} />
+
+          <ReactH5AudioPlayer autoPlay src={`${API}/messages/${audio}`} />
+          <ReactH5AudioPlayer autoPlay src={`/messages/${audio}`} />
+
           {onDelete && 
           <IconButton style={{margin:'.5em 0'}}
               onClick={onDelete}
