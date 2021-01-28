@@ -69,8 +69,7 @@ export const AudioPlayer = ({audio, onDelete}) => {
     <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
         <div style={{display:'flex'}}>
 
-          <ReactH5AudioPlayer autoPlay src={`${API}/messages/${audio}`} />
-          <ReactH5AudioPlayer autoPlay src={`/messages/${audio}`} />
+          <ReactH5AudioPlayer src={`${API}/messages/${audio}`} />
 
           {onDelete && 
           <IconButton style={{margin:'.5em 0'}}
