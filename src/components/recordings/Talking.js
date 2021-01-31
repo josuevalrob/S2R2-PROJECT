@@ -11,7 +11,7 @@ import Card from '@material-ui/core/Card';
 import RecordingService from './../../services/recordingServices'
 const {NODE_ENV, REACT_APP_API_URL, REACT_APP_DEV_API} = process.env 
 
-export default function Talking ({recording, fn, updateQuery}) {
+export default function Talking ({recording, callback, updateQuery, title}) {
   const {id, audioId} =  recording;
   const recordingRef = React.useRef(recording)
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Talking ({recording, fn, updateQuery}) {
   const handleSave = async (urlAudio) => {
     try {
       const newRecording = await readAndUploadFileAsAudio(id, updateQuery, urlAudio)
-      fn({...newRecording, hasError:false, errors:{}})
+      callback({...newRecording, hasError:false, errors:{}})
       return true
     } catch (e) {
       console.log(e);
@@ -31,45 +31,45 @@ export default function Talking ({recording, fn, updateQuery}) {
   const handleDelete = async (audioName) => {
     RecordingService.deleteSingleAudio(id, {audioName})
       .then(
-        fn({...recording, audioId:'', hasError: true, 
+        callback({...recording, audioId:'', hasError: true, 
         errors:{x:'We need an audio recording'}}), 
         (error)=>{
           console.error(error)
         })
       }
-      
+
   useEffect(() => {
-    !recordingRef.current.audioId && fn({
+    !recordingRef.current.audioId && callback({
       ...recordingRef.current, 
       hasError: true, 
       errors:{x:'We need an audio recording'}
     })
-  }, [fn]);
-  
-  
-  return <TabContainer newAudio={handleSave} deleteAudio={handleDelete} audio={audioId}/>
+  }, [callback]);
+
+
+  return <TabContainer {...{handleSave, handleDelete, audioId}} title={title || recording.name}/>
 }
 /**
  * wrapper the recording & player
- * @param {newAudio, student, audios} props callback, idtab, array
+ * @param {handleSave, student, audios} props callback, idtab, array
  */
-const TabContainer = ({newAudio, deleteAudio, audio}) => (
+const TabContainer = ({handleSave, handleDelete, audioId, title}) => (
     <Container component="main">
     <CssBaseline />
     <Card style={{display:'flex', height:'100%'}}>
-        <Recorder handleSave={({blob})=>newAudio(blob)}/>
-        <AudioPlayer onDelete={()=>deleteAudio(audio)} audio={audio} />
+        <Recorder handleSave={({blob})=>handleSave(blob)} title={title}/>
+        <AudioPlayer onDelete={()=>handleDelete(audioId)} audioId={audioId} />
       </Card>
     </Container>
   )
 
-export const AudioPlayer = ({audio, onDelete}) => {
+export const AudioPlayer = ({audioId, onDelete}) => {
   const API = NODE_ENV === "development" ? REACT_APP_DEV_API : REACT_APP_API_URL;
-  return !!audio &&
+  return !!audioId &&
     <div style={{width:'100%', alignSelf: 'center', overflow:'scroll'}}>
         <div style={{display:'flex'}}>
 
-          <ReactH5AudioPlayer src={`${API}/messages/${audio}`} />
+          <ReactH5AudioPlayer src={`${API}/messages/${audioId}`} />
 
           {onDelete && 
           <IconButton style={{margin:'.5em 0'}}
@@ -80,16 +80,3 @@ export const AudioPlayer = ({audio, onDelete}) => {
         </div>
     </div>
 }
-export const addIds = (audioName, ids, student) =>
-  ids.map( (e,i) => i === student //update an specific tab
-    ? !!ids[student] //if that students has any ids
-      ? [...ids[student], audioName] //clone one, or
-      : [audioName] // create a new one
-    : e || [] //if there is not e, return an array
-  )
-
-export const deleteId = (ids, student, audID) =>
-  ids.map((e, i)=> i === student
-    ? ids[student].filter(e=>e!==audID)
-    : e
-  )

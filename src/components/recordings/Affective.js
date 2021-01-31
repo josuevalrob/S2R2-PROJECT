@@ -10,7 +10,7 @@ import Talking from './Talking'
 import { v4 } from 'uuid';
 
 const Affective = ({recording, fn}) => {
-  const {socioAffective, labels} =  recording; //[{},{}]  
+  const {socioAffective, labels} =  recording; //[{},{}]
   const [isLoad, load] = React.useState(false)
 
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
@@ -23,6 +23,7 @@ const Affective = ({recording, fn}) => {
         newState = [state[0],{...state[1], ...payload }]
         break
       case 'fill': 
+      debugger
         newState = payload //from  parent. 👴🏾
         load(true)
         break
@@ -39,28 +40,28 @@ const Affective = ({recording, fn}) => {
     }
   }, [socioAffective, isLoad])
 
-  const handleChange = (event, student, type) => {    
+  const handleChange = (event, student, type) => {
     const name = event.target.value
     dispatch({
-      type: student, 
-      payload: type === 'feel' 
+      type: student,
+      payload: type === 'feel'
         ? {[type]: name}
         : {[type]: name === 'yes' ? true: false}
     })
-  }    
-  
+  }
+
   const questions = {
-    feel: 'How did you feel when using strategies?', 
+    feel: 'How did you feel when using strategies?',
     help: 'Did they help you to talk to your partner?'
   }
   const tabContent = recording.students.map((std, i) => ({
     questions,
     feel : {
-      arr: affectivesValues, 
-      student:!!i?'B':'A', 
-      value: itemsArr[i].feel, 
+      arr: affectivesValues,
+      student:!!i?'B':'A',
+      value: itemsArr[i].feel,
       handle: handleChange
-    }, 
+    },
     help: {
       value: typeof itemsArr[i].help !== "undefined" && (itemsArr[i].help ? 'yes' : 'no'),
       handle: handleChange
@@ -71,37 +72,40 @@ const Affective = ({recording, fn}) => {
   return TabHoc(Questions, labels, tabContent)
 }
 
-const Questions = (props) => (
+const Questions = ({ questions, feel, help, callback, data, index}) => (
+  <>
   <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
-      <h3>{props.questions.feel}</h3>
-      <OptionList {...props.feel}/>
+      <h3>{questions.feel}</h3>
+      <OptionList {...feel}/>
     </Grid>
     <Grid item xs={12} sm={6}>
-      <h3>{props.questions.help}</h3>
+      <h3>{questions.help}</h3>
       <FormGroup row>
         <RadioGroup 
-          name={props.feel.student} 
-          value={props.help.value} 
-          onChange={(e)=> props.help.handle(e, props.feel.student, 'help')} >
+          name={feel.student} 
+          value={help.value} 
+          onChange={(e)=> help.handle(e, feel.student, 'help')} >
           <FormControlLabel value='yes' control={<Radio />} label="Yes, they did" />
           <FormControlLabel value='no' control={<Radio />} label="No, they didn't" />
         </RadioGroup>
       </FormGroup>
     </Grid>
-    <Grid item xs={12} sm={6}>
-      <FormGroup row>
-          <Talking 
-            fn={props.callback}
-            recording={props.data}
-            updateQuery={{
-              ...props.data.socioAffective,
-              audioId: v4()
-            }}
-          />
-        </FormGroup>
-    </Grid>
   </Grid>
+  <Grid >
+    <FormGroup row>
+        <Talking
+          callback={callback}
+          recording={data}
+          title={`Feedback: ${data.labels[index]}`}
+          updateQuery={{
+            ...data.socioAffective,
+            audioId: v4()
+          }}
+        />
+      </FormGroup>
+  </Grid>
+  </>
 )
 const OptionList = ({arr, value, handle, student}) => (
   <FormGroup row>

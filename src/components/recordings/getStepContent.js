@@ -13,7 +13,7 @@ function getStepContent(step, callback, data) {
       return <Regulation stage={0} fn={callback} recording={data}/>;
     case 2: //* Talking
       const audioName = v4();
-      return <Talking fn={callback} recording={data} updateQuery={{audioId:audioName}}/>;
+      return <Talking callback={callback} recording={data} updateQuery={{audioId:audioName}}/>;
     case 3: //* After talking
       return <Regulation stage={1} fn={callback} recording={data}/>;
     case 4: //* Socio Afective
