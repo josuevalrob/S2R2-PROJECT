@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import useStyles from './../../styles/recorderStyles';
 import { ReactMic } from 'react-mic';
 import blue from '@material-ui/core/colors/blue';
@@ -15,34 +15,28 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 export default function Recorder({handleSave, title}) {
   const classes = useStyles();
-  const [isRecording, setIsRecording] = React.useState(false)
-  const [uploading, setUploading] = React.useState(false)
-  const [blob, setBlob] = React.useState(new Blob())
+  const [isRecording, setIsRecording] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [blob, setBlob] = useState(new Blob())
 
   const onSave = async () => {
     setUploading(true)
-    let isSaved = await handleSave(blob)
-    console.log(isSaved)
+    await handleSave(blob)
     setUploading(false)
   }
-
-  const handleStop = (audio) => {
-    setBlob(audio);
-  } 
 
   const handleCancel = ()=> setBlob(new Blob())
 
   const handlePreview = () => {
     const tmp = new Audio(blob.blobURL);
     tmp.play()
-  }
+  };
+
   return (
     <React.Fragment>
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            {title}
-          </Typography>
+          <Typography component="h5" variant="h5"> {title} </Typography>
         </CardContent>
         <div className={classes.controls}>
           <IconButton onClick={() => setIsRecording(!isRecording)}  aria-label="play/pause">
@@ -50,19 +44,19 @@ export default function Recorder({handleSave, title}) {
               ? <Mic className={classes.playIcon} />
               : <Stop className={classes.playIcon} />}
           </IconButton>
-          <IconButton aria-label="previous" onClick={handlePreview} disabled={blob.blobURL ? false : true} >
+          {/* <IconButton aria-label="previous" onClick={handlePreview} disabled={blob.blobURL ? false : true} >
             <Eq className={classes.playIcon} />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
-      { ! blob.blobURL //is there is not BloUrl
-        ? <ReactMic
+      { !!blob.blobURL //is there is not BloUrl
+        ? <SaveHanlder {...{onSave, uploading, handleCancel, classes}} />
+        : <ReactMic
             className={classes.cover} //sound-wave
             record={isRecording} //Boolean
-            onStop={handleStop}
+            onStop={setBlob}
             strokeColor="#ffffff"
             backgroundColor={blue[800]} />
-        : <SaveHanlder {...{onSave, uploading, handleCancel, classes}} />
       }
     </React.Fragment>
   );

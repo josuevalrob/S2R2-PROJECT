@@ -34,8 +34,8 @@ const TabHoc = (Component, labels, content) => {  //* </> [...] [...]
             <TabPanel value={student} index={i} key={i} style={{width:'100%'}}>
               <Grid container spacing={3}>
                 {/* weird problem with audio recorder */}
-                {/* {i === student && <Component {...f}  />} */}
-                <Component {...f}  index = {i}/>
+                {i === student && <Component {...f}  index = {i}  />}
+                {/* <Component {...f}  index = {i}/> */}
               </Grid>
             </TabPanel>
           ))}

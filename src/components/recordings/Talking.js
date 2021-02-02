@@ -11,15 +11,11 @@ import Card from '@material-ui/core/Card';
 import RecordingService from './../../services/recordingServices'
 const {NODE_ENV, REACT_APP_API_URL, REACT_APP_DEV_API} = process.env 
 
-export default function Talking ({recording, callback, updateQuery, title}) {
-  const {id, audioId} =  recording;
-  const recordingRef = React.useRef(recording)
-  useEffect(() => {
-    recordingRef.current = recording
-  })
+export default function Talking ({recording, audioId, title, callback, updateQuery, deleteQuery, error}) {
+
   const handleSave = async (urlAudio) => {
     try {
-      const newRecording = await readAndUploadFileAsAudio(id, updateQuery, urlAudio)
+      const newRecording = await readAndUploadFileAsAudio(recording.id, updateQuery, urlAudio)
       callback({...newRecording, hasError:false, errors:{}})
       return true
     } catch (e) {
@@ -29,25 +25,16 @@ export default function Talking ({recording, callback, updateQuery, title}) {
   }
 
   const handleDelete = async (audioName) => {
-    RecordingService.deleteSingleAudio(id, {audioName})
+    RecordingService.deleteSingleAudio(recording.id, {audioName, query:deleteQuery})
       .then(
-        callback({...recording, audioId:'', hasError: true, 
-        errors:{x:'We need an audio recording'}}), 
+        callback(error),
         (error)=>{
           console.error(error)
         })
-      }
+      .catch(console.error)
+  }
 
-  useEffect(() => {
-    !recordingRef.current.audioId && callback({
-      ...recordingRef.current, 
-      hasError: true, 
-      errors:{x:'We need an audio recording'}
-    })
-  }, [callback]);
-
-
-  return <TabContainer {...{handleSave, handleDelete, audioId}} title={title || recording.name}/>
+  return <TabContainer {...{handleSave, handleDelete, audioId}} title={title}/>
 }
 /**
  * wrapper the recording & player

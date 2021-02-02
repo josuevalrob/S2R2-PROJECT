@@ -23,7 +23,6 @@ const Affective = ({recording, fn}) => {
         newState = [state[0],{...state[1], ...payload }]
         break
       case 'fill': 
-      debugger
         newState = payload //from  parent. 👴🏾
         load(true)
         break
@@ -44,9 +43,7 @@ const Affective = ({recording, fn}) => {
     const name = event.target.value
     dispatch({
       type: student,
-      payload: type === 'feel'
-        ? {[type]: name}
-        : {[type]: name === 'yes' ? true: false}
+      payload : { [type]: type === 'feel' ? name : name === 'yes' }
     })
   }
 
@@ -72,41 +69,53 @@ const Affective = ({recording, fn}) => {
   return TabHoc(Questions, labels, tabContent)
 }
 
-const Questions = ({ questions, feel, help, callback, data, index}) => (
-  <>
-  <Grid container spacing={2}>
-      <Grid item xs={12} sm={6}>
-      <h3>{questions.feel}</h3>
-      <OptionList {...feel}/>
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <h3>{questions.help}</h3>
-      <FormGroup row>
-        <RadioGroup 
-          name={feel.student} 
-          value={help.value} 
-          onChange={(e)=> help.handle(e, feel.student, 'help')} >
-          <FormControlLabel value='yes' control={<Radio />} label="Yes, they did" />
-          <FormControlLabel value='no' control={<Radio />} label="No, they didn't" />
-        </RadioGroup>
-      </FormGroup>
-    </Grid>
-  </Grid>
-  <Grid >
-    <FormGroup row>
-        <Talking
-          callback={callback}
-          recording={data}
-          title={`Feedback: ${data.labels[index]}`}
-          updateQuery={{
-            ...data.socioAffective,
-            audioId: v4()
-          }}
-        />
-      </FormGroup>
-  </Grid>
-  </>
-)
+const Questions = ({ questions, feel, help, callback, data, index}) =>{
+
+  const getQuery = (i, payload) => {
+    const {socioAffective} = data;
+    if(!!i) { // Student B
+      return [socioAffective[0],{...socioAffective[1], ...payload }]
+    } else {  // Student A
+      return [{...socioAffective[0], ...payload }, socioAffective[1]]
+    }
+  }
+
+  return (
+    <>
+      <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+          <h3>{questions.feel}</h3>
+          <OptionList {...feel}/>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <h3>{questions.help}</h3>
+          <FormGroup row>
+            <RadioGroup 
+              name={feel.student} 
+              value={help.value} 
+              onChange={(e)=> help.handle(e, feel.student, 'help')} >
+              <FormControlLabel value='yes' control={<Radio />} label="Yes, they did" />
+              <FormControlLabel value='no' control={<Radio />} label="No, they didn't" />
+            </RadioGroup>
+          </FormGroup>
+        </Grid>
+      </Grid>
+      <Grid >
+        <FormGroup row>
+            <Talking
+              callback={callback}
+              recording={data}
+              audioId={data.socioAffective.length && data.socioAffective[index].audioId}
+              title={`Feedback: \n ${data.labels[index]}`}
+              error = {{...data, socioAffective: {}, hasError: false, errors:{}}}
+              updateQuery={getQuery(index, {audioId:v4()})}
+              deleteQuery={getQuery(index, {audioId:''})}
+            />
+          </FormGroup>
+      </Grid>
+    </>
+  )
+}
 const OptionList = ({arr, value, handle, student}) => (
   <FormGroup row>
     <RadioGroup name={student} value={value} onChange={(e)=>handle(e, student, 'feel')}>
