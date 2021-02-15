@@ -1,6 +1,6 @@
 import recordingServices from '../services/recordingServices'
 
-const readAndUploadFileAsAudio = (recordingId, query, audioUrl) => {
+const readAndUploadFileAsAudio = (recordingId, {query, audioName}, audioUrl) => {
   const reader = new FileReader();
   reader.readAsDataURL(audioUrl);
   return new Promise((resolve, reject)=>{
@@ -13,6 +13,7 @@ const readAndUploadFileAsAudio = (recordingId, query, audioUrl) => {
 
       const formBody = {
         query,
+        audioName,
         audio: base64AudioMessage,
       }
 

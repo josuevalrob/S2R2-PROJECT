@@ -43,7 +43,11 @@ const Affective = ({recording, fn}) => {
     const name = event.target.value
     dispatch({
       type: student,
-      payload : { [type]: type === 'feel' ? name : name === 'yes' }
+      payload : {
+        [type]: type === 'help'
+          ? name === 'yes' //help value can only be yes or no
+          : name
+      }
     })
   }
 
@@ -56,12 +60,11 @@ const Affective = ({recording, fn}) => {
     feel : {
       arr: affectivesValues,
       student:!!i?'B':'A',
-      value: itemsArr[i].feel,
-      handle: handleChange
+      value: itemsArr[i] && itemsArr[i].feel,
     },
+    handle: handleChange,
     help: {
-      value: typeof itemsArr[i].help !== "undefined" && (itemsArr[i].help ? 'yes' : 'no'),
-      handle: handleChange
+      value: itemsArr[i] && typeof itemsArr[i].help !== "undefined" && (itemsArr[i].help ? 'yes' : 'no'),
     },
     callback: fn,
     data: recording
@@ -69,23 +72,13 @@ const Affective = ({recording, fn}) => {
   return TabHoc(Questions, labels, tabContent)
 }
 
-const Questions = ({ questions, feel, help, callback, data, index}) =>{
-
-  const getQuery = (i, payload) => {
-    const {socioAffective} = data;
-    if(!!i) { // Student B
-      return [socioAffective[0],{...socioAffective[1], ...payload }]
-    } else {  // Student A
-      return [{...socioAffective[0], ...payload }, socioAffective[1]]
-    }
-  }
-
+const Questions = ({ questions, feel, handle, help, callback, data, index}) =>{
   return (
     <>
       <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
           <h3>{questions.feel}</h3>
-          <OptionList {...feel}/>
+          <OptionList {...{...feel, handle}}/>
         </Grid>
         <Grid item xs={12} sm={6}>
           <h3>{questions.help}</h3>
@@ -93,7 +86,7 @@ const Questions = ({ questions, feel, help, callback, data, index}) =>{
             <RadioGroup 
               name={feel.student} 
               value={help.value} 
-              onChange={(e)=> help.handle(e, feel.student, 'help')} >
+              onChange={(e)=> handle(e, feel.student, 'help')} >
               <FormControlLabel value='yes' control={<Radio />} label="Yes, they did" />
               <FormControlLabel value='no' control={<Radio />} label="No, they didn't" />
             </RadioGroup>
@@ -103,19 +96,47 @@ const Questions = ({ questions, feel, help, callback, data, index}) =>{
       <Grid >
         <FormGroup row>
             <Talking
-              callback={callback}
               recording={data}
-              audioId={data.socioAffective.length && data.socioAffective[index].audioId}
-              title={`Feedback: \n ${data.labels[index]}`}
-              error = {{...data, socioAffective: {}, hasError: false, errors:{}}}
-              updateQuery={getQuery(index, {audioId:v4()})}
-              deleteQuery={getQuery(index, {audioId:''})}
+              {...affectiveTalking(data, index, handle)}
             />
           </FormGroup>
       </Grid>
     </>
   )
 }
+
+const affectiveTalking = (data, index, handle) => {
+  const getQuery = (i, audioName) => {
+    const {socioAffective} = data;
+    return {
+      audioName,
+      query: {
+        socioAffective : !!i
+        // Student B
+        ? [socioAffective[0], {...socioAffective[1], ...{audioId:audioName} }]
+        // Student A
+        : [{...socioAffective[0], ...{audioId:audioName} }, socioAffective[1]]
+      },
+    }
+  }
+
+  return {
+    audioId: data.socioAffective.length && data.socioAffective[index] && data.socioAffective[index].audioId,
+    title: `Feedback: \n ${data.labels[index]}`,
+    error : {...data, socioAffective: {}, hasError: false, errors:{}},
+    updateQuery: getQuery(index, v4()),
+    deleteQuery: data.socioAffective.length && data.socioAffective[index] && getQuery(index, data.socioAffective[index].audioId),
+    callback: (newRecor) => {
+      debugger
+      handle(
+        {target:{value:newRecor.socioAffective.audioId}},
+        !!index?'B':'A',
+        'audioId'
+      )
+    },
+  }
+}
+
 const OptionList = ({arr, value, handle, student}) => (
   <FormGroup row>
     <RadioGroup name={student} value={value} onChange={(e)=>handle(e, student, 'feel')}>

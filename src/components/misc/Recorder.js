@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import useStyles from './../../styles/recorderStyles';
 import { ReactMic } from 'react-mic';
 import blue from '@material-ui/core/colors/blue';
@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Stop from '@material-ui/icons/MicOff';
-import Eq from '@material-ui/icons/GraphicEq';
+// import Eq from '@material-ui/icons/GraphicEq';
 import Save from '@material-ui/icons/Save';
 import Delete from '@material-ui/icons/Delete';
 import Mic from '@material-ui/icons/Mic';
@@ -27,10 +27,10 @@ export default function Recorder({handleSave, title}) {
 
   const handleCancel = ()=> setBlob(new Blob())
 
-  const handlePreview = () => {
-    const tmp = new Audio(blob.blobURL);
-    tmp.play()
-  };
+  // const handlePreview = () => {
+  //   const tmp = new Audio(blob.blobURL);
+  //   tmp.play()
+  // };
 
   return (
     <React.Fragment>

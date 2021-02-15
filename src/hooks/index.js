@@ -40,10 +40,11 @@ export const useForm = ({update, get}) => {
     if(!fields.length) {
       setError('We can not fetch the field forms')
     } else {
+      console.log('fetching')
       setValues(fields);
       setLoader(false);
     }
-  }, [])
+  }, [get])
 
   useEffect(()=>{fetchData();}, [fetchData]);
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Recorder from './../misc/Recorder'
@@ -9,14 +9,15 @@ import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import RecordingService from './../../services/recordingServices'
-const {NODE_ENV, REACT_APP_API_URL, REACT_APP_DEV_API} = process.env 
+const {NODE_ENV, REACT_APP_API_URL, REACT_APP_DEV_API} = process.env;
 
 export default function Talking ({recording, audioId, title, callback, updateQuery, deleteQuery, error}) {
 
   const handleSave = async (urlAudio) => {
     try {
+      console.log(updateQuery)
       const newRecording = await readAndUploadFileAsAudio(recording.id, updateQuery, urlAudio)
-      callback({...newRecording, hasError:false, errors:{}})
+      callback && callback(newRecording)
       return true
     } catch (e) {
       console.log(e);
@@ -24,8 +25,14 @@ export default function Talking ({recording, audioId, title, callback, updateQue
     }
   }
 
-  const handleDelete = async (audioName) => {
-    RecordingService.deleteSingleAudio(recording.id, {audioName, query:deleteQuery})
+  const handleDelete = async () => {
+    RecordingService.deleteSingleAudio(
+        recording.id,
+        {
+          audioName: audioId,
+          query:deleteQuery
+        }
+      )
       .then(
         callback(error),
         (error)=>{
@@ -45,7 +52,7 @@ const TabContainer = ({handleSave, handleDelete, audioId, title}) => (
     <CssBaseline />
     <Card style={{display:'flex', height:'100%'}}>
         <Recorder handleSave={({blob})=>handleSave(blob)} title={title}/>
-        <AudioPlayer onDelete={()=>handleDelete(audioId)} audioId={audioId} />
+        <AudioPlayer onDelete={handleDelete} audioId={audioId} />
       </Card>
     </Container>
   )
@@ -58,7 +65,7 @@ export const AudioPlayer = ({audioId, onDelete}) => {
 
           <ReactH5AudioPlayer src={`${API}/messages/${audioId}`} />
 
-          {onDelete && 
+          {onDelete &&
           <IconButton style={{margin:'.5em 0'}}
               onClick={onDelete}
               aria-label="delete audio" >
