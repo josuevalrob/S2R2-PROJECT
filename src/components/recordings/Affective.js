@@ -31,10 +31,13 @@ const Affective = ({recording, fn}) => {
     }
     fn({...recording, socioAffective: newState}) //update the recording from the parent. 🎶
     return newState;
-  }, [{feel: '', help : undefined}, {feel: '', help: undefined}]); // [{...studentA}, {...studentB}] 👣 
+  }, [
+      {feel: '', help : undefined, audioId: undefined},
+      {feel: '', help: undefined, audioId: undefined}
+    ]); // [{...studentA}, {...studentB}] 👣
 
   React.useEffect(()=>{ //!test 🧐
-    if(socioAffective && socioAffective.length && !isLoad){ 
+    if(socioAffective && socioAffective.length && !isLoad){
       dispatch({type: 'fill', payload: socioAffective})
     }
   }, [socioAffective, isLoad])
@@ -127,9 +130,8 @@ const affectiveTalking = (data, index, handle) => {
     updateQuery: getQuery(index, v4()),
     deleteQuery: data.socioAffective.length && data.socioAffective[index] && getQuery(index, data.socioAffective[index].audioId),
     callback: (newRecor) => {
-      debugger
       handle(
-        {target:{value:newRecor.socioAffective.audioId}},
+        { target: { value: newRecor.socioAffective[index].audioId } },
         !!index?'B':'A',
         'audioId'
       )

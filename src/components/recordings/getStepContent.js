@@ -14,7 +14,7 @@ function getStepContent(step, callback, data) {
     case 2: //* Talking
       const audioId = v4();
       return <Talking 
-                callback={newRecording => ({...newRecording, hasError:false, errors:{}})}
+                callback={newRecording => callback({...newRecording, hasError:false, errors:{}})}
                 audioId={data.audioId}
                 recording={data}
                 title={data.name}
