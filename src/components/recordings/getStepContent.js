@@ -14,18 +14,19 @@ function getStepContent(step, callback, data) {
     case 2: //* Talking
       const audioId = v4();
       return <Talking 
-                callback={newRecording => callback({...newRecording, hasError:false, errors:{}})}
+                callback={newRecording => {
+                  if(newRecording.audioId === '') {
+                    callback(newRecording)
+                  }else {
+                    callback({...newRecording, hasError:false, errors:{}})
+                  }
+                }}
                 audioId={data.audioId}
                 recording={data}
                 title={data.name}
                 updateQuery={{query:{audioId}, audioName: audioId}}
                 deleteQuery={{query:{audioId:''}, audioName: data.audioId}}
-                error = {
-                  (error) => {
-                    console.log(error)
-                    return {...data, audioId:'', hasError: true, errors:{x:'We need an audio recording'}}
-                  }
-                }
+                error = {{...data, audioId:'', hasError: true, errors:{x:'We need an audio recording'}}}
               />;
     case 3: //* After talking
       return <Regulation stage={1} fn={callback} recording={data}/>;

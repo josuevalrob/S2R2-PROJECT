@@ -8,12 +8,17 @@ import {affectivesValues} from '../../utils/cognitiveTest'
 import Grid from '@material-ui/core/Grid';
 import Talking from './Talking'
 import { v4 } from 'uuid';
-
+const emptyAffective = [
+  {feel: '', help : undefined, audioId: undefined},
+  {feel: '', help: undefined, audioId: undefined}
+]
 const Affective = ({recording, fn}) => {
   const {socioAffective, labels} =  recording; //[{},{}]
-  const [isLoad, load] = React.useState(false)
+  // const [isLoad, load] = React.useState(false)
 
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
+    debugger
+    console.log(payload)
     let newState = null 
     switch (type){
       case 'A':
@@ -24,26 +29,28 @@ const Affective = ({recording, fn}) => {
         break
       case 'fill': 
         newState = payload //from  parent. 👴🏾
-        load(true)
+        // load(true)
         break
-      default: 
+      case 'delete': 
+        newState = payload.audioId;
+        break
+      default:
         newState = state;
     }
+    debugger
     fn({...recording, socioAffective: newState}) //update the recording from the parent. 🎶
     return newState;
-  }, [
-      {feel: '', help : undefined, audioId: undefined},
-      {feel: '', help: undefined, audioId: undefined}
-    ]); // [{...studentA}, {...studentB}] 👣
+  }, Array.isArray(socioAffective) ? socioAffective : emptyAffective); // [{...studentA}, {...studentB}] 👣
 
-  React.useEffect(()=>{ //!test 🧐
-    if(socioAffective && socioAffective.length && !isLoad){
-      dispatch({type: 'fill', payload: socioAffective})
-    }
-  }, [socioAffective, isLoad])
+  // React.useEffect(()=>{ //!test 🧐
+  //   if(socioAffective && socioAffective.length && !isLoad){
+  //     debugger
+  //     dispatch({type: 'fill', payload: socioAffective})
+  //   }
+  // }, [socioAffective, isLoad])
 
   const handleChange = (event, student, type) => {
-    const name = event.target.value
+    const name = event.target.value;
     dispatch({
       type: student,
       payload : {
@@ -129,10 +136,12 @@ const affectiveTalking = (data, index, handle) => {
     error : {...data, socioAffective: {}, hasError: false, errors:{}},
     updateQuery: getQuery(index, v4()),
     deleteQuery: data.socioAffective.length && data.socioAffective[index] && getQuery(index, data.socioAffective[index].audioId),
-    callback: (newRecor) => {
+    callback: ({socioAffective}) => {
+      const {audioId} = Array.isArray(socioAffective) && socioAffective[index];
+      const studentAorB = !!index?'B':'A';
       handle(
-        { target: { value: newRecor.socioAffective[index].audioId } },
-        !!index?'B':'A',
+        { target: { value: !audioId ? emptyAffective : audioId } },
+        !audioId ? 'delete' : studentAorB,
         'audioId'
       )
     },
