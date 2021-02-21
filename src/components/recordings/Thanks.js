@@ -29,17 +29,23 @@ const Thanks = ({data}) => {
 }
 export default Thanks
 
-const TabBody = ({before_talking, talking, help, after_talking, socio_affective, future}) => (
+const TabBody = ({before_talking, talking, help, after_talking, feedback, socio_affective, future}) => (
   <Container >
   <Grid container >
     <GridItem data={before_talking} />
     <Grid item xs={12} >
       <h3 style={{marginBottom:0}}>{talking.label}</h3>
-      <AudioPlayer audio={talking.content} />
+      <AudioPlayer audioId={talking.content} />
     </Grid>
     <GridItem data={after_talking} />
     <GridItem data={socio_affective} />
     <GridItem data={help} />
+    { !!feedback.content &&
+      <Grid item xs={12} >
+        <h3 style={{marginBottom:0}}>{feedback.label}</h3>
+        <AudioPlayer audioId={feedback.content} />
+      </Grid>
+    }
     <GridItem data={future} />
   </Grid>
   </Container>
@@ -61,7 +67,7 @@ const GridItem = ({data:{label, content}}) => (
 const treatData = (data) => 
   data.students.map((std, i) => {
     let findLabelPerStepWithCgntVal = findLabelInCgntVal(data.cognitive, i)
-    let feelingKey = data.socioAffective[i].feel
+    let {feel, audioId} = Array.isArray(data.socioAffective) ? data.socioAffective[i] : {}
     return {
       before_talking: {
         label: 'The strategies you chose before talking 🧐',
@@ -77,13 +83,17 @@ const treatData = (data) =>
       },
       socio_affective : {
         label: 'How did you feel when using strategies?',
-        content: [affectivesValues.find(o => o.key === feelingKey).label]
+        content: [affectivesValues.find(o => o.key === feel).label]
       },
       help : {
         label: 'Did they help you to talk to your partner?',
         content: !!data.socioAffective[0].help
           ? ['Yes, they did']
           : ["No, they didn't"]
+      },
+      feedback: {
+        label: 'Some feedback',
+        content: audioId,
       },
       future: {
         label: 'What is the plan for the next time?',

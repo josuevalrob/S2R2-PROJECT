@@ -17,8 +17,6 @@ const Affective = ({recording, fn}) => {
   // const [isLoad, load] = React.useState(false)
 
   const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
-    debugger
-    console.log(payload)
     let newState = null 
     switch (type){
       case 'A':
@@ -37,14 +35,12 @@ const Affective = ({recording, fn}) => {
       default:
         newState = state;
     }
-    debugger
     fn({...recording, socioAffective: newState}) //update the recording from the parent. 🎶
     return newState;
   }, Array.isArray(socioAffective) ? socioAffective : emptyAffective); // [{...studentA}, {...studentB}] 👣
 
   // React.useEffect(()=>{ //!test 🧐
   //   if(socioAffective && socioAffective.length && !isLoad){
-  //     debugger
   //     dispatch({type: 'fill', payload: socioAffective})
   //   }
   // }, [socioAffective, isLoad])
