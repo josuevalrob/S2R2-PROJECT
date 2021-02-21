@@ -24,7 +24,7 @@ function Checkout(props) {
   const classes = useStyles();
   const id = props.match.params.id;
   const isStudent = props.user.data.role === 'student';
-  const [activeStep, setActiveStep] = React.useState(isStudent ? 1 : 4); //*
+  const [activeStep, setActiveStep] = React.useState(isStudent ? 1 : 0); //*
   const [created, wasCreated] =  React.useState(false);
   const [recording, setRecording] = React.useState({})
   const [steps, setSteps] = React.useState(constSteps)
