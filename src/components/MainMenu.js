@@ -22,7 +22,7 @@ function MainMenu({user}) {
         <Typography variant="h5" component="h2" gutterBottom>
           {'A simple App for voice recording and speech recognition analysis.'}
         </Typography>
-        <Typography variant="body1">What do you want to do now.</Typography>
+        <Typography variant="body1">What do you want to do now?</Typography>
         <MenuBUttons buttons={buttonsProps(role)} />
       </Container>
       <footer className={classes.footer}>

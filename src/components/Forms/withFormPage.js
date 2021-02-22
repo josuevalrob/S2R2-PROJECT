@@ -20,7 +20,7 @@ const withFormPage  = (WrappedForm) => {
         <Container component="main" className={classes.main} maxWidth="sm">
           <S2R2 />
           <Typography variant="h5" gutterBottom>
-            {'What do you want to do now.'}
+            {'What do you want to do now?'}
           </Typography>
           <Typography variant="h6">
             {'Please fill out the form according to the instructions of the investigator'}

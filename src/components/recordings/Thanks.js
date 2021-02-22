@@ -55,7 +55,7 @@ const GridItem = ({data:{label, content}}) => (
   <Grid item xs={12} >
     <h3 style={{marginBottom:0}}>{label}</h3>
     <List style={{paddingTop:0}} dense>
-      {content.map((e, i) => 
+      {content.map((e, i) => !!e && 
         <ListItem key={i}>
           <ListItemText primary={e}/>
         </ListItem>,
@@ -67,7 +67,8 @@ const GridItem = ({data:{label, content}}) => (
 const treatData = (data) => 
   data.students.map((std, i) => {
     let findLabelPerStepWithCgntVal = findLabelInCgntVal(data.cognitive, i)
-    let {feel, audioId} = Array.isArray(data.socioAffective) ? data.socioAffective[i] : {}
+    let {feel, audioId} = Array.isArray(data.socioAffective) ? data.socioAffective[i] : {};
+    const affectionContent = affectivesValues.find(o => o.key === feel);
     return {
       before_talking: {
         label: 'The strategies you chose before talking 🧐',
@@ -83,7 +84,7 @@ const treatData = (data) =>
       },
       socio_affective : {
         label: 'How did you feel when using strategies?',
-        content: [affectivesValues.find(o => o.key === feel).label]
+        content: [affectionContent && affectionContent.label]
       },
       help : {
         label: 'Did they help you to talk to your partner?',
