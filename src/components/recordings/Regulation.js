@@ -1,6 +1,7 @@
 import React from 'react'
 import FormList from './../misc/FormList'
 import {cognitiveValues} from '../../utils/cognitiveTest'//arry with keys. 
+import {validateEmpty} from '../../utils/helpers'//arry with keys. 
 import TabHoc from './../misc/TabHoc'
 
 export const arrToObj = (arr) => arr.reduce((obj, item) => {
@@ -32,7 +33,9 @@ const Regulation = ({recording, fn, stage}) => {
         cognitiveSkills = state;
     }
     //update the recording from the parent. 🎶
-    fn(updateParent(recording, cognitiveSkills, stage))
+    const lookingErrors = validateEmpty('cognitive')(recording, cognitiveSkills, stage);
+    console.log(lookingErrors)
+    fn(lookingErrors);
     return cognitiveSkills;
   }, [arrToObj(cognitiveValues), arrToObj(cognitiveValues)]); // [{...studentA}, {...studentB}] 👣
   
@@ -61,18 +64,3 @@ const Regulation = ({recording, fn, stage}) => {
 
 export default Regulation //4 renders... 🧐
 
-const hasCornitivesErrors = (cognitive, stage) => 
-  cognitive
-    .map(obj => delete obj._id && obj) //clean _id prop. 
-    .map(obj => Object.values(obj).some(ar => ar[stage]))
-    .some(bool => !bool) //check if one boolean is false
-
-const updateParent = (recording, cognitiveSkills, stage ) => ({
-  ...recording,
-  ...(hasCornitivesErrors(cognitiveSkills, stage) 
-    ? { hasError:true, 
-        errors: {
-        cognitive: 'At least one value should be selected for both students.'
-      }}
-    : { hasError:false, cognitive: cognitiveSkills})
-}) 

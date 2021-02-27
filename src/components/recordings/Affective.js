@@ -8,16 +8,33 @@ import {affectivesValues} from '../../utils/cognitiveTest'
 import Grid from '@material-ui/core/Grid';
 import Talking from './Talking'
 import { v4 } from 'uuid';
+import {isEmpty, flattenDeep} from 'lodash'
+
 const emptyAffective = [
   {feel: '', help : undefined, audioId: undefined},
   {feel: '', help: undefined, audioId: undefined}
 ]
+
+const hasCornitivesErrors = (state) => {
+  return state
+    .map(sa => Object.values(sa).some(el => el === undefined || el === ''))
+    .some(e => !!(e))
+}
+const validateEmpty = (recording, socioAffectiveSkills, stage ) => ({
+  ...recording,
+  ...(hasCornitivesErrors(socioAffectiveSkills) 
+    ? { hasError:true, 
+        errors: {
+        socioAffective: 'At least one value should be selected for both students.'
+      }}
+    : { hasError:false, socioAffective: socioAffectiveSkills})
+}) 
+
 const Affective = ({recording, fn}) => {
   const {socioAffective, labels} =  recording; //[{},{}]
   // const [isLoad, load] = React.useState(false)
-
-  const [itemsArr, dispatch] = React.useReducer((state, {type, payload})=>{
-    let newState = null 
+  const [itemsArr, dispatch] = React.useReducer((state, {type, payload}) => {
+    let newState = null
     switch (type){
       case 'A':
         newState = [{...state[0], ...payload }, state[1]]
@@ -35,15 +52,18 @@ const Affective = ({recording, fn}) => {
       default:
         newState = state;
     }
-    fn({...recording, socioAffective: newState}) //update the recording from the parent. 🎶
+     //update the recording from the parent. 🎶
+    const lookingErrors = validateEmpty(recording, newState, payload);
+    fn(lookingErrors);
     return newState;
-  }, Array.isArray(socioAffective) ? socioAffective : emptyAffective); // [{...studentA}, {...studentB}] 👣
+  }, !isEmpty(socioAffective) ? socioAffective : emptyAffective); // [{...studentA}, {...studentB}] 👣
 
-  // React.useEffect(()=>{ //!test 🧐
-  //   if(socioAffective && socioAffective.length && !isLoad){
-  //     dispatch({type: 'fill', payload: socioAffective})
-  //   }
-  // }, [socioAffective, isLoad])
+  React.useEffect(()=>{ //!test 🧐
+    dispatch({
+      type: 'fill',
+      payload: !isEmpty(socioAffective) ? socioAffective : emptyAffective
+    })
+  }, [])
 
   const handleChange = (event, student, type) => {
     const name = event.target.value;
@@ -73,12 +93,13 @@ const Affective = ({recording, fn}) => {
       value: itemsArr[i] && typeof itemsArr[i].help !== "undefined" && (itemsArr[i].help ? 'yes' : 'no'),
     },
     callback: fn,
-    data: recording
+    data: {...recording, socioAffective: itemsArr}
   }));
   return TabHoc(Questions, labels, tabContent)
 }
 
 const Questions = ({ questions, feel, handle, help, callback, data, index}) =>{
+  console.log(data)
   return (
     <>
       <Grid container spacing={2}>

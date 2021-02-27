@@ -67,7 +67,9 @@ const GridItem = ({data:{label, content}}) => (
 const treatData = (data) => 
   data.students.map((std, i) => {
     let findLabelPerStepWithCgntVal = findLabelInCgntVal(data.cognitive, i)
-    let {feel, audioId} = Array.isArray(data.socioAffective) ? data.socioAffective[i] : {};
+    let {feel, audioId} = Array.isArray(data.socioAffective) && !!(data.socioAffective.length)
+      ? data.socioAffective[i]
+      : {};
     const affectionContent = affectivesValues.find(o => o.key === feel);
     return {
       before_talking: {

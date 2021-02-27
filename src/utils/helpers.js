@@ -53,3 +53,19 @@ export const buttonsProps = (role) => {
     },
   ]
 }
+
+const hasCornitivesErrors = (skills, stage) => 
+  skills
+    .map(obj => delete obj._id && obj) //clean _id prop.
+    .map(obj => Object.values(obj).some(ar => ar[stage]))
+    .some(bool => !bool) //check if one boolean is false
+
+export const validateEmpty = key => (recording, skills, stage ) => ({
+  ...recording,
+  ...(hasCornitivesErrors(skills, stage)
+    ? { hasError:true,
+        errors: {
+        [key]: 'At least one value should be selected for both students.'
+      }}
+    : { hasError:false, [key]: skills})
+})
